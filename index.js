@@ -42,12 +42,12 @@ app.get('/', function(req, res) {
   });
 })
 
-app.get('/auth/facebook', passport.authenticate('facebook', { display: 'popup' }))
+app.get('/auth/facebook', passport.authenticate('facebook'));
 
 app.get('/auth/facebook/callback', passport.authenticate('facebook', {
   failureRedirect: '/',
   successRedirect: '/'
-}))
+}));
 
 models.sequelize.sync().success(function() {
   app.listen(app.get('port'), function() {
