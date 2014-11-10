@@ -1,10 +1,19 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "webRunes_Login",
+    "password": "elaich",
+    "database": "test",
     "host": "localhost",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "api_keys" : {
+        "facebook": {
+            "client_id": "364540300379031",
+            "client_secret": "fcce91e51fe7edc820c666045314ab60"
+        }
+    },
+    "callback_urls": {
+        "facebook": "http://localhost:5000/auth/facebook/callback"
+    }
   },
   "test": {
     "username": "root",
@@ -18,6 +27,16 @@
     "password": "ayeDNg1SePUf",
     "database": "webRunes_Login",
     "host": "54.235.73.25",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "api_keys" : {
+        "facebook": {
+            "client_id": "364540300379031",
+            "client_secret": "fcce91e51fe7edc820c666045314ab60"
+        }
+    },
+    "callback_urls": {
+        "facebook": "http://localhost:5000/auth/facebook/callback"
+    }
+
   }
 }

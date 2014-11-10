@@ -1,6 +1,9 @@
 var uuid = require('node-uuid');
+var FacebookStrategy = require('passport-facebook').Strategy;
 
-var FacebookStrategy = require('passport-facebook').Strategy,
+var env = process.env.NODE_ENV || 'development';
+
+var config = require('./config/config.json')[env];
 
 signin = {}
 
@@ -23,9 +26,9 @@ signin.deserialize = function(db) {
 
 signin.facebookStrategy = function(db) {
   return new FacebookStrategy({
-  clientID: "364540300379031",
-  clientSecret: "fcce91e51fe7edc820c666045314ab60",
-  callbackURL: "http://localhost:5000/auth/facebook/callback",
+  clientID: config.api_keys.facebook.client_id,
+  clientSecret: config.api_keys.facebook.client_secret,
+  callbackURL: config.callback_urls.facebook,
   profileFields: ['id', 'name'],
 }, function(accessToken, refreshToken, profile, done){
   process.nextTick( function(){
