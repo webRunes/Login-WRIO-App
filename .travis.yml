@@ -5,6 +5,7 @@ node_js:
 
 install : npm install
 script  : npm start
+env     : NODE_ENV=production
 
 deploy:
   provider: opsworks
