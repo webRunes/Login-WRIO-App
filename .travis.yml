@@ -5,14 +5,3 @@ node_js:
 
 install : npm install
 script  : npm start
-env     : NODE_ENV=production
-
-deploy:
-  provider: opsworks
-  access-key-id: 
-    secure: "JhjnySnx9vQMPLCKMPE4rlLRWSAeYW1OeEzR/UdMjIuJT6woJ1Aq+uFVulhi+9KFOgMN8/yo58K9cbnnSjYMEnhmWn0pnKPaj/sbwQfRH7ln4gN/U74CBnTorLFBgH09Qnh4KWbYo6xzW/RKFnkhrSdR8pLiMc0d4r30XcoHJZs="
-  secret-access-key: 
-    secure: "lb/JsIoh2d71fwjwOPxiauHobWW8Zji6lrsTpB3Eb1LkQ55zvpwUo4vlBcB+1u6FgCUyZyD5e5dheWBjr46uql8CjHvnu/ZlZoQXzk+mYVViE5FvUwypk4YP4czJwJv6/E4JAdU12eBDpPF96hp3/iyx/JJcUhC7kg2XSWqmGxs="
-  app-id: 573363bc-37cc-4c8a-993f-bf82d5edbea9
-  
-  
