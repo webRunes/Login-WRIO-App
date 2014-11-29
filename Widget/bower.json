@@ -1,0 +1,26 @@
+{
+  "name": "My-project",
+  "version": "0.0.0",
+  "description": "awesome project",
+  "keywords": [
+    "polymer",
+    "web-components"
+  ],
+  "authors": [
+    "Vwish"
+  ],
+  "license": "MIT",
+  "homepage": "https://www.vwish.in",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.1",
+    "paper-elements": "Polymer/paper-elements#~0.5.1",
+    "core-ajax": "Polymer/core-ajax#~0.5.1"
+  }
+}
