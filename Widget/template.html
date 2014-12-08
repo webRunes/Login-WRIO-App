@@ -1,7 +1,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 
-<template id="profile-login">
+<template id="login-widget">
     <ul class="info nav nav-pills nav-stacked">
         <li class="panel"><a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Logged with WRIO</a>
             <div class="in" id="profile-element">
@@ -32,11 +32,11 @@
 <script>
     (function ($) {
         var importDoc = document.currentScript.ownerDocument;
-        var template = importDoc.querySelector('#profile-login');
+        var template = importDoc.querySelector('#login-widget');
         var proto = Object.create(HTMLElement.prototype);
         proto.createdCallback = function () {
             this.innerHTML = template.innerHTML;;
         };
-        document.registerElement('profile-widget', { prototype: proto });
+        document.registerElement('login-widget', { prototype: proto });
     })(jQuery);
 </script>
