@@ -46,7 +46,6 @@ passport.deserializeUser(function (obj, done) {
 // 	}
 // ));
 
-
 passport.use(new TwitterStrategy({
     consumerKey: nconf.get("consumer_key"),
     consumerSecret: nconf.get("consumer_secret"),
