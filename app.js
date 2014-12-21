@@ -63,6 +63,10 @@ app.get('/', function (request, response) {
 	response.render('index', {user: request.user});
 });
 
+app.get('/loginTwitter', function (request, response) {
+	response.render(__dirname+'/widget/login');
+});
+
 app.get('/account', ensureAuthenticated, function (request, response) {
 	response.render('account', {user: request.user});
 });
