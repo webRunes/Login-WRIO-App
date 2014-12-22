@@ -32,7 +32,12 @@
 .thumbnail:hover .actions li a{color:#428bca;-webkit-transition:color .25s linear;transition:color .25s linear}
 .thumbnail .col-xs-12 img{margin:4px 8px 4px 0}
 .thumbnail img{width:120px;height:80px}
+.social-login a { float: left;}
 .thumbnail h2 sup,.info .panel a sup{color:#aaa;font-size:10px;margin-left:4px}
+.fb{ display:block;background-image:url("facebook.png"); background-repeat:no-repeat;  color:transparent;width: 27%; height:37px;}
+.gp{ display:block;background-image:url("google.png"); background-repeat:no-repeat;  color:transparent;width: 27%;height:37px;}
+.tw{ display:block;background-image:url("twitter.png"); background-repeat:no-repeat;  color:transparent;width: 27%; height:37px;}
+.fb:hover, .gp:hover , .tw:hover{color:transparent;}
 </style>
 
   </head>
@@ -69,6 +74,13 @@
           </div>
           </div>
           </div>
+
+          <div className="col-xs-12 col-md-6 col-lg-7 social-login">
+          <a href="#" className="fb">Login with facebook</a>
+          <a href="#" className="gp" >Login with Google Plus</a>
+          <a href="#" className="tw">Login Wiht Twitter</a>
+          </div>
+
           </div>
           </div>
           </li>
