@@ -79,7 +79,7 @@ app.get('/auth/facebook/callback',
 		response.redirect('/');
 	});
 
-app.get('http://wrio.s3-website-us-east-1.amazonaws.com/auth/twitter', passport.authenticate('twitter', {scope: 'email'}));
+app.get('http://178.62.122.162:5000/auth/twitter', passport.authenticate('twitter', {scope: 'email'}));
 
 app.get('/auth/twitter/callback',
 	passport.authenticate('twitter', {successRedirect: '/', failureRedirect: '/login'}),
