@@ -79,7 +79,7 @@ app.get('/auth/facebook/callback',
 		response.redirect('/');
 	});
 
-app.get('http://178.62.122.162:5000/auth/twitter', passport.authenticate('twitter', {scope: 'email'}));
+app.get('/auth/twitter', passport.authenticate('twitter', {scope: 'email'}));
 
 app.get('/auth/twitter/callback',
 	passport.authenticate('twitter', {successRedirect: '/', failureRedirect: '/login'}),
