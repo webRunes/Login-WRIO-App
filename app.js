@@ -34,22 +34,22 @@ passport.deserializeUser(function (obj, done) {
 	done(null, obj);
 });
 
-// passport.use(new FacebookStrategy({
-// 		clientID: nconf.get('api:facebook:clientId'),
-// 		clientSecret: nconf.get('api:facebook:clientSecret'),
-// 		callbackURL: nconf.get('api:facebook:callbackUrl')
-// 	},
-// 	function (accessToken, refreshToken, profile, done) {
-// 		process.nextTick(function () {
-// 			return done(null, profile);
-// 		});
-// 	}
-// ));
+passport.use(new FacebookStrategy({
+		clientID: nconf.get('api:facebook:clientId'),
+		clientSecret: nconf.get('api:facebook:clientSecret'),
+		callbackURL: nconf.get('api:facebook:callbackUrl')
+	},
+	function (accessToken, refreshToken, profile, done) {
+		process.nextTick(function () {
+			return done(null, profile);
+		});
+	}
+));
 
 passport.use(new TwitterStrategy({
-    consumerKey: nconf.get("consumer_key"),
-    consumerSecret: nconf.get("consumer_secret"),
-    callbackURL: nconf.get("callbackUrl")
+    consumerKey: nconf.get("api:twitter:consumer_key"),
+    consumerSecret: nconf.get("api:twitter:consumer_secret"),
+    callbackURL: nconf.get("api:twitter:callbackUrl")
   },
   function (accessToken, refreshToken, profile, done) {
   		process.nextTick(function () {
@@ -64,7 +64,7 @@ app.get('/', function (request, response) {
 });
 
 app.get('/loginTwitter', function (request, response) {
-	response.render(__dirname+'/widget/login');
+	response.render('login', {user: request.user});
 });
 
 app.get('/account', ensureAuthenticated, function (request, response) {
