@@ -46,7 +46,6 @@ passport.deserializeUser(function (obj, done) {
 // 	}
 // ));
 
-
 passport.use(new TwitterStrategy({
     consumerKey: nconf.get("consumer_key"),
     consumerSecret: nconf.get("consumer_secret"),
@@ -64,6 +63,10 @@ app.get('/', function (request, response) {
 	response.render('index', {user: request.user});
 });
 
+app.get('/loginTwitter', function (request, response) {
+	response.render(__dirname+'/widget/login');
+});
+
 app.get('/account', ensureAuthenticated, function (request, response) {
 	response.render('account', {user: request.user});
 });
@@ -76,7 +79,7 @@ app.get('/auth/facebook/callback',
 		response.redirect('/');
 	});
 
-app.get('/auth/twitter', passport.authenticate('twitter', {scope: 'email'}));
+app.get('http://178.62.122.162:5000/auth/twitter', passport.authenticate('twitter', {scope: 'email'}));
 
 app.get('/auth/twitter/callback',
 	passport.authenticate('twitter', {successRedirect: '/', failureRedirect: '/login'}),
