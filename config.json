@@ -1,0 +1,27 @@
+{
+"api": {
+		"twitter": {
+			"consumerKey": "QQtfFbrk6rjoM4ORFoXHRw6o9",
+			"consumerSecret": "dGRqvYSW4fm6JzqrbmthorleaVWrBg8KiaoHpfVVVMkfdmPTAo",
+			"token": "377153560-4OVhoeU67MGbccxap54ki68By5arYK5zYgNoWHlJ",
+			"tokenSecret": "8dvbJQfkitSAFkfp4tH23Q0cbbwi238ILN5YDsgETdWKB"
+		},
+		"facebook": {
+			"clientId": "872488469451128",
+			"clientSecret": "a1b0c1378f614fb06b516c2343e8c4a7",
+			"callbackUrl": "http://localhost:5000/auth/facebook/callback"
+		},
+		"google": {
+			"clientId": "267392809111-15p36ppjbrl79d989uj2nfdcsed7in9s.apps.googleusercontent.com",
+			"clientSecret": "qvt34KqiWCpfb1Fxt7HN9O86",
+			"callbackUrl": "http://localhost:1234/auth/google/callback"
+		},
+		"twitter":{
+			"consumer_key": "FEwXfDjdGjPNWnAMc1OnxCdhf",
+			"consumer_secret": "JNkc29NqB7lhjdsjF5viKvKu955nZ9VAypDxOdu1EQDQOgWh0W",
+			"access_token": "2904158619-0Qk9UbGloNT7pZ4gxo1B8x6TQa3fSorGacJsOhW",
+			"access_token_secret": "CJwuP5Z2uqSRK7IqtIDNUz8rVqtU3dOu4PgVbgxC8zHOY",
+			"callbackUrl": "https://twitter.com/"
+		}
+	}
+}
