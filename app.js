@@ -6,6 +6,8 @@ var passport = require('passport');
 var util = require('util');
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
+var GitHubStrategy = require('passport-github').Strategy;
+
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var nconf = require("./wrio_nconf.js").init();
@@ -34,37 +36,48 @@ passport.deserializeUser(function (obj, done) {
 	done(null, obj);
 });
 
-// passport.use(new FacebookStrategy({
-// 		clientID: nconf.get('api:facebook:clientId'),
-// 		clientSecret: nconf.get('api:facebook:clientSecret'),
-// 		callbackURL: nconf.get('api:facebook:callbackUrl')
-// 	},
-// 	function (accessToken, refreshToken, profile, done) {
-// 		process.nextTick(function () {
-// 			return done(null, profile);
-// 		});
-// 	}
-// ));
-
-passport.use(new TwitterStrategy({
-    consumerKey: nconf.get("consumer_key"),
-    consumerSecret: nconf.get("consumer_secret"),
-    callbackURL: nconf.get("callbackUrl")
-  },
-  function (accessToken, refreshToken, profile, done) {
-  		process.nextTick(function () {
-  			return done(null, profile);
-  		});
-  	}
+passport.use(new FacebookStrategy({
+		clientID: nconf.get('api:facebook:clientId'),
+		clientSecret: nconf.get('api:facebook:clientSecret'),
+		callbackURL: nconf.get('api:facebook:callbackUrl')
+	},
+	function (accessToken, refreshToken, profile, done) {
+		process.nextTick(function () {
+			return done(null, profile);
+		});
+	}
 ));
 
+passport.use(new TwitterStrategy({
+		consumerKey: nconf.get("api:twitter:consumerKey"),
+		consumerSecret: nconf.get("api:twitter:consumerSecret"),
+		callbackURL: nconf.get("callbackUrl")
+	},
+	function (accessToken, refreshToken, profile, done) {
+		process.nextTick(function () {
+			return done(null, profile);
+		});
+	}
+));
+
+passport.use(new GitHubStrategy({
+		clientID: nconf.get('api:gitHub:clientId'),
+		clientSecret: nconf.get('api:gitHub:clientSecret'),
+		callbackURL: nconf.get('api:gitHub:callbackUrl')
+	},
+	function (accessToken, refreshToken, profile, done) {
+		process.nextTick(function () {
+			return done(null, profile);
+		});
+	}
+));
 
 app.get('/', function (request, response) {
 	response.render('index', {user: request.user});
 });
 
 app.get('/loginTwitter', function (request, response) {
-	response.render(__dirname+'/widget/login');
+	response.render(__dirname + '/widget/login');
 });
 
 app.get('/account', ensureAuthenticated, function (request, response) {
@@ -79,7 +92,7 @@ app.get('/auth/facebook/callback',
 		response.redirect('/');
 	});
 
-app.get('http://wrio.s3-website-us-east-1.amazonaws.com/auth/twitter', passport.authenticate('twitter', {scope: 'email'}));
+app.get('/auth/twitter', passport.authenticate('twitter', {scope: 'email'}));
 
 app.get('/auth/twitter/callback',
 	passport.authenticate('twitter', {successRedirect: '/', failureRedirect: '/login'}),
@@ -87,6 +100,12 @@ app.get('/auth/twitter/callback',
 		response.redirect('/');
 	});
 
+app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/git-hub/callback',
+	passport.authenticate('github', {failureRedirect: '/login'}),
+	function (req, res) {
+		res.redirect('/');
+	});
 
 app.get('/logout', function (request, response) {
 	request.logout();
