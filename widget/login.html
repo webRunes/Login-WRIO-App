@@ -1,0 +1,87 @@
+<!-- template.html -->
+<html>
+  <head>
+    <title>Hello React</title>
+    <script src="http://adodson.com/hello.js/dist/hello.all.js"></script>
+    <script src="http://fb.me/react-0.12.1.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+<style>
+.info{clear:both}
+.info .panel{margin:0;-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.0);box-shadow:0 1px 1px rgba(0, 0, 0, 0.0)}
+.info .panel>a{background-color:#f5f5f5;color:#aaa;margin-bottom:8px}
+.info .panel>a:hover{color:#333}
+/* thumbnail */
+.thumbnail{border-color:transparent;-webkit-box-shadow:0 1px 3px transparent;-moz-box-shadow:0 1px 3px transparent;box-shadow:0 1px 3px transparent; float:left;}
+.thumbnail .col-xs-12{padding:10px 15px}
+.thumbnail:hover{background-color:#f9f9f9;border-color:whiteSmoke;-webkit-box-shadow:0 1px 3px rgba(0, 0, 0, 0.055);cursor:pointer}
+.thumbnail header.col-xs-12{padding-bottom:0}
+.thumbnail header.col-xs-12 h2{margin-top:0}
+.tooltip-inner{padding:8px 12px}
+.thumbnail .details,.thumbnail .donation{color:#aaa;line-height:normal;-webkit-transition:all 0.25s ease-out;-moz-transition:all 0.25s ease-out;transition:all 0.25s ease-out}
+.thumbnail .details li,.thumbnail .donation li{list-style:none}
+.thumbnail .donation .btn .glyphicon{margin:0 0 3px 0}
+.thumbnail:hover{color:#666;-webkit-transition:all 0.25s ease-out;-moz-transition:all 0.25s ease-out;transition:all 0.25s ease-out}
+.thumbnail .details{padding:0;display:table;margin-top:4px;min-width:120px}
+.thumbnail>.pull-right{margin-left:0} /* reset bootstrap to fix ticket view */
+.thumbnail p{margin:0}
+.thumbnail .actions{margin:4px 0;padding:0}
+.thumbnail .actions .glyphicon{margin-right:5px}
+.thumbnail .actions li{margin-top:8px;padding:0;display:inline-block}
+.thumbnail .actions li a{color:#aaa;-webkit-transition:color .25s linear;transition:color .25s linear}
+.thumbnail:hover .actions li a{color:#428bca;-webkit-transition:color .25s linear;transition:color .25s linear}
+.thumbnail .col-xs-12 img{margin:4px 8px 4px 0}
+.thumbnail img{width:120px;height:80px}
+.thumbnail h2 sup,.info .panel a sup{color:#aaa;font-size:10px;margin-left:4px}
+</style>
+
+  </head>
+  <body>
+    <div id="Login-widget"></div>
+
+
+    <script type="text/jsx">
+
+    var Login = React.createClass({
+      render: function() {
+        return (
+
+          <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
+          <li className="panel">
+          <a href="#" data-parent="#profile-accordion" data-toggle="collapse">
+          s<span className="glyphicon glyphicon-chevron-down pull-right" />Logged with WRIO</a>
+          <div className="in" id="profile-element">
+          <div className="tickets">
+          <div className="media thumbnail">
+          <div className="col-xs-12 col-md-6 col-lg-5">
+          <img src="https://avatars2.githubusercontent.com/u/604410?v=3&s=460" className="pull-left" />
+          <ul className="details">
+          <li>Name: Alexey Anshakov</li>
+          <li>Registered: 22 Jun 2013</li>
+          <li>Rating: 244</li>
+          <li>Followers: 1,634</li>
+          <li>Posts: 1,634</li>
+          </ul>
+          </div>
+          <div className="col-xs-12 col-md-6 col-lg-7">
+          <div className="media-body">
+          Disclaimer: We start a series of stories describing various issues and problems that are related for the most part to the Internet, and our vision of possible ways to solve them. Those will often be followed by previews of projects mentioned in the stories. Keep in mind: some of them might change, some will remain just our fantasy; at this moment we are a small team, but with a great desire to change this world for the better or at least a little bit.
+          </div>
+          </div>
+          </div>
+          <a href="http://54.235.73.25:5000/auth/twitter">
+          <img src="http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg" width="150" height="30" className="twitter"/>
+          </a>
+          </div>
+          </div>
+          </li>
+          </ul>
+        );
+      }
+    });
+
+    React.renderComponent(<Login />, document.getElementById('Login-widget'));  // Your code here
+    </script>
+  </body>
+</html>
