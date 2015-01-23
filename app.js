@@ -51,7 +51,7 @@ passport.use(new FacebookStrategy({
 passport.use(new TwitterStrategy({
 		consumerKey: nconf.get("api:twitter:consumerKey"),
 		consumerSecret: nconf.get("api:twitter:consumerSecret"),
-		callbackURL: nconf.get("callbackUrl")
+		callbackURL: "http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/widget/close.htm"
 	},
 	function (accessToken, refreshToken, profile, done) {
 		process.nextTick(function () {

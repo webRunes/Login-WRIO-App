@@ -70,7 +70,7 @@
           </div>
           </div>
           </div>
-          <a href="http://54.235.73.25:5000/auth/twitter">
+          <a href="http://54.235.73.25:5000/auth/twitter" target="_blank" id="close">
           <img src="http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg" width="150" height="30" className="twitter"/>
           </a>
           </div>
@@ -82,6 +82,9 @@
     });
 
     React.renderComponent(<Login />, document.getElementById('Login-widget'));  // Your code here
+    var close = document.getElementById("close");
+    close.setAttribute('onclick', "window.open(this.href,this.target,\
+      'width= 300,height=300,scrollbars=1');return false;");
     </script>
   </body>
 </html>
