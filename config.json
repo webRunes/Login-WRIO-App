@@ -23,7 +23,7 @@
 			"access_token_secret": "CJwuP5Z2uqSRK7IqtIDNUz8rVqtU3dOu4PgVbgxC8zHOY",
 			"callbackUrl": "https://twitter.com/"
 		},
-		"twitterLoogin":{
+		"twitterLogin":{
 			"consumerKey": "A3XJd17fcO4ay366nJyJR21fQ",
 			"consumerSecret": "eLSHgFBronz80wpKZbBk3K586e0GRZDdEN5vPb6Ml1SzZ8BZ81",
 			"token": "2336690526-AhRzU0Z4lkl4lZTUOt0gbDI94guhG2wcRX5l6Vr",
