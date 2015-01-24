@@ -49,9 +49,9 @@ passport.use(new FacebookStrategy({
 ));
 
 passport.use(new TwitterStrategy({
-		consumerKey: nconf.get("api:twitter:consumerKey"),
-		consumerSecret: nconf.get("api:twitter:consumerSecret"),
-		callbackURL: nconf.get("callbackUrl")
+		consumerKey: nconf.get("api:twitterLogin:consumerKey"),
+		consumerSecret: nconf.get("api:twitterLogin:consumerSecret"),
+		callbackURL: nconf.get("api:twitterLogin:callbackUrl"),
 	},
 	function (accessToken, refreshToken, profile, done) {
 		process.nextTick(function () {

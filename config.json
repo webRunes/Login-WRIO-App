@@ -22,6 +22,13 @@
 			"access_token": "2904158619-0Qk9UbGloNT7pZ4gxo1B8x6TQa3fSorGacJsOhW",
 			"access_token_secret": "CJwuP5Z2uqSRK7IqtIDNUz8rVqtU3dOu4PgVbgxC8zHOY",
 			"callbackUrl": "https://twitter.com/"
+		},
+		"twitterLoogin":{
+			"consumerKey": "A3XJd17fcO4ay366nJyJR21fQ",
+			"consumerSecret": "eLSHgFBronz80wpKZbBk3K586e0GRZDdEN5vPb6Ml1SzZ8BZ81",
+			"token": "2336690526-AhRzU0Z4lkl4lZTUOt0gbDI94guhG2wcRX5l6Vr",
+			"tokenSecret": "4rVJPfxxbkxOtseyQTPqP7rMrwVX3bRa0Oh2XLJMJ4V2m",
+			"callbackUrl": "http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/widget/close.htm"
 		}
 	}
 }
