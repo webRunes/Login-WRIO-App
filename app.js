@@ -92,10 +92,10 @@ app.get('/auth/facebook/callback',
 		response.redirect('/');
 	});
 
-app.get('/auth/twitter', passport.authenticate('twitter', {scope: 'email'}));
+app.get('/auth/twitter', passport.authenticate('twitterLogin', {scope: 'email'}));
 
 app.get('/auth/twitter/callback',
-	passport.authenticate('twitter', {successRedirect: '/', failureRedirect: '/login'}),
+	passport.authenticate('twitterLogin', {successRedirect: '/', failureRedirect: '/login'}),
 	function (request, response) {
 		response.redirect('/');
 	});
