@@ -6,6 +6,11 @@ node_js:
 install : npm install
 script  : npm start
 
+branches:
+  only:
+    - master
+    - stable
+
 deploy:
   - provider: opsworks
     access_key_id:
