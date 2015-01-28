@@ -11,21 +11,14 @@
 			"clientSecret": "a1b0c1378f614fb06b516c2343e8c4a7",
 			"callbackUrl": "http://localhost:5000/auth/facebook/callback"
 		},
-		"google": {
+		"gitHub": {
 			"clientId": "267392809111-15p36ppjbrl79d989uj2nfdcsed7in9s.apps.googleusercontent.com",
 			"clientSecret": "qvt34KqiWCpfb1Fxt7HN9O86",
 			"callbackUrl": "http://localhost:1234/auth/google/callback"
 		},
-		"twitter":{
-			"consumer_key": "FEwXfDjdGjPNWnAMc1OnxCdhf",
-			"consumer_secret": "JNkc29NqB7lhjdsjF5viKvKu955nZ9VAypDxOdu1EQDQOgWh0W",
-			"access_token": "2904158619-0Qk9UbGloNT7pZ4gxo1B8x6TQa3fSorGacJsOhW",
-			"access_token_secret": "CJwuP5Z2uqSRK7IqtIDNUz8rVqtU3dOu4PgVbgxC8zHOY",
-			"callbackUrl": "https://twitter.com/"
-		},
 		"twitterLogin":{
-			"consumerKey": "A3XJd17fcO4ay366nJyJR21fQ",
-			"consumerSecret": "eLSHgFBronz80wpKZbBk3K586e0GRZDdEN5vPb6Ml1SzZ8BZ81",
+			"consumerKey": "58D9ljRmd2HtkYoPpaI9S1p3G",
+			"consumerSecret": "RCw1TiA8d140ZxiR8mBb8W9DKtgJtiXG1zy4Oe4STwpvMj7xfX",
 			"token": "2336690526-AhRzU0Z4lkl4lZTUOt0gbDI94guhG2wcRX5l6Vr",
 			"tokenSecret": "4rVJPfxxbkxOtseyQTPqP7rMrwVX3bRa0Oh2XLJMJ4V2m",
 			"callbackUrl": "http://wrio.s3-website-us-east-1.amazonaws.com/Login-WRIO-App/widget/close.htm"
