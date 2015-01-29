@@ -100,6 +100,11 @@ app.get('/auth/twitter/callback',
 		response.redirect('/');
 	});
 
+app.get('/logout', function(req, res){
+	req.logout();
+	res.redirect('/');
+});
+
 app.get('/auth/github', passport.authenticate('github'));
 app.get('/auth/git-hub/callback',
 	passport.authenticate('github', {failureRedirect: '/login'}),
