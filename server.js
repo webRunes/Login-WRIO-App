@@ -1,9 +1,6 @@
 var express = require('express');
 var app = require("./wrio_app.js").init(express);
-var server = require('http').createServer(function (request, response){
-	response.writeHead(200, {'Content-Type': 'text/plain'});
-	response.end('Hello Travis!\n');
-}).listen(5000);
+var server = require('http').createServer(app).listen(5000);
 
 var passport = require('passport');
 var util = require('util');
@@ -121,3 +118,4 @@ function ensureAuthenticated(request, response, next) {
 	}
 	response.redirect('/login')
 }
+console.log('Hello Travis!');
