@@ -5,8 +5,6 @@
     <script src="http://adodson.com/hello.js/dist/hello.all.js"></script>
     <script src="http://fb.me/react-0.12.1.js"></script>
     <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
 <style>
 .info{clear:both}
 .info .panel{margin:0;-webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.0);box-shadow:0 1px 1px rgba(0, 0, 0, 0.0)}
@@ -70,8 +68,11 @@
           </div>
           </div>
           </div>
-          <a href="http://54.235.73.25:5000/auth/twitter">
+          <a href="http://54.235.73.25:5000/auth/twitter" target="_blank" id="close">
           <img src="http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg" width="150" height="30" className="twitter"/>
+          </a>
+          <a href="http://54.235.73.25:5000/logout" target="_blank" id="close">
+          <img src="https://www.ocoos.com/images/twitter/twitter_logout.png" width="100" height="30" className="logout"/>
           </a>
           </div>
           </div>
@@ -82,6 +83,9 @@
     });
 
     React.renderComponent(<Login />, document.getElementById('Login-widget'));  // Your code here
+    var close = document.getElementById("close");
+    close.setAttribute('onclick', "window.open(this.href,this.target,\
+      'width= 300,height=300,scrollbars=1');return false;");
     </script>
   </body>
 </html>
