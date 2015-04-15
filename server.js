@@ -1,9 +1,61 @@
 var express = require('express');
 var app = require("./wrio_app.js").init(express);
 var server = require('http').createServer(app).listen(5000);
-
 var passport = require('passport');
 var util = require('util');
+
+// mysql stuff
+
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+				  host     : '54.235.73.25',
+				  user     : 'webRunes_Login',
+				  password : '#w3bRun35xZsA^'
+				});
+
+connection.query('USE webRunes_Login');
+
+passport.serializeUser(function(user, done) {
+    console.log("Serializing user");
+    done(null, user.id);
+});
+
+// used to deserialize the user
+passport.deserializeUser(function(id, done) {
+
+    console.log("Deserializing user by id="+id)
+    connection.query("select * from `webRunes_Login-Twitter` where userID = "+id,function(err,rows){
+        if (err) {
+            console.log("User not found");
+            done(err);
+        }
+        done(err, rows[0]);
+    });
+});
+
+function newMysqUser(id,token,tokenSecret,done) {
+    // create the user
+    var newUserMysql = new Object();
+
+    newUserMysql.userID = id;
+    newUserMysql.token = token; // use the generateHash function in our user model
+    newUserMysql.tokenSecret = tokenSecret; // use the generateHash function in our user model
+
+    var insertQuery = "INSERT INTO `webRunes_Login-Twitter` ( userID, token, tokenSecret ) values ('" + id + "','" + token + "','" + tokenSecret + "')";
+    console.log(insertQuery);
+    connection.query(insertQuery, function (err, rows) {
+        console.log("Insert query done "+err);
+        newUserMysql.id = rows.userID;
+        return done(null, newUserMysql);
+    });
+}
+
+
+// end mysql stuff
+
+
+
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy = require('passport-twitter').Strategy;
 var GitHubStrategy = require('passport-github').Strategy;
@@ -28,13 +80,6 @@ app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 
 
-passport.serializeUser(function (user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function (obj, done) {
-    done(null, obj);
-});
 
 passport.use(new FacebookStrategy({
         clientID: nconf.get('api:facebook:clientId'),
@@ -48,12 +93,18 @@ passport.use(new FacebookStrategy({
     }
 ));
 
+var sender = require('./titter-sender');
+
 passport.use(new TwitterStrategy({
         consumerKey: nconf.get("api:twitterLogin:consumerKey"),
         consumerSecret: nconf.get("api:twitterLogin:consumerSecret"),
         callbackURL: nconf.get("api:twitterLogin:callbackUrl")
     },
-    function (accessToken, refreshToken, profile, done) {
+    function (token, secretToken, profile, done) {
+        console.log(profile+" "+token+" "+secretToken);
+        newMysqUser(profile.id,token,secretToken,done);
+        //sender.setCred(nconf.get("api:twitterLogin:consumerKey"),nconf.get("api:twitterLogin:consumerSecret"),token,secretToken);
+        //sender.comment("Test","./1.jpg");
         process.nextTick(function () {
             return done(null, profile);
         });
@@ -65,12 +116,15 @@ passport.use(new GitHubStrategy({
         clientSecret: nconf.get('api:gitHub:clientSecret'),
         callbackURL: nconf.get('api:gitHub:callbackUrl')
     },
-    function (accessToken, refreshToken, profile, done) {
+    function (token, tokenSecret, profile, done) {
+
         process.nextTick(function () {
             return done(null, profile);
         });
     }
 ));
+
+
 
 app.get('/', function (request, response) {
     response.render('index', {user: request.user});
@@ -147,4 +201,4 @@ function ensureAuthenticated(request, response, next) {
     }
     response.redirect('/login')
 }
-//console.log('Hello Travis!');
+console.log('Hello Travis!');

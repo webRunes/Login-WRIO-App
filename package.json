@@ -27,6 +27,8 @@
 	"passport-twitter": "latest",
 	"passport-github": "latest",
 	"nconf": "*",
-	"aws-sdk-apis": "*"
+	"aws-sdk-apis": "*",
+    "node-twitter":"*",
+    "mysql":"*"
   }
 }
