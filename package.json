@@ -29,6 +29,7 @@
 	"nconf": "*",
 	"aws-sdk-apis": "*",
     "node-twitter":"*",
-    "mysql":"*"
+    "mysql":"*",
+    "express-mysql-session":"*"
   }
 }

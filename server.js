@@ -3,21 +3,27 @@ var app = require("./wrio_app.js").init(express);
 var server = require('http').createServer(app).listen(5000);
 var passport = require('passport');
 var util = require('util');
-
+var nconf = require("./wrio_nconf.js").init();
 // mysql stuff
 
 var mysql = require('mysql');
 
+MYSQL_HOST = nconf.get("db:host");
+MYSQL_USER = nconf.get("db:user");
+MYSQL_PASSWORD = nconf.get("db:password");
+MYSQL_DB = nconf.get("db:dbname");
+DOMAIN= nconf.get("db:workdomain");
+
 var connection = mysql.createConnection({
-				  host     : '54.235.73.25',
-				  user     : 'webRunes_Login',
-				  password : '#w3bRun35xZsA^'
+				  host     : MYSQL_HOST,
+				  user     : MYSQL_USER,
+				  password : MYSQL_PASSWORD
 				});
 
-connection.query('USE webRunes_Login');
+connection.query('USE '+MYSQL_DB);
 
 passport.serializeUser(function(user, done) {
-    console.log("Serializing user");
+    console.log("Serializing user "+user.id);
     done(null, user.id);
 });
 
@@ -30,6 +36,7 @@ passport.deserializeUser(function(id, done) {
             console.log("User not found");
             done(err);
         }
+        console.log("USere deserialized "+id, rows[0])
         done(err, rows[0]);
     });
 });
@@ -42,13 +49,25 @@ function newMysqUser(id,token,tokenSecret,done) {
     newUserMysql.token = token; // use the generateHash function in our user model
     newUserMysql.tokenSecret = tokenSecret; // use the generateHash function in our user model
 
-    var insertQuery = "INSERT INTO `webRunes_Login-Twitter` ( userID, token, tokenSecret ) values ('" + id + "','" + token + "','" + tokenSecret + "')";
-    console.log(insertQuery);
-    connection.query(insertQuery, function (err, rows) {
-        console.log("Insert query done "+err);
-        newUserMysql.id = rows.userID;
-        return done(null, newUserMysql);
+    connection.query("select * from `webRunes_Login-Twitter` where userID = "+id,function(err,rows){
+        if (err) {
+            console.log("Creating user");
+            var insertQuery = "INSERT INTO `webRunes_Login-Twitter` ( userID, token, tokenSecret ) values ('" + id + "','" + token + "','" + tokenSecret + "')";
+            console.log(insertQuery);
+            connection.query(insertQuery, function (err, rows) {
+                console.log("Insert query done "+err);
+                newUserMysql.id = rows.userID;
+                return done(null, newUserMysql);
+            });
+
+        } else {
+            console.log("User found ",rows[0]);
+            done(err, rows[0]);
+        }
     });
+
+
+
 }
 
 
@@ -61,16 +80,30 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var GitHubStrategy = require('passport-github').Strategy;
 
 var session = require('express-session');
+var SessionStore = require('express-mysql-session')
 var cookieParser = require('cookie-parser');
-var nconf = require("./wrio_nconf.js").init();
+
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+var session_options = {
+    host: MYSQL_HOST,
+    port: 3306,
+    user: MYSQL_USER,
+    password: MYSQL_PASSWORD,
+    database: MYSQL_DB
+}
+
+var sessionStore = new SessionStore(session_options)
+
 app.use(session(
     {
         secret: 'keyboard cat',
         saveUninitialized: true,
+        store: sessionStore,
         resave: true,
+//        cookie: { domain:DOMAIN},
         key: 'sid'
     }
 ));
@@ -93,7 +126,6 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-var sender = require('./titter-sender');
 
 passport.use(new TwitterStrategy({
         consumerKey: nconf.get("api:twitterLogin:consumerKey"),
@@ -127,6 +159,8 @@ passport.use(new GitHubStrategy({
 
 
 app.get('/', function (request, response) {
+    console.log("SSSID "+request.sessionID);
+    console.log("Get user",request.user);
     response.render('index', {user: request.user});
 });
 
@@ -146,12 +180,19 @@ app.get('/auth/facebook/callback',
         response.redirect('/');
     });
 
-app.get('/auth/twitter', function (request, response, next) {
-    request.session.redirect = request.headers['referer'];
-    next();
-}, passport.authenticate('twitter', {scope: 'email'}));
 
-app.get('/auth/twitter/callback', function (request, response, next) {
+app.get('/auth/twitter/', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback',
+    passport.authenticate('twitter', { successRedirect: '/',
+        failureRedirect: '/' }));
+/*
+ app.get('/auth/twitter', function (request, response, next) {
+ request.session.redirect = request.headers['referer'];
+ next();
+ }, passport.authenticate('twitter', {scope: 'email'}));
+
+
+ app.get('/auth/twitter/callback', function (request, response, next) {
     passport.authenticate('twitter', function (error, user, info) {
         // This is the default destination upon successful login.
         var redirectUrl = '/';
@@ -177,7 +218,7 @@ app.get('/auth/twitter/callback', function (request, response, next) {
         response.redirect(redirectUrl);
     })(request, response, next);
 });
-
+*/
 app.get('/logout', function (request, res) {
     request.logout();
     response.redirect('/');
