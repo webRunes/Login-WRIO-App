@@ -164,6 +164,29 @@ app.get('/', function (request, response) {
     response.render('index', {user: request.user});
 });
 
+app.get('/authapi', function (request, response) {
+
+    console.log("authapi called")
+
+    if (request.query.callback) {
+
+        console.log("callback",request.query.callback);
+        console.log("SSSID "+request.sessionID);
+        console.log("Get user",request.user);
+        if (request.user) {
+            response.redirect(request.query.callback+'?sid='+request.sessionID);
+        } else {
+            response.render('user not found');
+        }
+
+
+    } else {
+        response.send("No callback given");
+    }
+
+});
+
+
 app.get('/loginTwitter', function (request, response) {
     response.render('login', {user: request.user});
 });
