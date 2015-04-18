@@ -130,7 +130,7 @@ app.use(session(
         saveUninitialized: true,
         store: sessionStore,
         resave: true,
-//        cookie: { domain:DOMAIN},
+        cookie: { domain:DOMAIN},
         key: 'sid'
     }
 ));
