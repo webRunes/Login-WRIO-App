@@ -269,10 +269,6 @@ app.get('/auth/twitter/callback',
     })(request, response, next);
 });
 */
-app.get('/logout', function (request, res) {
-    request.logout();
-    response.redirect('/');
-});
 
 app.get('/auth/github', passport.authenticate('github'));
 app.get('/auth/git-hub/callback',
