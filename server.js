@@ -48,15 +48,24 @@ function handleDisconnect() {
 handleDisconnect();
 
 passport.serializeUser(function(user, done) {
+    // thats where we get user from twtiter
     console.log("Serializing user "+user.id);
-    done(null, user.id);
+    newMysqlUser(user,function (err, res) {
+        if (err) {
+            done(err);
+        } else {
+            done(null, res.userID);
+        }
+
+    })
+
 });
 
 // used to deserialize the user
 passport.deserializeUser(function(id, done) {
 
     console.log("Deserializing user by id="+id)
-    connection.query("select * from `webRunes_Login-Twitter` where userID = "+id,function(err,rows){
+    connection.query("select * from `webRunes_Users` where userID = "+id,function(err,rows){
         if (err) {
             console.log("User not found");
             done(err);
@@ -73,26 +82,28 @@ passport.deserializeUser(function(id, done) {
 
 
 
-function newMysqUser(id,token,tokenSecret,done) {
+function newMysqlUser(profile,done) {
     // create the user
     var newUserMysql = new Object();
 
-    newUserMysql.userID = id;
-    newUserMysql.token = token; // use the generateHash function in our user model
-    newUserMysql.tokenSecret = tokenSecret; // use the generateHash function in our user model
+    newUserMysql.titterID = profile.id;
+    newUserMysql.lastName = profile.displayName;
 
-    connection.query("select * from `webRunes_Login-Twitter` where userID = "+id,function(err,rows){
+
+    connection.query("select * from `webRunes_Users` where titterID = "+newUserMysql.titterID,function(err,rows){
         if (err || (rows[0]==undefined)) {
             console.log("Creating user");
-            var insertQuery = "INSERT INTO `webRunes_Login-Twitter` ( userID, token, tokenSecret ) values ('" + id + "','" + token + "','" + tokenSecret + "')";
+            var insertQuery = "INSERT INTO `webRunes_Users` ( titterID, lastName ) values ('" + newUserMysql.titterID + "','" + newUserMysql.lastName + "');";
             console.log(insertQuery);
             connection.query(insertQuery, function (err, rows) {
                 if (err) {
+                    console.log("Insert error",err);
                     done("Can't insert");
                     return;
                 }
-                console.log("Insert query done "+err);
-                newUserMysql.id = rows.userID;
+
+                console.log("Insert query done "+rows.insertId);
+                newUserMysql.userID = rows.insertId;
                 return done(null, newUserMysql);
             });
 
@@ -101,10 +112,54 @@ function newMysqUser(id,token,tokenSecret,done) {
             done(err, rows[0]);
         }
     });
+}
+
+function saveTwitterCallbacks(profile,token,tokenSecret,done) {
+    // create the user
+    var newUserMysql = new Object();
+
+    newUserMysql.titterID = profile.id;
+    newUserMysql.token = token; // use the generateHash function in our user model
+    newUserMysql.tokenSecret = tokenSecret; // use the generateHash function in our user model
+
+
+    function updateTokens() {
+        console.log("Updating user");
+        var insertQuery = "UPDATE `webRunes_Users` SET token='"+token+"',tokenSecret='" + tokenSecret + "' WHERE titterID = "+newUserMysql.titterID;
+        console.log(insertQuery);
+        connection.query(insertQuery, function (err, rows) {
+            if (err) {
+                console.log("Update error", err);
+                done("Can't insert");
+                return;
+            }
+
+            console.log("Update query done " + rows.insertId);
+            newUserMysql.id = newUserMysql.userID = rows.insertId;
+            return done(null, newUserMysql);
+        });
+    }
+
+    connection.query("select * from `webRunes_Users` where titterID = "+newUserMysql.titterID,function(err,rows){
+        if (err || (rows[0]==undefined)) {
+            console.log("Create user request ");
+
+            newMysqlUser(profile,function(err,res) {
+                updateTokens();
+            });
+
+
+        } else {
+
+            updateTokens();
+
+        }
+    });
 
 
 
 }
+
 
 
 // end mysql stuff
@@ -170,7 +225,7 @@ passport.use(new TwitterStrategy({
     },
     function (token, secretToken, profile, done) {
         console.log(profile+" "+token+" "+secretToken);
-        newMysqUser(profile.id,token,secretToken,function () {
+        saveTwitterCallbacks(profile,token,secretToken,function () {
             console.log("New user added")
         });
         //sender.setCred(nconf.get("api:twitterLogin:consumerKey"),nconf.get("api:twitterLogin:consumerSecret"),token,secretToken);
@@ -208,6 +263,8 @@ app.get('/authapi', function (request, response) {
 
     if (request.query.callback) {
 
+        response.cookie('callback', request.query.callback, { maxAge: 60*1000, httpOnly: true }); // save callback in cookie, for one minute
+
         console.log("callback",request.query.callback);
         console.log("SSSID "+request.sessionID);
         console.log("Get user",request.user);
@@ -243,10 +300,28 @@ app.get('/auth/facebook/callback',
     });
 
 
+
+
 app.get('/auth/twitter/', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
-    passport.authenticate('twitter', { successRedirect: '/',
-        failureRedirect: '/' }));
+    function (request, response, next) {
+        redirecturl = '/';
+        if (request.cookies.callback) {
+            console.log("Extractign callback")
+            if (request.sessionID) {
+                console.log("SID found");
+                redirecturl = request.cookies.callback+'?sid='+request.sessionID;
+            } else {
+                console.log("SID not found");
+            }
+
+
+        } else {
+            console.log("Cookie callback not found");
+        }
+        passport.authenticate('twitter', { successRedirect: redirecturl,failureRedirect: '/' })(request,response,next);
+    }
+);
 /*
  app.get('/auth/twitter', function (request, response, next) {
  request.session.redirect = request.headers['referer'];
