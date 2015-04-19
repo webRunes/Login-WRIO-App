@@ -25,8 +25,6 @@ function handleDisconnect() {
         password : MYSQL_PASSWORD
     });
 
-
-
     connection.connect(function(err) {              // The server is either down
         if(err) {                                     // or restarting (takes a while sometimes).
             console.log('error when connecting to db:', err);
@@ -62,11 +60,18 @@ passport.deserializeUser(function(id, done) {
         if (err) {
             console.log("User not found");
             done(err);
+            return;
+        }
+        if (rows[0] == undefined) {
+            done("Empty row from db not found for id");
+            return;
         }
         console.log("USere deserialized "+id, rows[0])
         done(err, rows[0]);
     });
 });
+
+
 
 function newMysqUser(id,token,tokenSecret,done) {
     // create the user
@@ -77,11 +82,15 @@ function newMysqUser(id,token,tokenSecret,done) {
     newUserMysql.tokenSecret = tokenSecret; // use the generateHash function in our user model
 
     connection.query("select * from `webRunes_Login-Twitter` where userID = "+id,function(err,rows){
-        if (err) {
+        if (err || (rows[0]==undefined)) {
             console.log("Creating user");
             var insertQuery = "INSERT INTO `webRunes_Login-Twitter` ( userID, token, tokenSecret ) values ('" + id + "','" + token + "','" + tokenSecret + "')";
             console.log(insertQuery);
             connection.query(insertQuery, function (err, rows) {
+                if (err) {
+                    done("Can't insert");
+                    return;
+                }
                 console.log("Insert query done "+err);
                 newUserMysql.id = rows.userID;
                 return done(null, newUserMysql);
@@ -127,10 +136,10 @@ var sessionStore = new SessionStore(session_options)
 app.use(session(
     {
         secret: 'keyboard cat',
-        saveUninitialized: true,
+        saveUninitialized: false,
         store: sessionStore,
-        resave: true,
-        cookie: { domain:DOMAIN},
+        resave: false,
+        cookie: {domain:DOMAIN},
         key: 'sid'
     }
 ));
@@ -161,7 +170,9 @@ passport.use(new TwitterStrategy({
     },
     function (token, secretToken, profile, done) {
         console.log(profile+" "+token+" "+secretToken);
-        newMysqUser(profile.id,token,secretToken,done);
+        newMysqUser(profile.id,token,secretToken,function () {
+            console.log("New user added")
+        });
         //sender.setCred(nconf.get("api:twitterLogin:consumerKey"),nconf.get("api:twitterLogin:consumerSecret"),token,secretToken);
         //sender.comment("Test","./1.jpg");
         process.nextTick(function () {
@@ -200,14 +211,15 @@ app.get('/authapi', function (request, response) {
         console.log("callback",request.query.callback);
         console.log("SSSID "+request.sessionID);
         console.log("Get user",request.user);
-        if (request.sessionID) {
+        if (request.user) {
             response.redirect(request.query.callback+'?sid='+request.sessionID);
         } else {
-            response.send('user not found');
+            response.render('index', {user: request.user});
         }
 
 
     } else {
+        response.status(400);
         response.send("No callback given");
     }
 
