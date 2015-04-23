@@ -186,19 +186,21 @@ var session_options = {
     database: MYSQL_DB
 }
 
-var sessionStore = new SessionStore(session_options)
+var cookie_secret = 'keyboard cat'
 
+var sessionStore = new SessionStore(session_options)
+app.use(cookieParser(cookie_secret));
 app.use(session(
     {
-        secret: 'keyboard cat',
-        saveUninitialized: false,
+        secret: cookie_secret,
+        saveUninitialized: true,
         store: sessionStore,
-        resave: false,
+        resave: true,
         cookie: {domain:DOMAIN},
         key: 'sid'
     }
 ));
-app.use(cookieParser());
+
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
