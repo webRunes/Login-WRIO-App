@@ -192,15 +192,11 @@ var sessionStore = new SessionStore(session_options)
 app.use(cookieParser(cookie_secret));
 app.use(session(
     {
-
         secret: cookie_secret,
         saveUninitialized: true,
         store: sessionStore,
         resave: true,
-        cookie: {
-            secure:false,
-            domain:DOMAIN
-        },
+        cookie: {domain:DOMAIN},
         key: 'sid'
     }
 ));
