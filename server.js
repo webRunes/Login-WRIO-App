@@ -197,10 +197,10 @@ app.use(session(
         saveUninitialized: true,
         store: sessionStore,
         resave: true,
-        cookie: {
-            secure:false,
-            domain:DOMAIN
-        },
+//        cookie: {
+//            secure:false,
+//            domain:DOMAIN
+//        },
         key: 'sid'
     }
 ));
