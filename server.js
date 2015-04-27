@@ -309,9 +309,9 @@ app.get('/auth/facebook/callback',
 
 
 //app.get('/auth/twitter/', passport.authenticate('twitter'));
-app.get('/auth/twitter/', function() {
+app.get('/auth/twitter/', function(request, response, next) {
     console.log("Auth twitter");
-    return passport.authenticate('twitter')
+    return passport.authenticate('twitter')(request,response,next)
 });
 app.get('/auth/twitter/callback',
     function (request, response, next) {
