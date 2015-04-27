@@ -1,6 +1,6 @@
 var express = require('express');
 var app = require("./wrio_app.js").init(express);
-var server = require('http').createServer(app).listen(5000);
+var server = require('http').createServer(app).listen(5005);
 var passport = require('passport');
 var util = require('util');
 var nconf = require("./wrio_nconf.js").init();
@@ -308,7 +308,11 @@ app.get('/auth/facebook/callback',
 
 
 
-app.get('/auth/twitter/', passport.authenticate('twitter'));
+//app.get('/auth/twitter/', passport.authenticate('twitter'));
+app.get('/auth/twitter/', function() {
+    console.log("Auth twitter");
+    return passport.authenticate('twitter')
+});
 app.get('/auth/twitter/callback',
     function (request, response, next) {
         redirecturl = '/';
