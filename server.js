@@ -18,6 +18,7 @@ DOMAIN= nconf.get("db:workdomain");
 var connection;
 
 
+
 function handleDisconnect() {
     connection = mysql.createConnection({
         host     : MYSQL_HOST,
