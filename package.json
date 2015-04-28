@@ -2,8 +2,9 @@
   "name": "passport-signin",
   "version": "0.0.1",
   "description": "(coming soon)",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+     "start": "echo \"Build Completed.\" "
   },
   "repository": {
 	"type": "git",
@@ -26,6 +27,9 @@
 	"passport-twitter": "latest",
 	"passport-github": "latest",
 	"nconf": "*",
-	"aws-sdk-apis": "*"
+	"aws-sdk-apis": "*",
+    "node-twitter":"*",
+    "mysql":"*",
+    "express-mysql-session":"*"
   }
 }
