@@ -1,9 +1,10 @@
+var nconf = require("./wrio_nconf.js").init();
 var express = require('express');
 var app = require("./wrio_app.js").init(express);
-var server = require('http').createServer(app).listen(5000);
+var server = require('http').createServer(app).listen(nconf.get("server:port"));
 var passport = require('passport');
 var util = require('util');
-var nconf = require("./wrio_nconf.js").init();
+
 // mysql stuff
 
 var mysql = require('mysql');
@@ -171,7 +172,7 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var GitHubStrategy = require('passport-github').Strategy;
 
 var session = require('express-session');
-var SessionStore = require('express-mysql-session')
+var SessionStore = require('express-mysql-session');
 var cookieParser = require('cookie-parser');
 
 
@@ -186,9 +187,9 @@ var session_options = {
     database: MYSQL_DB
 }
 
-var cookie_secret = 'keyboard cat'
+var cookie_secret = nconf.get("server:cookiesecret");
 
-var sessionStore = new SessionStore(session_options)
+var sessionStore = new SessionStore(session_options);
 app.use(cookieParser(cookie_secret));
 app.use(session(
     {
@@ -199,7 +200,8 @@ app.use(session(
         resave: true,
         cookie: {
             secure:false,
-            domain:DOMAIN
+            domain:DOMAIN,
+            maxAge: 1000 * 60 * 24 * 30
         },
         key: 'sid'
     }
@@ -308,7 +310,11 @@ app.get('/auth/facebook/callback',
 
 
 
-app.get('/auth/twitter/', passport.authenticate('twitter'));
+//app.get('/auth/twitter/', passport.authenticate('twitter'));
+app.get('/auth/twitter/', function(request, response, next) {
+    console.log("Auth twitter");
+    return passport.authenticate('twitter')(request,response,next)
+});
 app.get('/auth/twitter/callback',
     function (request, response, next) {
         redirecturl = '/';
