@@ -225,11 +225,13 @@ passport.use(new FacebookStrategy({
     }
 ));
 
+twitter_callback = 'http://login'+nconf.get('db:workdomain')+'/auth/twitter/callback';
+//console.log(twitter_callback);
 
 passport.use(new TwitterStrategy({
         consumerKey: nconf.get("api:twitterLogin:consumerKey"),
         consumerSecret: nconf.get("api:twitterLogin:consumerSecret"),
-        callbackURL: nconf.get("api:twitterLogin:callbackUrl")
+        callbackURL: twitter_callback
     },
     function (token, secretToken, profile, done) {
         console.log(profile+" "+token+" "+secretToken);
