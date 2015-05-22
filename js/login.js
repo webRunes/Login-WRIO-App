@@ -3,8 +3,9 @@ define(['react', 'moment'], function(React, moment) {
   var
     Details = React.createClass({displayName: "Details",
       getInitialState: function() {
+        var props = this.props;
         return {
-          img: importUrl + theme + '/img/no-photo-200x200.png',
+          img: props.importUrl + props.theme + '/img/no-photo-200x200.png',
           registered: moment(Date.now()).format('DD MMM YYYY')
         };
       },
