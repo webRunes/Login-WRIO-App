@@ -52,7 +52,7 @@ define(['react', 'moment'], function(React, moment) {
                     <span className="glyphicon glyphicon-chevron-down pull-right"></span>{this.state.title.text}<sup>{this.state.title.label}</sup>
                   </a>
                   <div className="in" id="profile-element">
-                      <div className="media thumbnail clearfix">
+                      <div className="media thumbnail">
                           <Details />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
