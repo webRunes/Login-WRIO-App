@@ -1,4 +1,4 @@
-define(['react'], function(React) {
+define(['react', 'moment'], function(React, moment) {
 
   var
     Details = React.createClass({
