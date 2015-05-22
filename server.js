@@ -229,7 +229,7 @@ passport.use(new FacebookStrategy({
 passport.use(new TwitterStrategy({
         consumerKey: nconf.get("api:twitterLogin:consumerKey"),
         consumerSecret: nconf.get("api:twitterLogin:consumerSecret"),
-        callbackURL:  nconf.get("api:twitterLogin:callbackUrl")
+        callbackURL: nconf.get("api:twitterLogin:callbackUrl")
     },
     function (token, secretToken, profile, done) {
         console.log(profile+" "+token+" "+secretToken);
