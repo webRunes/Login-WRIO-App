@@ -4,7 +4,7 @@
   "description": "(coming soon)",
   "main": "server.js",
   "scripts": {
-    "jsx": "jsx -x jsx ./widget ./widget",
+    "jsx": "jsx -x jsx ./widget ./public/js",
     "check": "jsxhint --jsx-only ./widget/*.jsx",
     "start": "npm run check && npm run jsx"
   },
