@@ -40,7 +40,7 @@ define(['react', 'moment'], function(React, moment) {
             text: 'Already have an account?'
           },
           twitter: {
-            url: 'http://54.235.73.25:5000/auth/twitter',
+            url: "http://login.wr.io/auth/twitter",
             img: 'http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg'
           },
           description: 'Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.'
