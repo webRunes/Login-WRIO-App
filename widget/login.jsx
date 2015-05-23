@@ -3,16 +3,17 @@ define(['react', 'moment'], function(React, moment) {
   var
     Details = React.createClass({
       getInitialState: function() {
+        var props = this.props;
         return {
-          img: importUrl + theme + '/img/no-photo-200x200.png',
+          img: props.importUrl + props.theme + '/img/no-photo-200x200.png',
           registered: moment(Date.now()).format('DD MMM YYYY')
         };
       },
       render: function() {
         return (
-          <div className="col-xs-12 col-md-6 pull-right">
+          <div className='col-xs-12 col-md-6 pull-right'>
               <span itemscope itemtype="http://schema.org/ImageObject">
-                  <img itemprop="thumbnail" src={this.state.img} className="pull-left" />
+                  <img itemprop="thumbnail" src={this.state.img} className="pull-left media thumbnail clearfix" />
               </span>
               <ul className="details">
                   <li>Registered: {this.state.registered}</li>
@@ -39,12 +40,14 @@ define(['react', 'moment'], function(React, moment) {
             text: 'Already have an account?'
           },
           twitter: {
-            url: 'http://54.235.73.25:5000/auth/twitter',
+            url: "http://login.wr.io/auth/twitter",
             img: 'http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg'
-          }
+          },
+          description: 'Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.'
         };
       },
       render: function() {
+        var props = this.props;
         return (
           <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
               <li className="panel">
@@ -53,7 +56,7 @@ define(['react', 'moment'], function(React, moment) {
                   </a>
                   <div className="in" id="profile-element">
                       <div className="media thumbnail">
-                          <Details />
+                          <Details importUrl={props.importUrl} theme={props.theme} />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
                               <ul className="actions">
