@@ -1,4 +1,5 @@
 define(['react', 'moment'], function(React, moment) {
+
   var
     Details = React.createClass({
       getInitialState: function() {
