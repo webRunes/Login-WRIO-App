@@ -13,7 +13,7 @@ define(['react', 'moment'], function(React, moment) {
         return (
           <div className='col-xs-12 col-md-6 pull-right'>
               <span itemscope itemtype="http://schema.org/ImageObject">
-                  <img itemprop="thumbnail" src={this.state.img} className="pull-left media thumbnail clearfix" />
+                  <img itemprop="thumbnail" src={this.state.img} className="pull-left" />
               </span>
               <ul className="details">
                   <li>Registered: {this.state.registered}</li>
@@ -55,7 +55,7 @@ define(['react', 'moment'], function(React, moment) {
                     <span className="glyphicon glyphicon-chevron-down pull-right"></span>{this.state.title.text}<sup>{this.state.title.label}</sup>
                   </a>
                   <div className="in" id="profile-element">
-                      <div className="media thumbnail">
+                      <div className="media thumbnail clearfix">
                           <Details importUrl={props.importUrl} theme={props.theme} />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
