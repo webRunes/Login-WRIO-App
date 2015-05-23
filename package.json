@@ -4,9 +4,9 @@
   "description": "(coming soon)",
   "main": "server.js",
   "scripts": {
-    "jsx": "jsx -x jsx ./widget ./js",
-    "check": "jsxhint --jsx-only ./widget/*.jsx",
-    "start": "npm run check && npm run jsx"
+    "jsx": "jsx --no-cache-dir -x jsx ./widget ./js",
+    "start": "npm run jsx",
+    "watch": "jsx --no-cache-dir -w -x jsx ./widget ./js"
   },
   "repository": {
     "type": "git",
