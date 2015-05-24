@@ -33,7 +33,7 @@ define(['react', 'moment'], function(React, moment) {
             label: 'WRIO',
             link: {
                 url: "http://webrunes.com/",
-                text: "Profile link"
+                text: "Profile page"
             }
 
           },
@@ -62,7 +62,7 @@ define(['react', 'moment'], function(React, moment) {
                     that.setState({
                         upgrade: {
                             text: "Upgrade guest account for free",
-                            label: jsmsg.days + 'days left'
+                            label: jsmsg.days + ' days left'
 
                         },
                         title:{
