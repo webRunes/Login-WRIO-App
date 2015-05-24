@@ -33,7 +33,7 @@ define(['react', 'moment'], function(React, moment) {
             label: 'WRIO',
             link: {
                 url: "http://webrunes.com/",
-                text: "Мой профиль"
+                text: "Profile link"
             }
 
           },
