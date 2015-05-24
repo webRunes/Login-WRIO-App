@@ -277,7 +277,7 @@ app.get('/authapi', function (request, response) {
         console.log("SSSID "+request.sessionID);
         console.log("Get user",request.user);
         if (request.user) {
-            response.redirect(request.query.callback+'?sid='+request.sessionID);
+            response.redirect(request.query.callback);
         } else {
             response.render('index', {user: request.user});
         }
@@ -307,14 +307,12 @@ app.get('/auth/facebook/callback',
         response.redirect('/');
     });
 
-
-
-
 //app.get('/auth/twitter/', passport.authenticate('twitter'));
 app.get('/auth/twitter/', function(request, response, next) {
     console.log("Auth twitter");
     return passport.authenticate('twitter')(request,response,next)
 });
+
 app.get('/auth/twitter/callback',
     function (request, response, next) {
         redirecturl = '/';
@@ -326,8 +324,6 @@ app.get('/auth/twitter/callback',
             } else {
                 console.log("SID not found");
             }
-
-
         } else {
             console.log("Cookie callback not found");
         }
