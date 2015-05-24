@@ -33,7 +33,7 @@ define(['react', 'moment'], function(React, moment) {
             label: 'WRIO',
             link: {
                 url: "http://webrunes.com/",
-                text: "Profile link"
+                text: "Profile page"
             }
 
           },
@@ -56,28 +56,34 @@ define(['react', 'moment'], function(React, moment) {
             var that = this;
             window.addEventListener('message', function (e) {
                 var message = e.data;
-                if (e.origin != "http://storage.webrunes.com") {
-                    console.log("Skipping");
-                    return;
-                }
-                console.log("Got message from iframe", message);
-                var jsmsg = JSON.parse(message);
-                that.setState({
-                    upgrade: {
-                        text: "Upgrade guest account for free",
-                        label: jsmsg.days + 'days left'
+                if (e.origin == "http://storage.webrunes.com") {
+                    console.log("Got message storage", message);
+                    var jsmsg = JSON.parse(message);
+                    that.setState({
+                        upgrade: {
+                            text: "Upgrade guest account for free",
+                            label: jsmsg.days + ' days left'
 
-                    },
-                    title:{
-                        text: "Logged as I'm Anonymous ",
-                        label: 'WRIO',
-                        link: {
-                            url: jsmsg.url,
-                            text: "Мой профиль"
+                        },
+                        title:{
+                            text: "Logged as I'm Anonymous ",
+                            label: 'WRIO',
+                            link: {
+                                url: jsmsg.url,
+                                text: "My profile"
+                            }
+
                         }
-
+                    });
+                }
+                if (e.origin == "http://login.webrunes.com") {
+                    console.log("Got message login", message);
+                    var jsmsg = JSON.parse(message);
+                    if (jsmsg.login == "success") {
+                        location.reload();
                     }
-                });
+                }
+
 
             });
         },
@@ -106,9 +112,8 @@ define(['react', 'moment'], function(React, moment) {
                                     <a href="#"><span className="glyphicon glyphicon-user"></span>{this.state.have.text}</a>
                                   </li>
                               </ul>
-                              <a href={this.state.twitter.url}>
-                                <img src={this.state.twitter.img} width="150" height="30" className="twitter" />
-                              </a>
+                              <iframe id="loginbuttoniframe" src="http://login.webrunes.com/buttons/twitter" width="230" height="43" frameBorder="no" scrolling="no"></iframe>
+
                           </div>
                       </div>
                   </div>

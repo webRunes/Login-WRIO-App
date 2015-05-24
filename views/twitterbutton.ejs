@@ -1,0 +1,19 @@
+<html>
+<body style="margin: 0 !important; padding: 0 !important;">
+
+<img src="http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg" onclick="openAuthPopup()">
+<script type="text/javascript">
+
+    function openAuthPopup() {
+        window.open('/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
+    }
+
+    function setWRIOAuthData() {
+        console.log("Login succeeded");
+        parent.postMessage(JSON.stringify({"login":"success"}), "*");
+        // send parent reload message
+    }
+
+</script>
+</body>
+</html>

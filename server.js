@@ -257,7 +257,13 @@ passport.use(new GitHubStrategy({
     }
 ));
 
+app.get('/buttons/twitter', function (request, response) {
+    response.render('twitterbutton', {user: request.user});
+});
 
+app.get('/buttons/callback', function (request, response) {
+    response.render('buttoncallback', {user: request.user});
+});
 
 app.get('/', function (request, response) {
     console.log("SSSID "+request.sessionID);
@@ -310,6 +316,9 @@ app.get('/auth/facebook/callback',
 //app.get('/auth/twitter/', passport.authenticate('twitter'));
 app.get('/auth/twitter/', function(request, response, next) {
     console.log("Auth twitter");
+    if (request.query.callback) {
+        response.cookie('callback', request.query.callback, {maxAge: 60 * 1000, httpOnly: true}); // save callback in cookie, for one minute
+    }
     return passport.authenticate('twitter')(request,response,next)
 });
 
