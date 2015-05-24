@@ -13,7 +13,7 @@ define(['react', 'moment'], function(React, moment) {
         return (
           React.createElement("div", {className: "col-xs-12 col-md-6 pull-right"}, 
               React.createElement("span", {itemscope: true, itemtype: "http://schema.org/ImageObject"}, 
-                  React.createElement("img", {itemprop: "thumbnail", src: this.state.img, className: "pull-left media thumbnail clearfix"})
+                  React.createElement("img", {itemprop: "thumbnail", src: this.state.img, className: "pull-left"})
               ), 
               React.createElement("ul", {className: "details"}, 
                   React.createElement("li", null, "Registered: ", this.state.registered), 
@@ -40,7 +40,7 @@ define(['react', 'moment'], function(React, moment) {
             text: 'Already have an account?'
           },
           twitter: {
-            url: 'http://login.wr.io/auth/twitter',
+            url: "http://login.wr.io/auth/twitter",
             img: 'http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg'
           },
           description: 'Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.'
@@ -55,7 +55,7 @@ define(['react', 'moment'], function(React, moment) {
                     React.createElement("span", {className: "glyphicon glyphicon-chevron-down pull-right"}), this.state.title.text, React.createElement("sup", null, this.state.title.label)
                   ), 
                   React.createElement("div", {className: "in", id: "profile-element"}, 
-                      React.createElement("div", {className: "media thumbnail"}, 
+                      React.createElement("div", {className: "media thumbnail clearfix"}, 
                           React.createElement(Details, {importUrl: props.importUrl, theme: props.theme}), 
                           React.createElement("div", {className: "col-xs-12 col-md-6"}, 
                               React.createElement("p", null, this.state.description), 
