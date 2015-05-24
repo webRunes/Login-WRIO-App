@@ -70,7 +70,7 @@ define(['react', 'moment'], function(React, moment) {
                             label: 'WRIO',
                             link: {
                                 url: jsmsg.url,
-                                text: "Мой профиль"
+                                text: "My profile"
                             }
 
                         }
