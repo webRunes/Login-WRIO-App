@@ -31,7 +31,11 @@ define(['react', 'moment'], function(React, moment) {
           title: {
             text: "Logged as I'm Anonymous ",
             label: 'WRIO',
-            url: "http://webrunes.com/"
+            link: {
+                url: "http://webrunes.com/",
+                text: "Мой профиль"
+            }
+
           },
           upgrade: {
             text: 'Upgrade guest account for free',
@@ -67,7 +71,11 @@ define(['react', 'moment'], function(React, moment) {
                     title:{
                         text: "Logged as I'm Anonymous ",
                         label: 'WRIO',
-                        url: jsmsg.url
+                        link: {
+                            url: jsmsg.url,
+                            text: "Мой профиль"
+                        }
+
                     }
                 });
 
@@ -86,7 +94,7 @@ define(['react', 'moment'], function(React, moment) {
                           <Details importUrl={props.importUrl} theme={props.theme} />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
-                              <a href={this.state.title.url}>Мой профиль</a>
+                              <a href={this.state.title.link.url}>{this.state.title.link.text}</a>
                               <ul className="actions">
                                   <li>
                                     <iframe id="storageiframe" src="http://storage.webrunes.com"></iframe>

@@ -31,7 +31,11 @@ define(['react', 'moment'], function(React, moment) {
           title: {
             text: "Logged as I'm Anonymous ",
             label: 'WRIO',
-            url: "http://webrunes.com/"
+            link: {
+                url: "http://webrunes.com/",
+                text: "Мой профиль"
+            }
+
           },
           upgrade: {
             text: 'Upgrade guest account for free',
@@ -67,7 +71,11 @@ define(['react', 'moment'], function(React, moment) {
                     title:{
                         text: "Logged as I'm Anonymous ",
                         label: 'WRIO',
-                        url: jsmsg.url
+                        link: {
+                            url: jsmsg.url,
+                            text: "Мой профиль"
+                        }
+
                     }
                 });
 
@@ -86,7 +94,7 @@ define(['react', 'moment'], function(React, moment) {
                           React.createElement(Details, {importUrl: props.importUrl, theme: props.theme}), 
                           React.createElement("div", {className: "col-xs-12 col-md-6"}, 
                               React.createElement("p", null, this.state.description), 
-                              React.createElement("a", {href: this.state.title.url}, "Мой профиль"), 
+                              React.createElement("a", {href: this.state.title.link.url}, this.state.title.link.text), 
                               React.createElement("ul", {className: "actions"}, 
                                   React.createElement("li", null, 
                                     React.createElement("iframe", {id: "storageiframe", src: "http://storage.webrunes.com"}), 
