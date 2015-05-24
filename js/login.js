@@ -112,7 +112,7 @@ define(['react', 'moment'], function(React, moment) {
                                     React.createElement("a", {href: "#"}, React.createElement("span", {className: "glyphicon glyphicon-user"}), this.state.have.text)
                                   )
                               ), 
-                              React.createElement("iframe", {src: "http://login.webrunes.com/buttons/twitter", width: "230", height: "43"})
+                              React.createElement("iframe", {id: "loginbuttoniframe", src: "http://login.webrunes.com/buttons/twitter", width: "230", height: "43", frameBorder: "no", scrolling: "no"})
 
                           )
                       )

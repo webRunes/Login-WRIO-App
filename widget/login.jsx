@@ -112,7 +112,7 @@ define(['react', 'moment'], function(React, moment) {
                                     <a href="#"><span className="glyphicon glyphicon-user"></span>{this.state.have.text}</a>
                                   </li>
                               </ul>
-                              <iframe src="http://login.webrunes.com/buttons/twitter" width="230" height="43"></iframe>
+                              <iframe id="loginbuttoniframe" src="http://login.webrunes.com/buttons/twitter" width="230" height="43" frameBorder="no" scrolling="no"></iframe>
 
                           </div>
                       </div>
