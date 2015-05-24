@@ -78,7 +78,7 @@ define(['react', 'moment'], function(React, moment) {
         return (
           <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
               <li className="panel">
-                  <a href="#profile" data-parent="#profile-accordion" data-toggle="collapse">
+                  <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
                     <span className="glyphicon glyphicon-chevron-down pull-right"></span>{this.state.title.text}<sup>{this.state.title.label}</sup>
                   </a>
                   <div className="in" id="profile-element">
@@ -86,6 +86,7 @@ define(['react', 'moment'], function(React, moment) {
                           <Details importUrl={props.importUrl} theme={props.theme} />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
+                              <a href={this.state.title.url}>My profile</a>
                               <ul className="actions">
                                   <li>
                                     <iframe id="storageiframe" src="http://storage.webrunes.com"></iframe>

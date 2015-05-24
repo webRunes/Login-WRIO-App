@@ -78,7 +78,7 @@ define(['react', 'moment'], function(React, moment) {
         return (
           React.createElement("ul", {className: "info nav nav-pills nav-stacked", id: "profile-accordion"}, 
               React.createElement("li", {className: "panel"}, 
-                  React.createElement("a", {href: "#profile", "data-parent": "#profile-accordion", "data-toggle": "collapse"}, 
+                  React.createElement("a", {href: "#profile-element", "data-parent": "#profile-accordion", "data-toggle": "collapse"}, 
                     React.createElement("span", {className: "glyphicon glyphicon-chevron-down pull-right"}), this.state.title.text, React.createElement("sup", null, this.state.title.label)
                   ), 
                   React.createElement("div", {className: "in", id: "profile-element"}, 
@@ -86,6 +86,7 @@ define(['react', 'moment'], function(React, moment) {
                           React.createElement(Details, {importUrl: props.importUrl, theme: props.theme}), 
                           React.createElement("div", {className: "col-xs-12 col-md-6"}, 
                               React.createElement("p", null, this.state.description), 
+                              React.createElement("a", {href: this.state.title.url}, "My profile"), 
                               React.createElement("ul", {className: "actions"}, 
                                   React.createElement("li", null, 
                                     React.createElement("iframe", {id: "storageiframe", src: "http://storage.webrunes.com"}), 
