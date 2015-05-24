@@ -30,11 +30,13 @@ define(['react', 'moment'], function(React, moment) {
         return {
           title: {
             text: "Logged as I'm Anonymous ",
-            label: 'WRIO'
+            label: 'WRIO',
+            url: "http://webrunes.com/"
           },
           upgrade: {
             text: 'Upgrade guest account for free',
             label: '30 days left'
+
           },
           have: {
             text: 'Already have an account?'
@@ -46,12 +48,37 @@ define(['react', 'moment'], function(React, moment) {
           description: 'Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.'
         };
       },
+        componentDidMount: function () {
+            var that = this;
+            window.addEventListener('message', function (e) {
+                var message = e.data;
+                if (e.origin != "http://storage.webrunes.com") {
+                    console.log("Skipping");
+                    return;
+                }
+                console.log("Got message from iframe", message);
+                var jsmsg = JSON.parse(message);
+                that.setState({
+                    upgrade: {
+                        text: "Upgrade guest account for free",
+                        label: jsmsg.days + 'days left'
+
+                    },
+                    title:{
+                        text: "Logged as I'm Anonymous ",
+                        label: 'WRIO',
+                        url: jsmsg.url
+                    }
+                });
+
+            });
+        },
       render: function() {
         var props = this.props;
         return (
           <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
               <li className="panel">
-                  <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
+                  <a href="#profile" data-parent="#profile-accordion" data-toggle="collapse">
                     <span className="glyphicon glyphicon-chevron-down pull-right"></span>{this.state.title.text}<sup>{this.state.title.label}</sup>
                   </a>
                   <div className="in" id="profile-element">
@@ -61,6 +88,7 @@ define(['react', 'moment'], function(React, moment) {
                               <p>{this.state.description}</p>
                               <ul className="actions">
                                   <li>
+                                    <iframe id="storageiframe" src="http://storage.webrunes.com"></iframe>
                                     <a href="wrio-account-edit.htm"><span className="glyphicon glyphicon-arrow-up"></span>{this.state.upgrade.text}</a> <span className="label label-warning">{this.state.upgrade.label}</span>
                                   </li>
                               </ul>

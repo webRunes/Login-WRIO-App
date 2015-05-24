@@ -30,11 +30,13 @@ define(['react', 'moment'], function(React, moment) {
         return {
           title: {
             text: "Logged as I'm Anonymous ",
-            label: 'WRIO'
+            label: 'WRIO',
+            url: "http://webrunes.com/"
           },
           upgrade: {
             text: 'Upgrade guest account for free',
             label: '30 days left'
+
           },
           have: {
             text: 'Already have an account?'
@@ -46,12 +48,37 @@ define(['react', 'moment'], function(React, moment) {
           description: 'Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.'
         };
       },
+        componentDidMount: function () {
+            var that = this;
+            window.addEventListener('message', function (e) {
+                var message = e.data;
+                if (e.origin != "http://storage.webrunes.com") {
+                    console.log("Skipping");
+                    return;
+                }
+                console.log("Got message from iframe", message);
+                var jsmsg = JSON.parse(message);
+                that.setState({
+                    upgrade: {
+                        text: "Upgrade guest account for free",
+                        label: jsmsg.days + 'days left'
+
+                    },
+                    title:{
+                        text: "Logged as I'm Anonymous ",
+                        label: 'WRIO',
+                        url: jsmsg.url
+                    }
+                });
+
+            });
+        },
       render: function() {
         var props = this.props;
         return (
           React.createElement("ul", {className: "info nav nav-pills nav-stacked", id: "profile-accordion"}, 
               React.createElement("li", {className: "panel"}, 
-                  React.createElement("a", {href: "#profile-element", "data-parent": "#profile-accordion", "data-toggle": "collapse"}, 
+                  React.createElement("a", {href: "#profile", "data-parent": "#profile-accordion", "data-toggle": "collapse"}, 
                     React.createElement("span", {className: "glyphicon glyphicon-chevron-down pull-right"}), this.state.title.text, React.createElement("sup", null, this.state.title.label)
                   ), 
                   React.createElement("div", {className: "in", id: "profile-element"}, 
@@ -61,6 +88,7 @@ define(['react', 'moment'], function(React, moment) {
                               React.createElement("p", null, this.state.description), 
                               React.createElement("ul", {className: "actions"}, 
                                   React.createElement("li", null, 
+                                    React.createElement("iframe", {id: "storageiframe", src: "http://storage.webrunes.com"}), 
                                     React.createElement("a", {href: "wrio-account-edit.htm"}, React.createElement("span", {className: "glyphicon glyphicon-arrow-up"}), this.state.upgrade.text), " ", React.createElement("span", {className: "label label-warning"}, this.state.upgrade.label)
                                   )
                               ), 
