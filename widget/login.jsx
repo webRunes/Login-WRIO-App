@@ -86,7 +86,7 @@ define(['react', 'moment'], function(React, moment) {
                           <Details importUrl={props.importUrl} theme={props.theme} />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
-                              <a href={this.state.title.url}>My profile</a>
+                              <a href={this.state.title.url}>Мой профиль</a>
                               <ul className="actions">
                                   <li>
                                     <iframe id="storageiframe" src="http://storage.webrunes.com"></iframe>

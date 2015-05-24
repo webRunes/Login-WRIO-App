@@ -86,7 +86,7 @@ define(['react', 'moment'], function(React, moment) {
                           React.createElement(Details, {importUrl: props.importUrl, theme: props.theme}), 
                           React.createElement("div", {className: "col-xs-12 col-md-6"}, 
                               React.createElement("p", null, this.state.description), 
-                              React.createElement("a", {href: this.state.title.url}, "My profile"), 
+                              React.createElement("a", {href: this.state.title.url}, "Мой профиль"), 
                               React.createElement("ul", {className: "actions"}, 
                                   React.createElement("li", null, 
                                     React.createElement("iframe", {id: "storageiframe", src: "http://storage.webrunes.com"}), 
