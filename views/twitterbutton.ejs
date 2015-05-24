@@ -10,7 +10,7 @@
 
     function setWRIOAuthData() {
         console.log("Login succeeded");
-        location.reload();
+        parent.postMessage(JSON.stringify({"login":"success"}), "*");
         // send parent reload message
     }
 
