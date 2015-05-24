@@ -30,11 +30,17 @@ define(['react', 'moment'], function(React, moment) {
         return {
           title: {
             text: "Logged as I'm Anonymous ",
-            label: 'WRIO'
+            label: 'WRIO',
+            link: {
+                url: "http://webrunes.com/",
+                text: "Мой профиль"
+            }
+
           },
           upgrade: {
             text: 'Upgrade guest account for free',
             label: '30 days left'
+
           },
           have: {
             text: 'Already have an account?'
@@ -46,6 +52,35 @@ define(['react', 'moment'], function(React, moment) {
           description: 'Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.'
         };
       },
+        componentDidMount: function () {
+            var that = this;
+            window.addEventListener('message', function (e) {
+                var message = e.data;
+                if (e.origin != "http://storage.webrunes.com") {
+                    console.log("Skipping");
+                    return;
+                }
+                console.log("Got message from iframe", message);
+                var jsmsg = JSON.parse(message);
+                that.setState({
+                    upgrade: {
+                        text: "Upgrade guest account for free",
+                        label: jsmsg.days + 'days left'
+
+                    },
+                    title:{
+                        text: "Logged as I'm Anonymous ",
+                        label: 'WRIO',
+                        link: {
+                            url: jsmsg.url,
+                            text: "Мой профиль"
+                        }
+
+                    }
+                });
+
+            });
+        },
       render: function() {
         var props = this.props;
         return (
@@ -59,8 +94,10 @@ define(['react', 'moment'], function(React, moment) {
                           <Details importUrl={props.importUrl} theme={props.theme} />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
+                              <a href={this.state.title.link.url}>{this.state.title.link.text}</a>
                               <ul className="actions">
                                   <li>
+                                    <iframe id="storageiframe" src="http://storage.webrunes.com"></iframe>
                                     <a href="wrio-account-edit.htm"><span className="glyphicon glyphicon-arrow-up"></span>{this.state.upgrade.text}</a> <span className="label label-warning">{this.state.upgrade.label}</span>
                                   </li>
                               </ul>
