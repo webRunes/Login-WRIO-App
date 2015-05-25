@@ -57,9 +57,7 @@ passport.serializeUser(function(user, done) {
         } else {
             done(null, res.userID);
         }
-
     })
-
 });
 
 // used to deserialize the user
