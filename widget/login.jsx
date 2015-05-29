@@ -1,6 +1,6 @@
-define(['react', 'moment'], function(React, moment) {
-
   var
+    React = require('react'),
+    moment = require('moment'),
     Details = React.createClass({
       getInitialState: function() {
         var props = this.props;
@@ -12,8 +12,8 @@ define(['react', 'moment'], function(React, moment) {
       render: function() {
         return (
           <div className='col-xs-12 col-md-6 pull-right'>
-              <span itemscope itemtype="http://schema.org/ImageObject">
-                  <img itemprop="thumbnail" src={this.state.img} className="pull-left" />
+              <span itemScope itemType="http://schema.org/ImageObject">
+                  <img itemProp="thumbnail" src={this.state.img} className="pull-left" />
               </span>
               <ul className="details">
                   <li>Registered: {this.state.registered}</li>
@@ -123,5 +123,4 @@ define(['react', 'moment'], function(React, moment) {
       }
     });
 
-  return Login;
-});
+module.exports = Login;
