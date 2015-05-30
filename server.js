@@ -208,7 +208,8 @@ app.use(session(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
-
+app.use(express.static(__dirname + '/widget'));
+app.use(express.static(__dirname + '/test'));
 
 
 passport.use(new FacebookStrategy({
