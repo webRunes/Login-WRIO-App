@@ -1,4 +1,3 @@
-
   var
     React = require('react'),
     moment = require('moment'),
