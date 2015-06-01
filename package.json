@@ -30,6 +30,7 @@
     "mysql": "*",
     "nconf": "*",
     "node-twitter": "*",
+    "p3p": "0.0.2",
     "passport": "0.2.1",
     "passport-facebook": "latest",
     "passport-github": "latest",
