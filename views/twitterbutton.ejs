@@ -1,8 +1,21 @@
 <html>
 <body style="margin: 0 !important; padding: 0 !important;">
-
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <img src="http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg" onclick="openAuthPopup()">
+<div><a href="#" onclick="logout();">Logout</a></div>
+
 <script type="text/javascript">
+
+    function logout() {
+        $.ajax({
+            url:'/logout',
+            xhrFields: {
+                withCredentials: true
+            }
+        }).success (function() {
+            parent.postMessage(JSON.stringify({"login":"success"}), "*");
+        });
+    }
 
     function openAuthPopup() {
         window.open('/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
@@ -15,7 +28,6 @@
     }
 
     <%if ( user ) { %>
-       <%= user.lastName %>
         parent.postMessage(JSON.stringify({"loggedIn":"<%= user.lastName %>"}), "*");
     <% } %>
 
