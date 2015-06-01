@@ -55,34 +55,9 @@
         componentDidMount: function () {
             var that = this;
 
-            $.ajax({
-                url: "http://storage.webrunes.com/api/get_profile",
-                type: 'post',
-                'dataType':'json',
-                data: {},
-                xhrFields: {
-                    withCredentials: true
-                }
-            }).success(function (jsmsg) {
-                console.log("Get_profile finish",jsmsg);
-                that.setState({
-                    upgrade: {
-                        text: "Upgrade guest account for free",
-                        label: jsmsg.days + ' days left'
 
-                    },
-                    title:{
-                        text: "Logged as I'm Anonymous ",
-                        label: 'WRIO',
-                        link: {
-                            url: jsmsg.url,
-                            text: "My profile"
-                        }
 
-                    }
-                });
 
-            });
 
             window.addEventListener('message', function (e) {
                 var message = e.data;
@@ -95,6 +70,26 @@
                     }
                     if (jsmsg.login == "success") {
                         location.reload();
+                    }
+
+                    if (jsmsg.profile) {
+                        jsmsg = jsmsg.profile;
+                        that.setState({
+                            upgrade: {
+                                text: "Upgrade guest account for free",
+                                label: jsmsg.days + ' days left'
+
+                            },
+                            title:{
+                                text: "Logged as I'm Anonymous ",
+                                label: 'WRIO',
+                                link: {
+                                    url: jsmsg.url,
+                                    text: "My profile"
+                                }
+
+                            }
+                        });
                     }
 
                 }
