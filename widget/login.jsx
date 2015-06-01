@@ -89,9 +89,14 @@
                 if (e.origin == "http://login.webrunes.com") {
                     console.log("Got message login", message);
                     var jsmsg = JSON.parse(message);
+
+                    if (jsmsg.loggedIn) {
+                        //$('#loginbuttoniframe').hide();
+                    }
                     if (jsmsg.login == "success") {
                         location.reload();
                     }
+
                 }
 
 

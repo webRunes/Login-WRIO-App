@@ -264,6 +264,10 @@ passport.use(new GitHubStrategy({
 ));
 
 app.get('/buttons/twitter', function (request, response) {
+    if (request.user) {
+        console.log(request.user.lastName);
+    }
+
     response.render('twitterbutton', {user: request.user});
 });
 
