@@ -35,7 +35,6 @@
                 url: "http://webrunes.com/",
                 text: "Profile page"
             }
-
           },
           upgrade: {
             text: 'Upgrade guest account for free',
@@ -54,9 +53,6 @@
       },
         componentDidMount: function () {
             var that = this;
-
-
-
 
 
             window.addEventListener('message', function (e) {
@@ -93,7 +89,6 @@
                     }
 
                 }
-
 
             });
         },
