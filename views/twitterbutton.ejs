@@ -14,6 +14,11 @@
         // send parent reload message
     }
 
+    <%if ( user ) { %>
+       <%= user.lastName %>
+        parent.postMessage(JSON.stringify({"loggedIn":"<%= user.lastName %>"}), "*");
+    <% } %>
+
 </script>
 </body>
 </html>
