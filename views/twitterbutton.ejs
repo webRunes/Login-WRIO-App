@@ -1,8 +1,13 @@
 <html>
 <body style="margin: 0 !important; padding: 0 !important;">
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<img src="http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg" onclick="openAuthPopup()">
+<%if ( user ) { %>
 <div><a href="#" onclick="logout();">Logout</a></div>
+<% } else { %>
+<img src="http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg" onclick="openAuthPopup()">
+<% } %>
+
+
 
 <script type="text/javascript">
 
