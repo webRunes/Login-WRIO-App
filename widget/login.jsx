@@ -54,28 +54,38 @@
       },
         componentDidMount: function () {
             var that = this;
+
+            $.ajax({
+                url: "http://storage.webrunes.com/api/get_profile",
+                type: 'post',
+                'dataType':'json',
+                data: {},
+                xhrFields: {
+                    withCredentials: true
+                }
+            }).success(function (jsmsg) {
+                console.log("Get_profile finish",jsmsg);
+                that.setState({
+                    upgrade: {
+                        text: "Upgrade guest account for free",
+                        label: jsmsg.days + ' days left'
+
+                    },
+                    title:{
+                        text: "Logged as I'm Anonymous ",
+                        label: 'WRIO',
+                        link: {
+                            url: jsmsg.url,
+                            text: "My profile"
+                        }
+
+                    }
+                });
+
+            });
+
             window.addEventListener('message', function (e) {
                 var message = e.data;
-                if (e.origin == "http://storage.webrunes.com") {
-                    console.log("Got message storage", message);
-                    var jsmsg = JSON.parse(message);
-                    that.setState({
-                        upgrade: {
-                            text: "Upgrade guest account for free",
-                            label: jsmsg.days + ' days left'
-
-                        },
-                        title:{
-                            text: "Logged as I'm Anonymous ",
-                            label: 'WRIO',
-                            link: {
-                                url: jsmsg.url,
-                                text: "My profile"
-                            }
-
-                        }
-                    });
-                }
                 if (e.origin == "http://login.webrunes.com") {
                     console.log("Got message login", message);
                     var jsmsg = JSON.parse(message);
@@ -103,7 +113,6 @@
                               <a href={this.state.title.link.url}>{this.state.title.link.text}</a>
                               <ul className="actions">
                                   <li>
-                                    <iframe id="storageiframe" src="http://storage.webrunes.com"></iframe>
                                     <a href="wrio-account-edit.htm"><span className="glyphicon glyphicon-arrow-up"></span>{this.state.upgrade.text}</a> <span className="label label-warning">{this.state.upgrade.label}</span>
                                   </li>
                               </ul>
