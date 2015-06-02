@@ -12,7 +12,7 @@
       render: function() {
         return (
           <div className='col-xs-12 col-md-6 pull-right'>
-              <span itemScope itemType="http://schema.org/ImageObject">
+              <span itemScope="" itemType="http://schema.org/ImageObject">
                   <img itemProp="thumbnail" src={this.state.img} className="pull-left" />
               </span>
               <ul className="details">
@@ -35,7 +35,6 @@
                 url: "http://webrunes.com/",
                 text: "Profile page"
             }
-
           },
           upgrade: {
             text: 'Upgrade guest account for free',
@@ -54,9 +53,6 @@
       },
         componentDidMount: function () {
             var that = this;
-
-
-
 
 
             window.addEventListener('message', function (e) {
@@ -93,7 +89,6 @@
                     }
 
                 }
-
 
             });
         },

@@ -2,7 +2,6 @@
   "name": "passport-signin",
   "version": "0.0.1",
   "description": "(coming soon)",
-  "main": "server.js",
   "scripts": {
     "jsx": "jsx --no-cache-dir -x jsx ./widget ./js",
     "start": "npm run jsx",
@@ -18,6 +17,9 @@
     "url": "https://github.com/webRunes/Login-WRIO-App/issues"
   },
   "homepage": "https://github.com/webRunes/Login-WRIO-App",
+  "browserify": {
+    "transform": ["reactify"]
+  },
   "dependencies": {
     "aws-sdk-apis": "*",
     "body-parser": "1.7.0",
@@ -27,6 +29,7 @@
     "express-mysql-session": "*",
     "express-session": "*",
     "minimist": "^1.1.1",
+    "moment": "^2.10.3",
     "mysql": "*",
     "nconf": "*",
     "node-twitter": "*",
@@ -34,7 +37,8 @@
     "passport": "0.2.1",
     "passport-facebook": "latest",
     "passport-github": "latest",
-    "passport-twitter": "latest"
+    "passport-twitter": "latest",
+    "react": "^0.13.3"
   },
   "devDependencies": {
     "jsxhint": "^0.15.0",
