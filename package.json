@@ -17,6 +17,9 @@
     "url": "https://github.com/webRunes/Login-WRIO-App/issues"
   },
   "homepage": "https://github.com/webRunes/Login-WRIO-App",
+  "browserify": {
+    "transform": ["reactify"]
+  },
   "dependencies": {
     "aws-sdk-apis": "*",
     "body-parser": "1.7.0",
