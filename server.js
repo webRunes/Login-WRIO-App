@@ -57,9 +57,7 @@ passport.serializeUser(function(user, done) {
         } else {
             done(null, res.userID);
         }
-
     })
-
 });
 
 // used to deserialize the user
@@ -201,7 +199,7 @@ app.use(session(
         cookie: {
             secure:false,
             domain:DOMAIN,
-            maxAge: 1000 * 60 * 24 * 30
+            maxAge: 1000 * 60 * 60 * 24 * 30
         },
         key: 'sid'
     }
@@ -211,6 +209,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/public'));
 
+var p3p = require('p3p');
+app.use(p3p(p3p.recommended));
+
+
+var argv = require('minimist')(process.argv.slice(2));
+console.log(argv);
+if (argv.testjsx == "true") {
+    console.log("\nEntering jsx widget test mode, use /test.html to check widget operation\n");
+    app.use(express.static(__dirname + '/widget'));
+    app.use(express.static(__dirname + '/test'));
+
+}
 
 
 passport.use(new FacebookStrategy({
@@ -257,7 +267,17 @@ passport.use(new GitHubStrategy({
     }
 ));
 
+app.get('/buttons/twitter', function (request, response) {
+    if (request.user) {
+        console.log(request.user.lastName);
+    }
 
+    response.render('twitterbutton', {user: request.user});
+});
+
+app.get('/buttons/callback', function (request, response) {
+    response.render('buttoncallback', {user: request.user});
+});
 
 app.get('/', function (request, response) {
     console.log("SSSID "+request.sessionID);
@@ -277,7 +297,7 @@ app.get('/authapi', function (request, response) {
         console.log("SSSID "+request.sessionID);
         console.log("Get user",request.user);
         if (request.user) {
-            response.redirect(request.query.callback+'?sid='+request.sessionID);
+            response.redirect(request.query.callback);
         } else {
             response.render('index', {user: request.user});
         }
@@ -307,14 +327,15 @@ app.get('/auth/facebook/callback',
         response.redirect('/');
     });
 
-
-
-
 //app.get('/auth/twitter/', passport.authenticate('twitter'));
 app.get('/auth/twitter/', function(request, response, next) {
     console.log("Auth twitter");
+    if (request.query.callback) {
+        response.cookie('callback', request.query.callback, {maxAge: 60 * 1000, httpOnly: true}); // save callback in cookie, for one minute
+    }
     return passport.authenticate('twitter')(request,response,next)
 });
+
 app.get('/auth/twitter/callback',
     function (request, response, next) {
         redirecturl = '/';
@@ -326,8 +347,6 @@ app.get('/auth/twitter/callback',
             } else {
                 console.log("SID not found");
             }
-
-
         } else {
             console.log("Cookie callback not found");
         }
