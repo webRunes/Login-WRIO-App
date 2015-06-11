@@ -39,7 +39,6 @@
           upgrade: {
             text: 'Upgrade guest account for free',
             label: '30 days left'
-
           },
           have: {
             text: 'Already have an account?'
