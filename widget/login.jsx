@@ -1,3 +1,10 @@
+domain = '';
+if (process.env.DOMAIN == undefined) {
+    domain = 'wrioos.com';
+} else {
+    domain = process.env.DOMAIN;
+}
+
   var
     React = require('react'),
     moment = require('moment'),
@@ -44,7 +51,8 @@
             text: 'Already have an account?'
           },
           twitter: {
-            url: "http://login.wrioos.com/auth/twitter",
+            url: "http://login."+domain+"/auth/twitter",
+            buttonurl:"http://login."+domain+"/buttons/twitter",
             img: 'http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg'
           },
           description: 'Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.'
@@ -56,7 +64,7 @@
 
             window.addEventListener('message', function (e) {
                 var message = e.data;
-                if (e.origin == "http://login.wrioos.com") {
+                if (e.origin == "http://login."+domain) {
                     console.log("Got message login", message);
                     var jsmsg = JSON.parse(message);
 
@@ -115,7 +123,7 @@
                                     <a href="#"><span className="glyphicon glyphicon-user"></span>{this.state.have.text}</a>
                                   </li>
                               </ul>
-                              <iframe id="loginbuttoniframe" src="http://login.wrioos.com/buttons/twitter" width="230" height="43" frameBorder="no" scrolling="no"></iframe>
+                              <iframe id="loginbuttoniframe" src={ this.state.twitter.buttonurl } width="230" height="43" frameBorder="no" scrolling="no"></iframe>
 
                           </div>
                       </div>
