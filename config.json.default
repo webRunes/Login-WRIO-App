@@ -1,0 +1,40 @@
+{
+  "api": {
+	"twitter": {
+	  "consumerKey": "",
+	  "consumerSecret": "",
+	  "token": "",
+	  "tokenSecret": ""
+	},
+	"facebook": {
+	  "clientId": "",
+	  "clientSecret": "",
+	  "callbackUrl": ""
+	},
+	"gitHub": {
+	  "clientId": "",
+	  "clientSecret": "",
+	  "callbackUrl": ""
+	},
+	"twitterLogin":{
+	  "consumerKey": "",
+	  "consumerSecret": "",
+	  "token": "",
+	  "tokenSecret": "",
+	  "callbackUrl": "http://login.wrioos.com/auth/twitter/callback" // replace wrioos.com domain with your domain
+	}
+  },
+  "db": {
+	"host": "YOUR_HOST_IP",
+	"dbname": "YOUR_DB_NAME",
+	"user": "YOUR_DB_USER",
+	"password": "YOUR_DB_PASS",
+	"workdomain": ".wrioos.com"  // replace .wrioos.com domain with your domain
+  },
+
+  "server": {
+	"cookiesecret":"YOUR_COOKIE_SECRET",
+	"port":5000
+  }
+
+}
