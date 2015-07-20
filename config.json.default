@@ -1,26 +1,26 @@
 {
   "api": {
-	"twitter": {
-	  "consumerKey": "",
-	  "consumerSecret": "",
-	  "token": "",
-	  "tokenSecret": ""
+	"twitter": { // twitter account used for sending tweets from WRIOOS
+	  "consumerKey": "YOR_TWITTER_CONSUMER KEY, you can find it at api.twitter.com",
+      "consumerSecret": "YOUR_TWITTER_CONSUMER_SECRET, you can find it at api.twitter.com"
+	  "token": "YOUR_TWITTER_TOKEN, you can find it at api.twitter.com",
+	  "tokenSecret": "YOUR_TWITTER_TOKEN_SECRET, you can find it at api.twitter.com"
 	},
 	"facebook": {
-	  "clientId": "",
-	  "clientSecret": "",
-	  "callbackUrl": ""
+	  "clientId": "YOUR_FACEBOOK_CLIENT_ID, you can find it at https://developers.facebook.com/",
+	  "clientSecret": "YOUR_FACEBOOK_CLIENT_SECRET, you can find it at https://developers.facebook.com/",
+	  "callbackUrl": "http://login.wrioos.com/auth/facebook/callback"  // replace wrioos.com domain with your domain
 	},
 	"gitHub": {
-	  "clientId": "",
-	  "clientSecret": "",
-	  "callbackUrl": ""
+	  "clientId": "YOUR_GITHUB_CLIENT_ID, you can get it at https://developer.github.com/v3/users/keys/",
+	  "clientSecret": "YOUR_GITHUB_CLIENT_SECRET, you can get it at https://developer.github.com/v3/users/keys/",
+	  "callbackUrl": ""http://login.wrioos.com/auth/github/callback"
 	},
-	"twitterLogin":{
-	  "consumerKey": "",
-	  "consumerSecret": "",
-	  "token": "",
-	  "tokenSecret": "",
+	"twitterLogin":{ // twitter account used for Login
+	  "consumerKey": "YOR_TWITTER_CONSUMER KEY, you can find it at api.twitter.com",
+	  "consumerSecret": "YOUR_TWITTER_CONSUMER_SECRET, you can find it at api.twitter.com",
+	  "token": "YOUR_TWITTER_TOKEN, you can find it at api.twitter.com",
+	  "tokenSecret": "YOUR_TWITTER_TOKEN_SECRET, you can find it at api.twitter.com",
 	  "callbackUrl": "http://login.wrioos.com/auth/twitter/callback" // replace wrioos.com domain with your domain
 	}
   },
