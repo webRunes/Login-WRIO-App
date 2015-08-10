@@ -272,7 +272,7 @@ app.get('/buttons/twitter', function (request, response) {
         console.log(request.user.lastName);
     }
 
-    response.render('twitterbutton', {user: request.user});
+    response.render('twitterbutton', {user: request.user,storageUrl:"http://storage"+DOMAIN+"/api/get_profile"});
 });
 
 app.get('/buttons/callback', function (request, response) {
