@@ -25,6 +25,7 @@ branches:
   only:
     - master
     - stable
+    - production
 
 deploy:
   - provider: opsworks
@@ -35,6 +36,7 @@ deploy:
     app-id: 573363bc-37cc-4c8a-993f-bf82d5edbea9
     on:
       repo: webRunes/Login-WRIO-App
+      branch: production
   - provider: s3
     access_key_id:
       secure: E8UFms7+Xv7PxCT3kybFHGI44O2g9KehUdEkddQaYyxNYrQD9RQyHi7kMXO42kWUHzYeM3k5OAvJKpXj463amMMES4rxP1h557F1DBb5Z3DrA+4ubSsq/LlCNI8Dc80xZhgf1ZDs+b0Ld2AyxMcfB1Ca7fBcVVIGkq5zzqTQ9fg=
@@ -45,3 +47,4 @@ deploy:
     acl: public_read
     on:
       repo: webRunes/Login-WRIO-App
+      branch: production
