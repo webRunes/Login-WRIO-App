@@ -396,7 +396,9 @@ app.get('/auth/git-hub/callback',
     });
 
 app.get('/logout', function (request, response) {
-    request.logout();
+    request.logout(); 
+//    console.log("Deleting user profile cookie...");
+//    response.clearCookie('user_profile', 0, { httpOnly: true, domain:DOMAIN });
     response.redirect('/');
 });
 
