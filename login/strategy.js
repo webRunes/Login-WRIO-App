@@ -62,6 +62,7 @@ module.exports = function (app,passport,db) {
             if (err || !res) {
                 done(err);
             } else {
+                console.log("output serialization", res);
                 done(null, res._id);
             }
         })
@@ -98,7 +99,7 @@ module.exports = function (app,passport,db) {
         webrunesUsers.findOne({titterID: newUser.titterID},function(err,user) {
             if (err || !user) {
                 console.log("User not found, creating user");
-                webrunesUsers.insertOne(newUser,function(err, user) {
+                webrunesUsers.insertOne(newUser,function(err) {
 
                     if (err) {
                         console.log("Insert error", err);
@@ -106,8 +107,11 @@ module.exports = function (app,passport,db) {
                         return;
                     }
 
-                    console.log("Insert query done " + user._id);
-                    return done(null, user); // TODO: check insert id
+                    console.log("Insert query done " + newUser);
+                    webrunesUsers.findOne({titterID: newUser.titterID},function(err,user) {
+                        done(err,user);
+                    });
+
                 });
 
             } else {
@@ -119,20 +123,16 @@ module.exports = function (app,passport,db) {
 
     function saveTwitterCallbacks(profile, token, tokenSecret, done) {
         // create the user
-        var newUser = {
-            titterID: profile.id,
-            lastName: profile.displayName,
-            token: token,
-            tokenSecret: tokenSecret
-        };
 
 
-        webrunesUsers.updateOne({titterID: newUser.titterID},newUser,{upsert:true},function(err,element) {
+        webrunesUsers.updateOne({titterID: profile.id},{$set:{ token: token,tokenSecret: tokenSecret}},function(err,element) {
             if (err || !element) {
                 console.log("Update wrio user record failure",err);
             } else {
                 // newUserMysql.id = newUserMysql.userID = rows.insertId;
-                return done(null, element);
+                webrunesUsers.findOne({titterID: profile.id}, function(err,result) {
+                    return done(err, result);
+                });
 
             }
         });
