@@ -3,6 +3,9 @@
  * Created by michbil on 23.08.15.
  */
 
+var nconf = require("../wrio_nconf.js").init();
+var DOMAIN= nconf.get("db:workdomain");
+
 module.exports = function (app,passport) {
 
     app.get('/buttons/twitter', function (request, response) {
@@ -21,8 +24,8 @@ module.exports = function (app,passport) {
     });
 
     app.get('/', function (request, response) {
-        console.log("SSSID " + request.sessionID);
-        console.log("Get user", request.user);
+        console.log("SSID " + request.sessionID);
+        console.log("Logged user", request.user);
         response.render('index', {user: request.user});
     });
 

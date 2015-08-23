@@ -1,6 +1,9 @@
 'use strict';
+var ObjectID = require('mongodb').ObjectID;
 var nconf = require("../wrio_nconf.js").init();
-module.exports = function (app,passport) {
+module.exports = function (app,passport,db) {
+
+
 
     var FacebookStrategy = require('passport-facebook').Strategy;
     var TwitterStrategy = require('passport-twitter').Strategy;
@@ -49,14 +52,17 @@ module.exports = function (app,passport) {
         }
     ));
 
+    var webrunesUsers = db.collection('webRunes_Users');
+    var sessions = db.collection('sessions');
+
     passport.serializeUser(function (user, done) {
         // thats where we get user from twtiter
-        console.log("Serializing user " + user.id);
+        console.log("Serializing user " + user);
         newWrioUser(user, function (err, res) {
-            if (err) {
+            if (err || !res) {
                 done(err);
             } else {
-                done(null, res.userID);
+                done(null, res._id);
             }
         })
     });
@@ -65,92 +71,68 @@ module.exports = function (app,passport) {
     passport.deserializeUser(function (id, done) {
 
         console.log("Deserializing user by id=" + id);
-        connection.query("select * from `webRunes_Users` where userID = " + id, function (err, rows) {
+        webrunesUsers.findOne(ObjectID(id), function(err,user) {
             if (err) {
-                console.log("User not found");
+                console.log("Error while searching user");
                 done(err);
                 return;
             }
-            if (rows[0] == undefined) {
-                done("Empty row from db not found for id");
+            if (!user) {
+                console.log("User not found",err);
+                done(err);
                 return;
             }
-            console.log("USere deserialized " + id, rows[0])
-            done(err, rows[0]);
+            console.log("User deserialized " + id, user);
+            done(err, user);
         });
     });
 
 
     function newWrioUser(profile, done) {
         // create the user
-        var newUserMysql = new Object();
+        var newUser = {
+            titterID: profile.id,
+            lastName: profile.displayName
+        };
 
-        newUserMysql.titterID = profile.id;
-        newUserMysql.lastName = profile.displayName;
+        webrunesUsers.findOne({titterID: newUser.titterID},function(err,user) {
+            if (err || !user) {
+                console.log("User not found, creating user");
+                webrunesUsers.insertOne(newUser,function(err, user) {
 
-
-        connection.query("select * from `webRunes_Users` where titterID = " + newUserMysql.titterID, function (err, rows) {
-            if (err || (rows[0] == undefined)) {
-                console.log("Creating user");
-                var insertQuery = "INSERT INTO `webRunes_Users` ( titterID, lastName ) values ('" + newUserMysql.titterID + "','" + newUserMysql.lastName + "');";
-                console.log(insertQuery);
-                connection.query(insertQuery, function (err, rows) {
                     if (err) {
                         console.log("Insert error", err);
                         done("Can't insert");
                         return;
                     }
 
-                    console.log("Insert query done " + rows.insertId);
-                    newUserMysql.userID = rows.insertId;
-                    return done(null, newUserMysql);
+                    console.log("Insert query done " + user._id);
+                    return done(null, user); // TODO: check insert id
                 });
 
             } else {
-                console.log("User found ", rows[0]);
-                done(err, rows[0]);
+                console.log("User found ", user);
+                done(err, user);
             }
         });
     }
 
     function saveTwitterCallbacks(profile, token, tokenSecret, done) {
         // create the user
-        var newUserMysql = new Object();
-
-        newUserMysql.titterID = profile.id;
-        newUserMysql.token = token; // use the generateHash function in our user model
-        newUserMysql.tokenSecret = tokenSecret; // use the generateHash function in our user model
-
-
-        function updateTokens() {
-            console.log("Updating user");
-            var insertQuery = "UPDATE `webRunes_Users` SET token='" + token + "',tokenSecret='" + tokenSecret + "' WHERE titterID = " + newUserMysql.titterID;
-            console.log(insertQuery);
-            connection.query(insertQuery, function (err, rows) {
-                if (err) {
-                    console.log("Update error", err);
-                    done("Can't insert");
-                    return;
-                }
-
-                console.log("Update query done " + rows.insertId);
-                newUserMysql.id = newUserMysql.userID = rows.insertId;
-                return done(null, newUserMysql);
-            });
-        }
-
-        connection.query("select * from `webRunes_Users` where titterID = " + newUserMysql.titterID, function (err, rows) {
-            if (err || (rows[0] == undefined)) {
-                console.log("Create user request ");
-
-                newWrioUser(profile, function (err, res) {
-                    updateTokens();
-                });
+        var newUser = {
+            titterID: profile.id,
+            lastName: profile.displayName,
+            token: token,
+            tokenSecret: tokenSecret
+        };
 
 
+        webrunesUsers.updateOne({titterID: newUser.titterID},newUser,{upsert:true},function(err,element) {
+            if (err || !element) {
+                console.log("Update wrio user record failure",err);
             } else {
-
-                updateTokens();
+                // newUserMysql.id = newUserMysql.userID = rows.insertId;
+                return done(null, element);
 
             }
         });
