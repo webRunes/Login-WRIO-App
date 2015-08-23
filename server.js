@@ -272,7 +272,7 @@ app.get('/buttons/twitter', function (request, response) {
         console.log(request.user.lastName);
     }
 
-    response.render('twitterbutton', {user: request.user});
+    response.render('twitterbutton', {user: request.user,storageUrl:"http://storage"+DOMAIN+"/api/get_profile"});
 });
 
 app.get('/buttons/callback', function (request, response) {
@@ -396,7 +396,9 @@ app.get('/auth/git-hub/callback',
     });
 
 app.get('/logout', function (request, response) {
-    request.logout();
+    request.logout(); 
+//    console.log("Deleting user profile cookie...");
+//    response.clearCookie('user_profile', 0, { httpOnly: true, domain:DOMAIN });
     response.redirect('/');
 });
 

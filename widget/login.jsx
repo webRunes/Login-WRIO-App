@@ -45,7 +45,8 @@ if (process.env.DOMAIN == undefined) {
           },
           upgrade: {
             text: 'Upgrade guest account for free',
-            label: '30 days left'
+            label: '30 days left',
+            visible: false
           },
           have: {
             text: 'Already have an account?'
@@ -77,22 +78,43 @@ if (process.env.DOMAIN == undefined) {
 
                     if (jsmsg.profile) {
                         jsmsg = jsmsg.profile;
-                        that.setState({
-                            upgrade: {
-                                text: "Upgrade guest account for free",
-                                label: jsmsg.days + ' days left'
+                        var state;
 
-                            },
-                            title:{
-                                text: "Logged as I'm Anonymous ",
-                                label: 'WRIO',
-                                link: {
-                                    url: jsmsg.url,
-                                    text: "My profile"
+                        if (jsmsg.temporary) {
+                            state = {
+                                upgrade: {
+                                    text: "Upgrade guest account for free",
+                                    label: jsmsg.days + ' days left',
+                                    visible: true
+
+                                },
+                                title:{
+                                    text: "Logged as I'm Anonymous ",
+                                        label: 'WRIO',
+                                        link: {
+                                        url: jsmsg.url,
+                                            text: "My profile"
+                                    }
+
                                 }
-
                             }
-                        });
+                        } else {
+                            state = {
+                                title:{
+                                    text: "Logged in as "+jsmsg.name,
+                                    label: 'WRIO',
+                                    link: {
+                                        url: jsmsg.url,
+                                        text: "My profile"
+                                    }
+
+                                },
+                                upgrade: {
+                                    visible:false
+                                }
+                            }
+                        }
+                        that.setState(state);
                     }
 
                 }
@@ -101,6 +123,19 @@ if (process.env.DOMAIN == undefined) {
         },
       render: function() {
         var props = this.props;
+          var upgrade,has;
+          if (this.state.upgrade.visible) {
+              upgrade = <ul className="actions">
+                  <li>
+                      <a href="wrio-account-edit.htm"><span className="glyphicon glyphicon-arrow-up"></span>{this.state.upgrade.text}</a> <span className="label label-warning">{this.state.upgrade.label}</span>
+                  </li>
+              </ul>;
+              has = <ul className="actions">
+                    <li>
+                        <a href="#"><span className="glyphicon glyphicon-user"></span>{this.state.have.text}</a>
+                    </li>
+              </ul>;
+          }
         return (
           <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
               <li className="panel">
@@ -112,17 +147,14 @@ if (process.env.DOMAIN == undefined) {
                           <Details importUrl={props.importUrl} theme={props.theme} />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
-                              <a href={this.state.title.link.url}>{this.state.title.link.text}</a>
+
+
                               <ul className="actions">
-                                  <li>
-                                    <a href="wrio-account-edit.htm"><span className="glyphicon glyphicon-arrow-up"></span>{this.state.upgrade.text}</a> <span className="label label-warning">{this.state.upgrade.label}</span>
-                                  </li>
+                                  <li><a href={this.state.title.link.url}>{this.state.title.link.text}</a>
+                                      </li>
                               </ul>
-                              <ul className="actions">
-                                  <li>
-                                    <a href="#"><span className="glyphicon glyphicon-user"></span>{this.state.have.text}</a>
-                                  </li>
-                              </ul>
+                              {upgrade}
+                              {has}
                               <iframe id="loginbuttoniframe" src={ this.state.twitter.buttonurl } width="230" height="43" frameBorder="no" scrolling="no"></iframe>
 
                           </div>
