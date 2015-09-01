@@ -43,7 +43,8 @@ module.exports = function (app,passport) {
             if (request.user) {
                 response.redirect(request.query.callback);
             } else {
-                response.render('index', {user: request.user});
+                response.redirect('/auth/twitter'); // cause we have only Twitter AUTH now
+                //response.render('index', {user: request.user});
             }
 
 
