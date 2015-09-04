@@ -21,6 +21,12 @@
     "transform": ["reactify"]
   },
   "dependencies": {
+    "moment": "^2.10.3",
+    "react": "^0.13.3",
+    "jsxhint": "^0.15.0",
+    "react-tools": "^0.13.3"
+  },
+  "devDependencies": {
     "aws-sdk-apis": "*",
     "body-parser": "1.7.0",
     "cookie-parser": "1.3.2",
@@ -29,7 +35,6 @@
     "connect-mongo": "^0.8.2",
     "express-session": "*",
     "minimist": "^1.1.1",
-    "moment": "^2.10.3",
     "mongodb": "~2.0",
     "nconf": "*",
     "node-twitter": "*",
@@ -37,11 +42,8 @@
     "passport": "0.2.1",
     "passport-facebook": "latest",
     "passport-github": "latest",
-    "passport-twitter": "latest",
-    "react": "^0.13.3"
-  },
-  "devDependencies": {
-    "jsxhint": "^0.15.0",
-    "react-tools": "^0.13.3"
+    "passport-twitter": "latest"
+
+
   }
 }
