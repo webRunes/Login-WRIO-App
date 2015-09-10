@@ -65,7 +65,8 @@ if (process.env.DOMAIN == undefined) {
 
             window.addEventListener('message', function (e) {
                 var message = e.data;
-                if (e.origin == "http://login."+domain) {
+
+                if (e.origin == "http://login." + domain) {
                     console.log("Got message login", message);
                     var jsmsg = JSON.parse(message);
 
@@ -92,9 +93,9 @@ if (process.env.DOMAIN == undefined) {
                                     text: "Logged as I'm Anonymous ",
                                         label: 'WRIO',
                                         link: {
-                                        url: jsmsg.url,
+                                            url: jsmsg.url,
                                             text: "My profile"
-                                    }
+                                        }
 
                                 }
                             }
@@ -123,20 +124,15 @@ if (process.env.DOMAIN == undefined) {
         },
       render: function() {
         var props = this.props;
-          var upgrade,has;
+          var upgrade,has, profile;
           if (this.state.upgrade.visible) {
-              upgrade = <ul className="actions">
-                  <li>
-                      <a href="wrio-account-edit.htm"><span className="glyphicon glyphicon-arrow-up"></span>{this.state.upgrade.text}</a> <span className="label label-warning">{this.state.upgrade.label}</span>
-                  </li>
-              </ul>;
-              has = <ul className="actions">
-                    <li>
-                        <a href="#"><span className="glyphicon glyphicon-user"></span>{this.state.have.text}</a>
-                    </li>
-              </ul>;
+              upgrade = <li><a href="wrio-account-edit.htm"><span className="glyphicon glyphicon-arrow-up"></span>{this.state.upgrade.text}</a> <span className="label label-warning">{this.state.upgrade.label}</span></li>;
+              has = <li><a href="#"><span className="glyphicon glyphicon-user"></span>{this.state.have.text}</a></li>;
           }
-        return (
+          if (false){ //todo Условие для отображения My profile
+              profile = <li><a href={this.state.title.link.url}>{this.state.title.link.text}</a></li>;
+          }
+          return (
           <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
               <li className="panel">
                   <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
@@ -147,14 +143,11 @@ if (process.env.DOMAIN == undefined) {
                           <Details importUrl={props.importUrl} theme={props.theme} />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
-
-
                               <ul className="actions">
-                                  <li><a href={this.state.title.link.url}>{this.state.title.link.text}</a>
-                                      </li>
+                                  {profile}
+                                  {upgrade}
+                                  {has}
                               </ul>
-                              {upgrade}
-                              {has}
                               <iframe id="loginbuttoniframe" src={ this.state.twitter.buttonurl } width="230" height="43" frameBorder="no" scrolling="no"></iframe>
 
                           </div>
