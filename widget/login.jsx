@@ -93,10 +93,8 @@ if (process.env.DOMAIN == undefined) {
                                     text: "Logged as I'm Anonymous ",
                                         label: 'WRIO',
                                         link: {
-                                            url: jsmsg.url,
-                                            text: "My profile"
+                                            url: jsmsg.url
                                         }
-
                                 }
                             }
                         } else {
@@ -105,10 +103,8 @@ if (process.env.DOMAIN == undefined) {
                                     text: "Logged in as "+jsmsg.name,
                                     label: 'WRIO',
                                     link: {
-                                        url: jsmsg.url,
-                                        text: "My profile"
+                                        url: jsmsg.url
                                     }
-
                                 },
                                 upgrade: {
                                     visible:false
@@ -124,13 +120,10 @@ if (process.env.DOMAIN == undefined) {
         },
       render: function() {
         var props = this.props;
-          var upgrade,has, profile;
+          var upgrade,has;
           if (this.state.upgrade.visible) {
               upgrade = <li><a href="wrio-account-edit.htm"><span className="glyphicon glyphicon-arrow-up"></span>{this.state.upgrade.text}</a> <span className="label label-warning">{this.state.upgrade.label}</span></li>;
               has = <li><a href="#"><span className="glyphicon glyphicon-user"></span>{this.state.have.text}</a></li>;
-          }
-          if (false){ //todo Условие для отображения My profile
-              profile = <li><a href={this.state.title.link.url}>{this.state.title.link.text}</a></li>;
           }
           return (
           <ul className="info nav nav-pills nav-stacked" id="profile-accordion">
@@ -138,13 +131,12 @@ if (process.env.DOMAIN == undefined) {
                   <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse">
                     <span className="glyphicon glyphicon-chevron-down pull-right"></span>{this.state.title.text}<sup>{this.state.title.label}</sup>
                   </a>
-                  <div className="in" id="profile-element">
+                  <a className="in" id="profile-element" href={this.state.title.link.url}>
                       <div className="media thumbnail clearfix">
                           <Details importUrl={props.importUrl} theme={props.theme} />
                           <div className="col-xs-12 col-md-6">
                               <p>{this.state.description}</p>
                               <ul className="actions">
-                                  {profile}
                                   {upgrade}
                                   {has}
                               </ul>
@@ -152,7 +144,7 @@ if (process.env.DOMAIN == undefined) {
 
                           </div>
                       </div>
-                  </div>
+                  </a>
               </li>
           </ul>
         );
