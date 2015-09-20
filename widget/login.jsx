@@ -65,8 +65,8 @@ if (process.env.DOMAIN == undefined) {
 
             window.addEventListener('message', function (e) {
                 var message = e.data;
-
-                if (e.origin == "http://login." + domain) {
+                var httpChecker = new RegExp('^(http|https)://login.' + domain, 'i');
+                if (httpChecker.test(e.origin)) {
                     console.log("Got message login", message);
                     var jsmsg = JSON.parse(message);
 
