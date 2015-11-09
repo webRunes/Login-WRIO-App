@@ -4,7 +4,7 @@
   "description": "(coming soon)",
   "scripts": {
     "jsx": "jsx --no-cache-dir -x jsx ./widget ./js",
-    "start": "npm run jsx",
+    "start": "echo Ok",
     "watch": "jsx --no-cache-dir -w -x jsx ./widget ./js"
   },
   "repository": {
