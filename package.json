@@ -1,10 +1,10 @@
 {
   "name": "passport-signin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "(coming soon)",
   "scripts": {
     "jsx": "jsx --no-cache-dir -x jsx ./widget ./js",
-    "start": "npm run jsx",
+    "start": "echo Ok",
     "watch": "jsx --no-cache-dir -w -x jsx ./widget ./js"
   },
   "repository": {
@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/webRunes/Login-WRIO-App",
   "browserify": {
-    "transform": ["reactify"]
+    "transform": [
+      "reactify"
+    ]
   },
   "dependencies": {
     "moment": "^2.10.3",
@@ -43,7 +45,5 @@
     "passport-facebook": "latest",
     "passport-github": "latest",
     "passport-twitter": "latest"
-
-
   }
 }
