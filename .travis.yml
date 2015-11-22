@@ -27,6 +27,10 @@ branches:
     - stable
     - production
 
+before_deploy:
+- gem install mime-types -v 2.6.2
+
+
 deploy:
   - provider: opsworks
     access_key_id:
