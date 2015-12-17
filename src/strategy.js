@@ -1,13 +1,18 @@
-'use strict';
-var ObjectID = require('mongodb').ObjectID;
-var nconf = require("../wrio_nconf.js").init();
-module.exports = function (app,passport,db) {
+import {ObjectID} from 'mongodb';
+import nconf from "./wrio_nconf.js"
+import TwitterStrategy from 'passport-twitter'
 
+export default function (app,passport,db) {
 
+    var webrunesUsers = db.collection('webRunes_Users');
+    var sessions = db.collection('sessions');
 
-    var FacebookStrategy = require('passport-facebook').Strategy;
-    var TwitterStrategy = require('passport-twitter').Strategy;
+/*
+
+    TODO: uncomment this strategies when start actually using github and facebook
+
     var GitHubStrategy = require('passport-github').Strategy;
+    var FacebookStrategy = require('passport-facebook').Strategy;
 
     passport.use(new FacebookStrategy({
             clientID: nconf.get('api:facebook:clientId'),
@@ -15,24 +20,6 @@ module.exports = function (app,passport,db) {
             callbackURL: nconf.get('api:facebook:callbackUrl')
         },
         function (accessToken, refreshToken, profile, done) {
-            process.nextTick(function () {
-                return done(null, profile);
-            });
-        }
-    ));
-
-
-    passport.use(new TwitterStrategy({
-            consumerKey: nconf.get("api:twitterLogin:consumerKey"),
-            consumerSecret: nconf.get("api:twitterLogin:consumerSecret"),
-            callbackURL: nconf.get("api:twitterLogin:callbackUrl")
-        },
-        function (token, secretToken, profile, done) {
-            console.log(profile + " " + token + " " + secretToken);
-            saveTwitterCallbacks(profile, token, secretToken, function () {
-                console.log("New user added")
-            });
-
             process.nextTick(function () {
                 return done(null, profile);
             });
@@ -50,10 +37,30 @@ module.exports = function (app,passport,db) {
                 return done(null, profile);
             });
         }
+    ));*/
+
+
+    passport.use(new TwitterStrategy.Strategy({
+            consumerKey: nconf.get("api:twitterLogin:consumerKey"),
+            consumerSecret: nconf.get("api:twitterLogin:consumerSecret"),
+            callbackURL: nconf.get("api:twitterLogin:callbackUrl")
+        },
+        function (token, secretToken, profile, done) {
+            console.log(profile + " " + token + " " + secretToken);
+            saveTwitterTokens(profile, token, secretToken, function () {
+                console.log("New user added")
+            });
+
+            process.nextTick(function () {
+                return done(null, profile);
+            });
+        }
     ));
 
-    var webrunesUsers = db.collection('webRunes_Users');
-    var sessions = db.collection('sessions');
+    /*
+    Serialize user to database
+    */
+
 
     passport.serializeUser(function (user, done) {
         // thats where we get user from twtiter
@@ -68,7 +75,9 @@ module.exports = function (app,passport,db) {
         })
     });
 
-    // used to deserialize the user
+    /*
+     Deserialize user from database
+     */
     passport.deserializeUser(function (id, done) {
 
         console.log("Deserializing user by id=" + id);
@@ -88,6 +97,7 @@ module.exports = function (app,passport,db) {
         });
     });
 
+    /* create new wrioUser using profile data */
 
     function newWrioUser(profile, done) {
         // create the user
@@ -121,9 +131,11 @@ module.exports = function (app,passport,db) {
         });
     }
 
-    function saveTwitterCallbacks(profile, token, tokenSecret, done) {
-        // create the user
+    // save Twitter tokens for existing user when
+    // temporary account is connected with persistent account
 
+    function saveTwitterTokens(profile, token, tokenSecret, done) {
+        // create the user
 
         webrunesUsers.updateOne({titterID: profile.id},{$set:{ token: token,tokenSecret: tokenSecret}},function(err,element) {
             if (err || !element) {
@@ -136,8 +148,6 @@ module.exports = function (app,passport,db) {
 
             }
         });
-
-
     }
 
 

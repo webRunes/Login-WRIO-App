@@ -4,7 +4,7 @@ MAINTAINER denso.ffff@gmail.com
 RUN apt-get update && apt-get install -y nodejs npm mc build-essential g++ git
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
-RUN npm install -g browserify gulp nodemon
+RUN npm install -g browserify gulp nodemon babel gulp
 RUN mkdir -p /srv/www
 
 
@@ -17,4 +17,4 @@ COPY . /srv/www/
 
 EXPOSE 5000
 CMD cd /srv/www/ && rm -fr node_modules && \
-    nodemon server.js
+    gulp nodemon

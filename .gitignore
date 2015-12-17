@@ -30,3 +30,4 @@ js/.module-cache
 *.swp
 .idea
 config.json
+/app/

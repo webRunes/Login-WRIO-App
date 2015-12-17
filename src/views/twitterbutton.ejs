@@ -32,20 +32,17 @@
         // send parent reload message
     }
 
-    <%if ( user ) { %>
-        parent.postMessage(JSON.stringify({"loggedIn":"<%= user.lastName %>"}), "*");
-    <% } %>
 
     $.ajax({
-        url: "<%= storageUrl %>",
-        type: 'post',
+        url: "/api/get_profile",
+        type: 'get',
         'dataType':'json',
         data: {},
         xhrFields: {
             withCredentials: true
         }
     }).success(function (jsmsg) {
-        console.log("Get_profile finish",jsmsg);
+        console.log("Got profile by iframe", jsmsg);
         parent.postMessage(JSON.stringify({"profile":jsmsg}), "*");
     });
 
