@@ -1,7 +1,7 @@
 <html>
 <body style="margin: 0 !important; padding: 0 !important;">
 <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-<%if ( user ) { %>
+<%if ( temporary == false ) { %>
 <div><a href="#" onclick="logout();">Logout</a></div>
 <% } else { %>
 <div><a href="#" onclick="openAuthPopup()">Login</a></div>
@@ -33,18 +33,10 @@
     }
 
 
-    $.ajax({
-        url: "/api/get_profile",
-        type: 'get',
-        'dataType':'json',
-        data: {},
-        xhrFields: {
-            withCredentials: true
-        }
-    }).success(function (jsmsg) {
-        console.log("Got profile by iframe", jsmsg);
-        parent.postMessage(JSON.stringify({"profile":jsmsg}), "*");
-    });
+    var profile = <%- profile %>;
+    console.log("Got profile:", profile);
+    parent.postMessage(JSON.stringify({"profile":profile}), "*");
+
 
 </script>
 </body>

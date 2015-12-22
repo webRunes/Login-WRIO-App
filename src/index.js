@@ -7,7 +7,7 @@ import {init} from './db';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import {dumpError} from './utils.js'
-import ProfileRouter from './profile/route.js'
+//import ProfileRouter from './profile/route.js'
 import LoginRouter from './route.js'
 import LoginStrategy from './strategy.js'
 import WrioApp from "./wrio_app.js"
@@ -97,7 +97,7 @@ function server_setup(db) {
 	LoginStrategy(app, passport, db);
 
 	app.use(LoginRouter);
-	app.use(ProfileRouter);
+	//app.use(ProfileRouter);
 
 
 	console.log('Login server config finished');

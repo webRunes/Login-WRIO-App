@@ -5,6 +5,7 @@
 import nconf from "./wrio_nconf"
 import {Router} from 'express'
 import passport from 'passport'
+import ProfileRouter from './profile/route.js'
 var DOMAIN = nconf.get("db:workdomain");
 
 var router = Router();
@@ -14,14 +15,15 @@ var router = Router();
 * Twitter button, used in embedded iframe
 *
 * */
-router.get('/buttons/twitter', function(request, response) {
-    if (request.user) {
-        console.log(request.user.lastName);
-    }
+router.get('/buttons/twitter', async (request, response) => {
+
+    var profile = await ProfileRouter(request);
+    console.log("PROFILE",profile);
 
     response.render('twitterbutton', {
         user: request.user,
-        storageUrl: "http://storage" + DOMAIN + "/api/get_profile"
+        temporary: profile.temporary,
+        profile: JSON.stringify(profile)
     });
 });
 
@@ -75,8 +77,8 @@ router.get('/authapi', function(request, response) {
 
 /* LoginTwitter template
  * TODO: check and delete if not needed
-  *
-  * */
+ *
+ * */
 
 
 router.get('/loginTwitter', function(request, response) {
@@ -139,9 +141,8 @@ router.get('/auth/twitter/callback',
 
 
 router.get('/logout', function(request, response) {
-    request.logout();
-    //    console.log("Deleting user profile cookie...");
-    //    response.clearCookie('user_profile', 0, { httpOnly: true, domain:DOMAIN });
+    //request.logout();
+    request.session.destroy();
     response.redirect('/?auth');
 });
 

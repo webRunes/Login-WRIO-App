@@ -45,18 +45,19 @@ var storageCreateTempAccount = async (session) => {
     }
 };
 
-var requestSave = async (sid, id) => {
-    try {
+/* Save template records for the user to S3 */
 
-        let api_request = "http://webgold"+nconf.get('server:workdomain')+'/api/save_templates';
+var requestSave = (sid) => {
+        console.log(sid); // TODO: change to safer auth method
+        let api_request = "http://storage"+nconf.get('server:workdomain')+'/api/save_templates?sid='+sid;
         console.log("Sending save profile request",api_request);
-        var result = await request.get(api_request)
-            .set('Cookie',sid);
-    }
-    catch(e) {
-        console.log("get_rates request failed",e);
-        dumpError(e);
-    }
+        request.get(api_request).end((err,result) => {
+            if (err) {
+                console.log(err);
+                return
+            }
+            //console.log("Request save result",result.body);
+        });
 };
 
 /*
@@ -69,7 +70,6 @@ var saveWrioIDForSession = async (ssid,request) => {
     var wrioUser = new WrioUsers();
     try {
         var sessionData = request.session;
-        console.log(sessionData);
 
         if (sessionData.passport) {
             if (sessionData.passport.user) {
@@ -83,7 +83,11 @@ var saveWrioIDForSession = async (ssid,request) => {
         request.session.passport = { // persist newly created user into the current session
             user: user._id
         };
-        await requestSave(request.cookies,id); // give storage command to create S3 profile
+        setTimeout(()=> {
+            // TODO this is just a hack, do more reliable solution
+            requestSave(ssid) ;// give storage command to create S3 profile
+        },3000);
+
         return user.wrioID;
 
     } catch (e) {

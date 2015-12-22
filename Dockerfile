@@ -17,4 +17,4 @@ COPY . /srv/www/
 
 EXPOSE 5000
 CMD cd /srv/www/ && rm -fr node_modules && \
-    gulp nodemon
+    gulp watch

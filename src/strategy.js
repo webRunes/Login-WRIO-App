@@ -8,7 +8,6 @@ export default function (app,passport,db) {
     var sessions = db.collection('sessions');
 
 /*
-
     TODO: uncomment this strategies when start actually using github and facebook
 
     var GitHubStrategy = require('passport-github').Strategy;
@@ -46,9 +45,9 @@ export default function (app,passport,db) {
             callbackURL: nconf.get("api:twitterLogin:callbackUrl")
         },
         function (token, secretToken, profile, done) {
-            console.log(profile + " " + token + " " + secretToken);
+            console.log("Saving tokens for",profile + " " + token + " " + secretToken);
             saveTwitterTokens(profile, token, secretToken, function () {
-                console.log("New user added")
+                console.log("Tokens saved");
             });
 
             process.nextTick(function () {
@@ -64,15 +63,18 @@ export default function (app,passport,db) {
 
     passport.serializeUser(function (user, done) {
         // thats where we get user from twtiter
-        console.log("Serializing user " + user);
-        newWrioUser(user, function (err, res) {
+        // TODO: check whether this code is really needed
+        console.log("Serializing user " + user.id);
+        findUser(user, function (err, res) {
             if (err || !res) {
                 done(err);
             } else {
                 console.log("output serialization", res);
                 done(null, res._id);
             }
-        })
+        });
+
+
     });
 
     /*
@@ -99,30 +101,12 @@ export default function (app,passport,db) {
 
     /* create new wrioUser using profile data */
 
-    function newWrioUser(profile, done) {
+    function findUser(profile, done) {
         // create the user
-        var newUser = {
-            titterID: profile.id,
-            lastName: profile.displayName
-        };
-
-        webrunesUsers.findOne({titterID: newUser.titterID},function(err,user) {
+        webrunesUsers.findOne({titterID: profile.id},function(err,user) {
             if (err || !user) {
-                console.log("User not found, creating user");
-                webrunesUsers.insertOne(newUser,function(err) {
 
-                    if (err) {
-                        console.log("Insert error", err);
-                        done("Can't insert");
-                        return;
-                    }
-
-                    console.log("Insert query done " + newUser);
-                    webrunesUsers.findOne({titterID: newUser.titterID},function(err,user) {
-                        done(err,user);
-                    });
-
-                });
+                done("Can't find source user");
 
             } else {
                 console.log("User found ", user);
@@ -135,9 +119,19 @@ export default function (app,passport,db) {
     // temporary account is connected with persistent account
 
     function saveTwitterTokens(profile, token, tokenSecret, done) {
-        // create the user
+        // create additional entries for persistent user
 
-        webrunesUsers.updateOne({titterID: profile.id},{$set:{ token: token,tokenSecret: tokenSecret}},function(err,element) {
+        console.log(profile);
+
+        webrunesUsers.updateOne({titterID: profile.id},
+            {
+                $set:{
+                    token: token,
+                    tokenSecret: tokenSecret,
+                    temporary:false,
+                    titterID: profile.id,
+                    lastName: profile.displayName
+        }},function(err,element) {
             if (err || !element) {
                 console.log("Update wrio user record failure",err);
             } else {

@@ -28,13 +28,18 @@ function returnPersistentProfile(j, id, name) {
 
 
 router.get('/api/get_profile', async (request, response) => {
+
+
+
+});
+
+var checkProfile = async (request) => {
     var wrioUsers = new WrioUsers();
     console.log(request.sessionID);
     var json_resp = {
         "result": "success"
     };
 
-    response.set('Content-Type', 'application/json');
     try {
         var wrioID = await saveWrioIDForSession(request.sessionID,request);
         var user = await wrioUsers.getByWrioID(wrioID);
@@ -52,17 +57,15 @@ router.get('/api/get_profile', async (request, response) => {
             json_resp['temporary'] = true;
             json_resp['id'] = user.wrioID;
             returndays(json_resp, deltadays, user.wrioID);
-            response.send(json_resp);
+            return json_resp;
         } else {
-            response.send(returnPersistentProfile(json_resp, user.wrioID, user.lastName));
+            return returnPersistentProfile(json_resp, user.wrioID, user.lastName);
         }
 
     } catch (e) {
         dumpError(e);
-        response.status(403).send(e);
+        return {}
     }
+};
 
-
-});
-
-export default router;
+export default checkProfile;

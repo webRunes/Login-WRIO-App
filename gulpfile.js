@@ -28,7 +28,7 @@ gulp.task('nodemon', function() {
             script: 'server.js',
             watch: 'src/__manual_watch__',
             ext: '__manual_watch__',
-            verbose: false,
+            verbose: false
         }).on('restart', function() {
             console.log('~~~ restart server ~~~');
         });
