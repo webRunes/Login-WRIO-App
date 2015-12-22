@@ -58,27 +58,26 @@ export default function (app,passport,db) {
 
     /*
     Serialize user to database
+    serialize object from twitterID to wriouser db id
     */
-
 
     passport.serializeUser(function (user, done) {
         // thats where we get user from twtiter
         // TODO: check whether this code is really needed
-        console.log("Serializing user " + user.id);
+        console.log("Serializing user... " + user.id);
         findUser(user, function (err, res) {
             if (err || !res) {
                 done(err);
             } else {
-                console.log("output serialization", res);
+                console.log(".... got wrioUSER", res);
                 done(null, res._id);
             }
         });
-
-
     });
 
     /*
      Deserialize user from database
+     from db id to complete wriouser profile
      */
     passport.deserializeUser(function (id, done) {
 
@@ -105,11 +104,8 @@ export default function (app,passport,db) {
         // create the user
         webrunesUsers.findOne({titterID: profile.id},function(err,user) {
             if (err || !user) {
-
                 done("Can't find source user");
-
             } else {
-                console.log("User found ", user);
                 done(err, user);
             }
         });
@@ -121,7 +117,7 @@ export default function (app,passport,db) {
     function saveTwitterTokens(profile, token, tokenSecret, done) {
         // create additional entries for persistent user
 
-        console.log(profile);
+        console.log("Executing saveTwitterTokens\n");
 
         webrunesUsers.updateOne({titterID: profile.id},
             {

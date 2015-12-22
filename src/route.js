@@ -17,6 +17,7 @@ var router = Router();
 * */
 router.get('/buttons/twitter', async (request, response) => {
 
+    console.log("\n=========== Checking and creating temporary profile if needed =========");
     var profile = await ProfileRouter(request);
     console.log("PROFILE",profile);
 
@@ -118,22 +119,17 @@ router.get('/auth/twitter/', function(request, response, next) {
  */
 
 router.get('/auth/twitter/callback',
-    function(request, response, next) {
+    (request, response, next) => {
         var redirecturl = '/?auth';
-        console.log("Auth twitter callback");
+        console.log("\n ============= Twitter calllback was called by API ======================\n");
         if (request.cookies.callback) {
-            console.log("Extractign callback");
-            if (request.sessionID) {
-                console.log("SID found");
-                redirecturl = request.cookies.callback + '?sid=' + request.sessionID;
-            } else {
-                console.log("SID not found");
-            }
+            console.log("Setting up callback...");
+            redirecturl = request.cookies.callback;
         } else {
             console.log("Cookie callback not found");
         }
         passport.authenticate('twitter', {
-            successRedirect: redirecturl, // redirect to specified URL, saved befor in cookie
+            successRedirect: redirecturl, // redirect to specified URL, saved before in cookie
             failureRedirect: '/?auth'
         })(request, response, next);
     }
