@@ -121,7 +121,7 @@ router.get('/auth/twitter/', function(request, response, next) {
 router.get('/auth/twitter/callback',
     (request, response, next) => {
         var redirecturl = '/?auth';
-        console.log("\n ============= Twitter calllback was called by API ======================\n");
+        console.log("\n ============= Twitter callback was called by API ======================\n");
         if (request.cookies.callback) {
             console.log("Setting up callback...");
             redirecturl = request.cookies.callback;
