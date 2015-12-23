@@ -1,8 +1,10 @@
+import bodyParser from 'body-parser'
+
 var exports = module.exports = {};
 
 exports.init = function (express) {
 	var app = express();
-	var bodyParser = require('body-parser');
+
 	// Add headers
 	app.use(function (request, response, next) {
 		//console.log(request);
