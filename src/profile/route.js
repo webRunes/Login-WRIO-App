@@ -1,0 +1,71 @@
+import nconf from "../wrio_nconf.js"
+import saveWrioIDForSession from './profiles.js'
+import WrioUsers from '../dbmodels/wriouser.js'
+import db from '../db'
+import {Router} from 'express'
+import {dumpError} from '../utils.js'
+
+const router = Router();
+
+var DOMAIN = nconf.get("db:workdomain");
+
+
+function returndays(j, days, id) {
+    j['url'] = "http://wr.io/" + id + '/';
+    j['cover'] = j['url'] + 'cover.htm';
+    j['days'] = 30 - days;
+    return j;
+}
+
+function returnPersistentProfile(j, id, name) {
+    j['temporary'] = false;
+    j['id'] = id;
+    j['url'] = "http://wr.io/" + id + '/';
+    j['cover'] = j['url'] + 'cover.htm';
+    j['name'] = name;
+    return j;
+}
+
+
+router.get('/api/get_profile', async (request, response) => {
+
+
+
+});
+
+var checkProfile = async (request) => {
+    var wrioUsers = new WrioUsers();
+    console.log(request.sessionID);
+    var json_resp = {
+        "result": "success"
+    };
+
+    try {
+        var wrioID = await saveWrioIDForSession(request.sessionID,request);
+        var user = await wrioUsers.getByWrioID(wrioID);
+
+        if (user.temporary) {
+            var delta = new Date()
+                    .getTime() - user.created;
+            var deltadays = Math.round(delta / (24 * 60 * 60 * 1000));
+            if (deltadays > 30) {
+                console.log("Profile expired");
+                // TODO: fix delete temp profile
+                profiles.deleteTempProfile(id);
+            }
+            console.log("Session exists", delta, deltadays);
+            json_resp['temporary'] = true;
+            json_resp['id'] = user.wrioID;
+            returndays(json_resp, deltadays, user.wrioID);
+            return json_resp;
+        } else {
+            return returnPersistentProfile(json_resp, user.wrioID, user.lastName);
+        }
+
+    } catch (e) {
+        dumpError(e);
+        return {}
+    }
+};
+
+export default checkProfile;
