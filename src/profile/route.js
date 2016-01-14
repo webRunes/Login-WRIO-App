@@ -5,7 +5,7 @@ import db from '../db'
 import {Router} from 'express'
 import {dumpError} from '../utils.js'
 
-const router = Router();
+export const router = Router();
 
 var DOMAIN = nconf.get("db:workdomain");
 
@@ -28,12 +28,20 @@ function returnPersistentProfile(j, id, name) {
 
 
 router.get('/api/get_profile', async (request, response) => {
-
-
-
+    try {
+        console.log("GET_PROFILE CALLED");
+        var json_resp = await CheckProfile(request);
+        response.send(json_resp);
+    }  catch (e) {
+        console.log("ERR");
+        dumpError(e);
+        response.status(403).send({});
+    }
 });
 
-var checkProfile = async (request) => {
+
+
+export var CheckProfile = async (request) => {
     var wrioUsers = new WrioUsers();
     console.log(request.sessionID);
     var json_resp = {
@@ -68,4 +76,5 @@ var checkProfile = async (request) => {
     }
 };
 
-export default checkProfile;
+
+

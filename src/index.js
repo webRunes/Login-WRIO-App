@@ -7,7 +7,7 @@ import {init} from './db';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import {dumpError} from './utils.js'
-//import ProfileRouter from './profile/route.js'
+import {router as ProfileRouter} from './profile/route.js'
 import LoginRouter from './route.js'
 import LoginStrategy from './strategy.js'
 import WrioApp from "./wrio_app.js"
@@ -17,6 +17,7 @@ import p3p from 'p3p';
 import minimist from 'minimist'
 
 var app = WrioApp.init(express);
+app.ready = () => {};
 var DOMAIN = nconf.get("db:workdomain");
 
 app.custom = {};
@@ -28,6 +29,7 @@ var server = HttpServer
 			app.custom.db = db;
 			console.log("Connected correctly to mongodb server");
 			server_setup(db);
+
 
 		}).catch((err)=>{
 			console.log("Error conecting to mongo database: " + err);
@@ -97,8 +99,10 @@ function server_setup(db) {
 	LoginStrategy(app, passport, db);
 
 	app.use(LoginRouter);
-	//app.use(ProfileRouter);
+	app.use(ProfileRouter);
 
 
 	console.log('Login server config finished');
 }
+
+export default app;
