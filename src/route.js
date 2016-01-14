@@ -5,7 +5,7 @@
 import nconf from "./wrio_nconf"
 import {Router} from 'express'
 import passport from 'passport'
-import ProfileRouter from './profile/route.js'
+import {CheckProfile} from './profile/route.js'
 var DOMAIN = nconf.get("db:workdomain");
 
 var router = Router();
