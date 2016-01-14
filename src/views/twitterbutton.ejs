@@ -1,6 +1,5 @@
 <html>
 <body style="margin: 0 !important; padding: 0 !important;">
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 <%if ( temporary == false ) { %>
 <div><a href="#" onclick="logout();">Logout</a></div>
 <% } else { %>
@@ -12,14 +11,23 @@
 <script type="text/javascript">
 
     function logout() {
-        $.ajax({
-            url:'/logout',
-            xhrFields: {
-                withCredentials: true
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.open('GET', '/logout', true);
+        xhr.send();
+
+        xhr.onreadystatechange = function() { // (3)
+            if (xhr.readyState != 4) return;
+
+            if (xhr.status != 200) {
+                console.log("Error during logout");
+            } else {
+                parent.postMessage(JSON.stringify({"login":"success"}), "*");
             }
-        }).success (function() {
-            parent.postMessage(JSON.stringify({"login":"success"}), "*");
-        });
+        };
+
+
     }
 
     function openAuthPopup() {
