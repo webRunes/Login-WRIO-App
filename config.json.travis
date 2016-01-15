@@ -1,20 +1,45 @@
 {
-  "db": {
-    "host": "localhost",
-    "dbname": "test",
-    "user": "",
-    "password": "",
-    "workdomain": ".wrioos.com"
-  },
-  "mongo": {
-    "host": "localhost",
-    "dbname": "test",
-    "user": "",
-    "password": ""
-  },
-  "server": {
-    "cookiesecret": "keyboard.cat",
-    "port": 5000,
-    "workdomain": ".wrioos.com"
-  }
-}
+   "api": {
+     "twitter": {
+       "consumerKey": "",
+       "consumerSecret": "",
+       "token": "",
+       "tokenSecret": ""
+     },
+     "facebook": {
+       "clientId": "",
+       "clientSecret": "",
+       "callbackUrl": "http://localhost:5000/auth/facebook/callback"
+     },
+     "gitHub": {
+       "clientId": "",
+       "clientSecret": "",
+       "callbackUrl": "http://localhost:1234/auth/google/callback"
+     },
+     "twitterLogin": {
+       "consumerKey": "",
+       "consumerSecret": "",
+       "token": "",
+       "tokenSecret": "",
+       "callbackUrl": "http://login.wrioos.local/auth/twitter/callback"
+     }
+   },
+   "db": {
+      "host": "localhost",
+      "dbname": "test",
+      "user": "",
+      "password": "",
+      "workdomain": ".wrioos.com"
+    },
+    "mongo": {
+      "host": "localhost",
+      "dbname": "test",
+      "user": "",
+      "password": ""
+    },
+   "server": {
+     "cookiesecret": "keyboard.cat",
+     "port": 5000,
+     "workdomain": ".wrioos.com"
+   }
+ }

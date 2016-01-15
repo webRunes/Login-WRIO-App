@@ -18,7 +18,7 @@ var router = Router();
 router.get('/buttons/twitter', async (request, response) => {
 
     console.log("\n=========== Checking and creating temporary profile if needed =========");
-    var profile = await ProfileRouter(request);
+    var profile = await CheckProfile(request);
     console.log("PROFILE",profile);
 
     response.render('twitterbutton', {

@@ -28,6 +28,7 @@ function returnPersistentProfile(j, id, name) {
 
 
 router.get('/api/get_profile', async (request, response) => {
+    response.set('Content-Type', 'application/json');
     try {
         console.log("GET_PROFILE CALLED");
         var json_resp = await CheckProfile(request);
