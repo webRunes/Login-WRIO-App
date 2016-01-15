@@ -28,7 +28,6 @@ describe("API unit tests", () => {
     });
 
     it("should return default page", (done) => {
-        console.log("First test");
         request(app)
             .get('/')
             .expect(200, done);
@@ -52,6 +51,17 @@ describe("API unit tests", () => {
                 should(id.length).equal(12); // there must be 12 digit id
 
                 done();
+            });
+    });
+
+    it("shoud return profile via twitter button iframe page", (done)=>{
+        request(app)
+            .get('/buttons/twitter')
+            .expect(200)
+            .end((err,resp) => {
+                var resp = res.body;
+                should(resp).match(/profile/);
+
             });
     });
 
