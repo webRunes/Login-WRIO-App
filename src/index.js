@@ -29,8 +29,7 @@ var server = HttpServer
 			app.custom.db = db;
 			console.log("Connected correctly to mongodb server");
 			server_setup(db);
-
-
+			app.ready();
 		}).catch((err)=>{
 			console.log("Error conecting to mongo database: " + err);
 			dumpError(err);

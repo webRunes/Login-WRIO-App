@@ -33,18 +33,6 @@ describe("API unit tests", () => {
             .expect(200, done);
     });
 
-    it("/create should return core.htm page", (done) => {
-        request(app)
-            .get('/create')
-            .expect(200, done);
-    });
-
-    it("/edit should return core.htm page", (done) => {
-        request(app)
-            .get('/edit')
-            .expect(200, done);
-    });
-
     after(()=>{
 
     });
