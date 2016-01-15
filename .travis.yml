@@ -5,9 +5,19 @@ node_js:
   - 0.12
 
 
-install : npm install
+install: 
+  - npm install
+  - npm install -g gulp
+  - cd node_modules/express/node_modules/
+  - npm install etag@1.7.0
+  - cd ../../../
+
+services: mongodb
+
 script  :
   - cp config.json.travis config.json
+  - gulp
+  - gulp test
   - npm start
   - gulp test
 
