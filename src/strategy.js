@@ -38,23 +38,28 @@ export default function (app,passport,db) {
         }
     ));*/
 
+    var consumerKey = nconf.get("api:twitterLogin:consumerKey"),
+        consumerSecret = nconf.get("api:twitterLogin:consumerSecret"),
+        callbackURL = nconf.get("api:twitterLogin:callbackUrl");
 
-    passport.use(new TwitterStrategy.Strategy({
-            consumerKey: nconf.get("api:twitterLogin:consumerKey"),
-            consumerSecret: nconf.get("api:twitterLogin:consumerSecret"),
-            callbackURL: nconf.get("api:twitterLogin:callbackUrl")
-        },
-        function (token, secretToken, profile, done) {
-            console.log("Saving tokens for",profile + " " + token + " " + secretToken);
-            saveTwitterTokens(profile, token, secretToken, function () {
-                console.log("Tokens saved");
-            });
+    if (consumerKey) {
+        passport.use(new TwitterStrategy.Strategy({
+                consumerKey: consumerKey,
+                consumerSecret: consumerSecret,
+                callbackURL: callbackURL
+            },
+            function (token, secretToken, profile, done) {
+                console.log("Saving tokens for",profile + " " + token + " " + secretToken);
+                saveTwitterTokens(profile, token, secretToken, function () {
+                    console.log("Tokens saved");
+                });
 
-            process.nextTick(function () {
-                return done(null, profile);
-            });
-        }
-    ));
+                process.nextTick(function () {
+                    return done(null, profile);
+                });
+            }
+        ));
+    };
 
     /*
     Serialize user to database
