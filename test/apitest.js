@@ -24,7 +24,6 @@ var waitdb = () => {
 describe("API unit tests", () => {
 
     before(async () => {
-        console.log("Waiting for db");
         await waitdb();
     });
 
