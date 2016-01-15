@@ -5,9 +5,13 @@ node_js:
   - 0.12
 
 
-install : 
+install: 
   - npm install
   - npm install -g gulp
+
+after_install:
+  - cd node_modules/express/node_modules/
+  - npm install etag@1.7.0
 
 services: mongodb
 
