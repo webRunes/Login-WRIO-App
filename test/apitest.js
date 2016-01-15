@@ -58,7 +58,7 @@ describe("API unit tests", () => {
         request(app)
             .get('/buttons/twitter')
             .expect(200)
-            .end((err,resp) => {
+            .end((err,res) => {
                 var resp = res.body;
                 should(resp).match(/profile/);
             });
