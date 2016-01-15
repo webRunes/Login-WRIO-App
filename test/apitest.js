@@ -10,7 +10,7 @@ app.ready = () => {
 
 var waitdb = () => {
     return new Promise((resolve,reject) => {
-        setInterval(() => {
+        setInterval(function () {
             if (ready) {
                 console.log("App ready, starting tests");
                 resolve();
@@ -36,9 +36,9 @@ describe("API unit tests", () => {
 
     it("should return user temporary profile via api", (done) =>{
         request(app)
-            .post('/api/get_profile')
-            .expect('Content-Type', /json/)
+            .get('/api/get_profile')
             .expect(200)
+            .expect('Content-Type', /json/)
             .end(function (err, res) {
                 if (err) throw err;
                 var resp = res.body;

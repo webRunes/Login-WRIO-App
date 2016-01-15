@@ -93,7 +93,6 @@ function server_setup(db) {
 				}
 			default:
 				{
-					console.log(indexpath);
 					response.sendFile(indexpath); // TODO: make this work on node v4 in future
 				}
 		}
