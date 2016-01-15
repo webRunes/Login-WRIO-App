@@ -61,6 +61,7 @@ describe("API unit tests", () => {
             .end((err,res) => {
                 var resp = res.body;
                 should(resp).match(/profile/);
+                done();
             });
     });
 
