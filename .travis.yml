@@ -4,6 +4,7 @@ sudo: false
 node_js:
   - 0.12
 
+services: mongodb
 
 install : npm install
 script  :
