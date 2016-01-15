@@ -6,9 +6,19 @@ node_js:
 
 services: mongodb
 
-install : npm install
+install: 
+  - npm install
+  - npm install -g gulp
+  - cd node_modules/express/node_modules/
+  - npm install etag@1.7.0
+  - cd ../../../
+
+services: mongodb
+
 script  :
   - cp config.json.travis config.json
+  - gulp
+  - gulp test
   - npm start
   - gulp test
 
@@ -16,6 +26,8 @@ branches:
   only:
     - master
     - stable
+    - production
+
 
 before_deploy:
   - gem install mime-types -v 2.6.2
@@ -31,6 +43,10 @@ before_deploy:
   - rm ~/.ssh/id_rsa
 
 
+before_deploy:
+- gem install mime-types -v 2.6.2
+
+
 deploy:
   - provider: opsworks
     access_key_id:
@@ -40,6 +56,7 @@ deploy:
     app-id: 573363bc-37cc-4c8a-993f-bf82d5edbea9
     on:
       repo: webRunes/Login-WRIO-App
+      branch: production
   - provider: s3
     access_key_id:
       secure: E8UFms7+Xv7PxCT3kybFHGI44O2g9KehUdEkddQaYyxNYrQD9RQyHi7kMXO42kWUHzYeM3k5OAvJKpXj463amMMES4rxP1h557F1DBb5Z3DrA+4ubSsq/LlCNI8Dc80xZhgf1ZDs+b0Ld2AyxMcfB1Ca7fBcVVIGkq5zzqTQ9fg=
@@ -50,3 +67,4 @@ deploy:
     acl: public_read
     on:
       repo: webRunes/Login-WRIO-App
+      branch: production
