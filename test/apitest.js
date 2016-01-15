@@ -28,26 +28,33 @@ describe("API unit tests", () => {
     });
 
     it("should return default page", (done) => {
+        console.log("First test");
         request(app)
             .get('/')
             .expect(200, done);
     });
 
-    it("/create should return core.htm page", (done) => {
+    it("should return user temporary profile via api", (done) =>{
         request(app)
-            .get('/create')
-            .expect(200, done);
+            .post('/api/get_profile')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(function (err, res) {
+                if (err) throw err;
+                var resp = res.body;
+                console.log(resp);
+
+                should(resp).have.property("result", "success");
+                should(resp).have.property("temporary", true);
+                should(resp).have.property("days", 30);
+
+                var id = resp.id.toString();
+                should(id.length).equal(12); // there must be 12 digit id
+
+                done();
+            });
     });
 
-    it("/edit should return core.htm page", (done) => {
-        request(app)
-            .get('/edit')
-            .expect(200, done);
-    });
-
-    after(()=>{
-
-    });
 });
 
 

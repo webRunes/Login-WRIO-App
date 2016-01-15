@@ -16,6 +16,8 @@ import ConnectMongo from 'connect-mongo'
 import p3p from 'p3p';
 import minimist from 'minimist'
 
+var indexpath = path.join(__dirname, '..',	'/hub/index.htm');
+
 var app = WrioApp.init(express);
 app.ready = () => {};
 var DOMAIN = nconf.get("db:workdomain");
@@ -91,7 +93,8 @@ function server_setup(db) {
 				}
 			default:
 				{
-					response.sendFile(path.join(__dirname,'..',	'/hub/index.htm'));
+					console.log(indexpath);
+					response.sendFile(indexpath); // TODO: make this work on node v4 in future
 				}
 		}
 	});
