@@ -10,6 +10,7 @@ install:
   - npm install -g gulp
   - cd node_modules/express/node_modules/
   - npm install etag@1.7.0
+  - cd ../../../
 
 services: mongodb
 
