@@ -10,8 +10,10 @@ export const router = Router();
 var DOMAIN = nconf.get("db:workdomain");
 
 
+var storagePrefix = "https://wr.io/";
+
 function returndays(j, days, id) {
-    j['url'] = "http://wr.io/" + id + '/';
+    j['url'] = storagePrefix + id + '/';
     j['cover'] = j['url'] + 'cover.htm';
     j['days'] = 30 - days;
     return j;
@@ -20,7 +22,7 @@ function returndays(j, days, id) {
 function returnPersistentProfile(j, id, name) {
     j['temporary'] = false;
     j['id'] = id;
-    j['url'] = "http://wr.io/" + id + '/';
+    j['url'] = storagePrefix + id + '/';
     j['cover'] = j['url'] + 'cover.htm';
     j['name'] = name;
     return j;
