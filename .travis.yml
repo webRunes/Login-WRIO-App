@@ -4,15 +4,20 @@ sudo: false
 node_js:
   - 0.12
 
-before_install:
-  - openssl aes-256-cbc -K $encrypted_8c393341f536_key -iv $encrypted_8c393341f536_iv -in deploy_key.enc -out deploy_key -d
 
 install : npm install
 script  :
   - cp config.json.travis config.json
   - npm start
 
-after_success:
+branches:
+  only:
+    - master
+    - stable
+
+before_deploy:
+  - gem install mime-types -v 2.6.2
+  - openssl aes-256-cbc -K $encrypted_8c393341f536_key -iv $encrypted_8c393341f536_iv -in deploy_key.enc -out deploy_key -d
   - chmod 600 deploy_key
   - mv deploy_key ~/.ssh/id_rsa
   - git config user.email "AlexeyAnshakov@users.noreply.github.com"
@@ -22,14 +27,6 @@ after_success:
   - git remote set-url origin git@github.com:webRunes/Login-WRIO-App.git
   - git push origin master
   - rm ~/.ssh/id_rsa
-
-branches:
-  only:
-    - master
-    - stable
-
-before_deploy:
-- gem install mime-types -v 2.6.2
 
 
 deploy:
