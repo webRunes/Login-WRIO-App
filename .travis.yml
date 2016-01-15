@@ -13,7 +13,6 @@ install:
   - npm install etag@1.7.0
   - cd ../../../
 
-services: mongodb
 
 script  :
   - cp config.json.travis config.json
