@@ -9,6 +9,7 @@ install : npm install
 script  :
   - cp config.json.travis config.json
   - npm start
+  - gulp test
 
 branches:
   only:
