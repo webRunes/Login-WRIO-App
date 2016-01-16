@@ -68,7 +68,7 @@ export var CheckProfile = async (request) => {
             returndays(json_resp, deltadays, user.wrioID);
             return json_resp;
         } else {
-            return returnPersistentProfile(json_resp, user.wrioID, user.lastName);
+            return returnPersistentProfile(json_resp, user.wrioID, user.lastName, user.titterID);
         }
 
     } catch (e) {

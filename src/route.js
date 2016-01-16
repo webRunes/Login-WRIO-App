@@ -139,7 +139,7 @@ router.get('/auth/twitter/callback',
 router.get('/logout', function(request, response) {
     //request.logout();
     request.session.destroy();
-    response.redirect('/?auth');
+    response.status(200).send('OK');
 });
 
 function ensureAuthenticated(request, response, next) {
