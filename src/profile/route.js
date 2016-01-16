@@ -19,12 +19,13 @@ function returndays(j, days, id) {
     return j;
 }
 
-function returnPersistentProfile(j, id, name) {
+function returnPersistentProfile(j, id, name, titterID) {
     j['temporary'] = false;
     j['id'] = id;
     j['url'] = storagePrefix + id + '/';
     j['cover'] = j['url'] + 'cover.htm';
     j['name'] = name;
+    j['titterID'] = titterID;
     return j;
 }
 
