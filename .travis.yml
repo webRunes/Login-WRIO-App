@@ -2,24 +2,20 @@ language: node_js
 sudo: false
 
 node_js:
-  - 0.12
+  - 0.10
 
+services: mongodb
 
 install: 
   - npm install
   - npm install -g gulp
-  - cd node_modules/express/node_modules/
-  - npm install etag@1.7.0
-  - cd ../../../
 
-services: mongodb
 
 script  :
   - cp config.json.travis config.json
   - gulp
   - gulp test
-  - npm start
-  - gulp test
+
 
 branches:
   only:
@@ -41,9 +37,6 @@ before_deploy:
   - git push origin master
   - rm ~/.ssh/id_rsa
 
-
-before_deploy:
-- gem install mime-types -v 2.6.2
 
 
 deploy:

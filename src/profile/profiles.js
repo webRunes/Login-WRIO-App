@@ -6,6 +6,10 @@ import WrioUsers from '../dbmodels/wriouser.js'
 import {dumpError} from '../utils.js'
 import request from 'superagent'
 import nconf from '../wrio_nconf.js'
+import {ProfileSaverFactory} from './ProfileSaver.js'
+
+var requestSave = (new ProfileSaverFactory()).getRequestSave();
+
 
 function generateWrioID() {
     var min = 100000000000;
@@ -45,28 +49,13 @@ var storageCreateTempAccount = async (session) => {
     }
 };
 
-/* Save template records for the user to S3 */
-
-var requestSave = (sid) => {
-        console.log(sid); // TODO: change to safer auth method
-        let api_request = "http://storage"+nconf.get('server:workdomain')+'/api/save_templates?sid='+sid;
-        console.log("Sending save profile request",api_request);
-        request.get(api_request).end((err,result) => {
-            if (err) {
-                console.log(err);
-                return
-            }
-            //console.log("Request save result",result.body);
-        });
-};
-
 /*
  If session have no user information, then create temporary wrioID
  returns old or new wrioID
 */
 
 var saveWrioIDForSession = async (ssid,request) => {
-    var passportSessions = new PassportSessions();
+
     var wrioUser = new WrioUsers();
     try {
         var sessionData = request.session;
@@ -83,9 +72,10 @@ var saveWrioIDForSession = async (ssid,request) => {
         request.session.passport = { // persist newly created user into the current session
             user: user._id
         };
-        setTimeout(()=> {
+        setTimeout(function () {
             // TODO this is just a hack, do more reliable solution
             requestSave(ssid) ;// give storage command to create S3 profile
+            clearInterval(this);
         },3000);
 
         return user.wrioID;
