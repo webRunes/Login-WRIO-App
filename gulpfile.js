@@ -63,5 +63,5 @@ gulp.task('nodemon', function() {
 gulp.task('default', ['babel-server']);
 
 gulp.task('watch', ['default', 'nodemon'], function() {
-    gulp.watch(['./**/*.js'], ['babel-server']);
+    gulp.watch(['./src/**/*.js'], ['babel-server']);
 });
