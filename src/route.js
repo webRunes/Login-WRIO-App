@@ -142,6 +142,11 @@ router.get('/logout', function(request, response) {
     response.redirect('/?auth');
 });
 
+router.get('/iframeLogout', function(request, response) {
+    request.session.destroy();
+    response.status(200).send('OK');
+});
+
 function ensureAuthenticated(request, response, next) {
     if (request.isAuthenticated()) {
         return next();

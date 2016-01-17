@@ -16,11 +16,11 @@ export class ProfileSaverFactory {
         if (this.isInTest) {
             return this.requestSaveMock;
         } else {
-            return this.requestSave;
+            return this.requestSave.bind(this);
         }
     }
 
-    getStorageUrl() {
+    getStorageUrl(sid) {
         var proto = 'https:';
         var workdomain = nconf.get('server:workdomain');
 
@@ -32,6 +32,7 @@ export class ProfileSaverFactory {
 
         let api_request = proto + "//storage" + workdomain + '/api/save_templates?sid='+sid;
         console.log("Sending save profile request",api_request);
+        return api_request;
     }
 
     requestSaveMock (sid) {
@@ -39,7 +40,6 @@ export class ProfileSaverFactory {
     }
 
     requestSave  (sid) {
-
         request.get(this.getStorageUrl(sid)).end((err,result) => {
             if (err) {
                 console.log(err);
