@@ -19,13 +19,12 @@ function returndays(j, days, id) {
     return j;
 }
 
-function returnPersistentProfile(j, id, name, titterID) {
+function returnPersistentProfile(j, id, name) {
     j['temporary'] = false;
     j['id'] = id;
     j['url'] = storagePrefix + id + '/';
     j['cover'] = j['url'] + 'cover.htm';
     j['name'] = name;
-    j['titterID'] = titterID;
     return j;
 }
 
@@ -71,7 +70,7 @@ export var CheckProfile = async (request) => {
             returndays(json_resp, deltadays, user.wrioID);
             return json_resp;
         } else {
-            return returnPersistentProfile(json_resp, user.wrioID, user.lastName, user.titterID);
+            return returnPersistentProfile(json_resp, user.wrioID, user.lastName);
         }
 
     } catch (e) {

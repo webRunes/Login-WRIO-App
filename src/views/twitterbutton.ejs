@@ -30,6 +30,23 @@
 
     }
 
+    window.addEventListener('message', function (e) {
+        var message = e.data;
+        //var jsmsg = JSON.parse(message);
+        console.log('iframe', message);
+        switch (message) {
+            case 'login': {
+                openAuthPopup(); break;
+            }
+            case 'logout': {
+                logout(); break;
+            }
+            case 'setData': {
+                setWRIOAuthData(); break;
+            }
+        }
+    });
+
     function openAuthPopup() {
         window.open('/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
     }
@@ -39,6 +56,8 @@
         parent.postMessage(JSON.stringify({"login":"success"}), "*");
         // send parent reload message
     }
+
+
 
 
     var profile = <%- profile %>;
