@@ -139,6 +139,11 @@ router.get('/auth/twitter/callback',
 router.get('/logout', function(request, response) {
     //request.logout();
     request.session.destroy();
+    response.redirect('/?auth');
+});
+
+router.get('/iframeLogout', function(request, response) {
+    request.session.destroy();
     response.status(200).send('OK');
 });
 
