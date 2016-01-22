@@ -54,7 +54,16 @@ describe("API unit tests", () => {
             });
     });
 
-    /*it("shoud return profile via twitter button iframe page", (done)=>{
+    it("should set CORS headers",(done)=> {
+        request(app)
+            .get('/api/get_profile')
+            .set('origin', 'https://core.wrioos.local')
+            .expect(200)
+            .expect('Access-Control-Allow-Origin', 'https://core.wrioos.local')
+            .end(done);
+    });
+
+    it("shoud return profile via twitter button iframe page", (done)=>{
         request(app)
             .get('/buttons/twitter')
             .expect(200)
@@ -63,7 +72,7 @@ describe("API unit tests", () => {
                 should(resp).match(/profile/);
                 done();
             });
-    });*/
+    });
 
 });
 
