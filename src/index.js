@@ -95,7 +95,7 @@ function server_setup(db) {
 
 					response.sendFile("index.htm",{
 						root: path.join(__dirname, '..', '/hub/')
-					}); 
+					});
 				}
 		}
 	});

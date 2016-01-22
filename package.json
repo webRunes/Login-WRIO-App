@@ -1,17 +1,16 @@
 {
-  "name": "passport-signin",
+  "name": "Login-WRIO-App",
   "version": "0.0.13",
-  "description": "(coming soon)",
+  "description": "WRIOOS Login backend",
   "scripts": {
-    "jsx": "jsx --no-cache-dir -x jsx ./widget ./js",
-    "start": "echo Ok",
-    "watch": "jsx --no-cache-dir -w -x jsx ./widget ./js"
+    "start": "gulp",
+    "test":"gulp test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/webRunes/Login-WRIO-App"
   },
-  "author": "",
+  "author": "webRunes",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/webRunes/Login-WRIO-App/issues"
