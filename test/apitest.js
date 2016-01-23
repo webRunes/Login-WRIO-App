@@ -2,6 +2,7 @@ import request from 'supertest';
 import assert from 'assert';
 import should from 'should';
 import app from '../src/index.js';
+import nconf from 'nconf'
 
 var ready = false;
 app.ready = () => {
@@ -55,11 +56,14 @@ describe("API unit tests", () => {
     });
 
     it("should set CORS headers",(done)=> {
+
+        var rundomain = 'https://core'+nconf.get('server:workdomain');
+
         request(app)
             .get('/api/get_profile')
-            .set('origin', 'https://core.wrioos.local')
+            .set('origin', rundomain)
             .expect(200)
-            .expect('Access-Control-Allow-Origin', 'https://core.wrioos.local')
+            .expect('Access-Control-Allow-Origin', rundomain)
             .end(done);
     });
 
