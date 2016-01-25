@@ -1,6 +1,6 @@
 import {ObjectID} from 'mongodb';
-import nconf from "./wrio_nconf.js"
-import TwitterStrategy from 'passport-twitter'
+import nconf from "./wrio_nconf.js";
+import TwitterStrategy from 'passport-twitter';
 
 export default function (app,passport,db) {
 

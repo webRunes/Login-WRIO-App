@@ -2,10 +2,10 @@
  * Created by michbil on 23.08.15.
  */
 
-import nconf from "./wrio_nconf"
-import {Router} from 'express'
-import passport from 'passport'
-import {CheckProfile} from './profile/route.js'
+import nconf from "./wrio_nconf";
+import {Router} from 'express';
+import passport from 'passport';
+import {CheckProfile} from './profile/route.js';
 var DOMAIN = nconf.get("db:workdomain");
 
 var router = Router();
@@ -111,7 +111,7 @@ router.get('/auth/twitter/', function(request, response, next) {
             httpOnly: true
         }); // save callback in cookie, for one minute
     }
-    return passport.authenticate('twitter')(request, response, next)
+    return passport.authenticate('twitter')(request, response, next);
 });
 
 /* Twitter register callback, this callback should be called only by twitter website
@@ -151,7 +151,7 @@ function ensureAuthenticated(request, response, next) {
     if (request.isAuthenticated()) {
         return next();
     }
-    response.redirect('/login')
+    response.redirect('/login');
 }
 
 /*
