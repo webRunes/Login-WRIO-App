@@ -4,7 +4,7 @@
  */
 
 import database from '../db';
-import uuid from 'node-uuid'
+import uuid from 'node-uuid';
 let db;
 
 class WebRunesUsers {
@@ -27,7 +27,7 @@ class WebRunesUsers {
                     return;
                 }
                 resolve(data);
-            })
+            });
         });
     }
 
@@ -45,7 +45,7 @@ class WebRunesUsers {
                     return;
                 }
                 resolve(data);
-            })
+            });
         });
     }
 
@@ -63,7 +63,7 @@ class WebRunesUsers {
                     return;
                 }
                 resolve(data);
-            })
+            });
         });
     }
 
@@ -82,7 +82,7 @@ class WebRunesUsers {
                     return;
                 }
                 resolve(users);
-            })
+            });
         });
     }
 
@@ -100,7 +100,7 @@ class WebRunesUsers {
                     return;
                 }
                 resolve(data);
-            })
+            });
         });
     }
 
@@ -118,7 +118,7 @@ class WebRunesUsers {
                     return;
                 }
                 resolve(data);
-            })
+            });
         });
     }
 
@@ -137,7 +137,7 @@ class WebRunesUsers {
                 }
 
                 resolve(data.ops[0]);
-            })
+            });
         });
     }
 
@@ -170,7 +170,7 @@ class WebRunesUsers {
                     console.log('Makeprepayment result',data);
                     resolve(data);
             });
-        })
+        });
     }
 
     /*
@@ -201,7 +201,7 @@ class WebRunesUsers {
                     //console.log('cancelPrepayment result',data);
                     resolve(data);
                 });
-        })
+        });
     }
 
     /*

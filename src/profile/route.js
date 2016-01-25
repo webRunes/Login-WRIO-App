@@ -1,9 +1,9 @@
-import nconf from "../wrio_nconf.js"
-import saveWrioIDForSession from './profiles.js'
-import WrioUsers from '../dbmodels/wriouser.js'
-import db from '../db'
-import {Router} from 'express'
-import {dumpError} from '../utils.js'
+import nconf from "../wrio_nconf.js";
+import saveWrioIDForSession from './profiles.js';
+import WrioUsers from '../dbmodels/wriouser.js';
+import db from '../db';
+import {Router} from 'express';
+import {dumpError} from '../utils.js';
 
 export const router = Router();
 
@@ -75,7 +75,7 @@ export var CheckProfile = async (request) => {
 
     } catch (e) {
         dumpError(e);
-        return {}
+        return {};
     }
 };
 

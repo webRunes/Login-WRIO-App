@@ -2,7 +2,7 @@
  * Created by michbil on 15.12.15.
  */
 import database from '../db';
-import {Promise} from 'es6-promise'
+import {Promise} from 'es6-promise';
 
 let db;
 
@@ -39,7 +39,7 @@ class PassportSessions {
                 }
                 console.log('success');
                 resolve();
-            })
+            });
         });
     }
 }

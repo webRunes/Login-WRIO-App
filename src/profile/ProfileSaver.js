@@ -2,8 +2,8 @@
  * Created by michbil on 15.01.16.
  */
 
-import request from 'superagent'
-import nconf from '../wrio_nconf.js'
+import request from 'superagent';
+import nconf from '../wrio_nconf.js';
 
 
 export class ProfileSaverFactory {
@@ -43,7 +43,7 @@ export class ProfileSaverFactory {
         request.get(this.getStorageUrl(sid)).end((err,result) => {
             if (err) {
                 console.log(err);
-                return
+                return;
             }
             //console.log("Request save result",result.body);
         });
