@@ -67,7 +67,7 @@ describe("API unit tests", () => {
             .end(done);
     });
 
-    it("shoud return profile via twitter button iframe page", (done)=>{
+    it("should return profile via twitter button iframe page", (done)=>{
         request(app)
             .get('/buttons/twitter')
             .expect(200)
