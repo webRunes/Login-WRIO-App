@@ -1,12 +1,12 @@
 import {ObjectID} from 'mongodb';
 import {Promise} from 'es6-promise';
-import db from '../db'
-import PassportSessions from '../dbmodels/session.js'
-import WrioUsers from '../dbmodels/wriouser.js'
-import {dumpError} from '../utils.js'
-import request from 'superagent'
-import nconf from '../wrio_nconf.js'
-import {ProfileSaverFactory} from './ProfileSaver.js'
+import db from '../db';
+import PassportSessions from '../dbmodels/session.js';
+import WrioUsers from '../dbmodels/wriouser.js';
+import {dumpError} from '../utils.js';
+import request from 'superagent';
+import nconf from '../wrio_nconf.js';
+import {ProfileSaverFactory} from './ProfileSaver.js';
 
 var requestSave = (new ProfileSaverFactory()).getRequestSave();
 
