@@ -49,35 +49,37 @@ export default function (app,passport,db) {
                 callbackURL: callbackURL
             },
             function (token, secretToken, profile, done) {
-                console.log("Saving tokens for",profile + " " + token + " " + secretToken);
-                saveTwitterTokens(profile, token, secretToken, function () {
-                    console.log("Tokens saved");
-                });
-
                 process.nextTick(function () {
+                    profile.keys = {
+                        token: token,
+                        secretToken: secretToken
+                    };
                     return done(null, profile);
-                });
+               });
             }
         ));
-    };
+    }
 
     /*
     Serialize user to database
     serialize object from twitterID to wriouser db id
     */
 
-    passport.serializeUser(function (user, done) {
+    passport.serializeUser(function (req, profile, done) {
         // thats where we get user from twtiter
-        // TODO: check whether this code is really needed
-        console.log("Serializing user... " + user.id);
-        findUser(user, function (err, res) {
-            if (err || !res) {
-                done(err);
-            } else {
-                console.log(".... got wrioUSER", res);
-                done(null, res._id);
+        console.log(profile.keys);
+        var userID = req.session.passport.user;
+        console.log("Serializing user Twitter id= " + profile.id, "to ojbect ",userID);
+        saveTwitterTokens(userID, profile, profile.keys.token, profile.keys.secretToken, function (err) {
+            delete profile['keys'];
+            if (err) {
+                console.log("Tokens not saved");
+                return done(err)
             }
+            console.log("Tokens saved");
+            done(null,userID);
         });
+
     });
 
     /*
@@ -103,28 +105,13 @@ export default function (app,passport,db) {
         });
     });
 
-    /* create new wrioUser using profile data */
-
-    function findUser(profile, done) {
-        // create the user
-        webrunesUsers.findOne({titterID: profile.id},function(err,user) {
-            if (err || !user) {
-                done("Can't find source user");
-            } else {
-                done(err, user);
-            }
-        });
-    }
 
     // save Twitter tokens for existing user when
     // temporary account is connected with persistent account
 
-    function saveTwitterTokens(profile, token, tokenSecret, done) {
+    function saveTwitterTokens(userID, profile, token, tokenSecret, done) {
         // create additional entries for persistent user
-
-        console.log("Executing saveTwitterTokens\n");
-
-        webrunesUsers.updateOne({titterID: profile.id},
+        webrunesUsers.updateOne({_id: ObjectID(userID)},
             {
                 $set:{
                     token: token,
@@ -132,17 +119,8 @@ export default function (app,passport,db) {
                     temporary:false,
                     titterID: profile.id,
                     lastName: profile.displayName
-        }},function(err,element) {
-            if (err || !element) {
-                console.log("Update wrio user record failure",err);
-            } else {
-                // newUserMysql.id = newUserMysql.userID = rows.insertId;
-                webrunesUsers.findOne({titterID: profile.id}, function(err,result) {
-                    return done(err, result);
-                });
-
-            }
-        });
+                }
+            },done);
     }
 
 
