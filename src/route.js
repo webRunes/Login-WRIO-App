@@ -137,7 +137,7 @@ router.get('/auth/twitter/callback',
 
 
 router.get('/logout', function(request, response) {
-    //request.logout();
+    request.logout();
     request.session.destroy();
     response.redirect('/?auth');
 });
