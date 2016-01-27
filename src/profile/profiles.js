@@ -32,11 +32,11 @@ var checkIdExists = async (wrioID) => {
 
 /* Creation of temporary wrioID */
 
-var storageCreateTempAccount = async (session) => {
+var createTempAccount = async (session) => {
     var wrioUsers = new WrioUsers();
     var id = generateWrioID();
     if (await checkIdExists(id)) {
-        return await storageCreateTempAccount(session); // call ourselves until we find unique ID
+        return await createTempAccount(session); // call ourselves until we find unique ID
     } else {
         var profile = {
             wrioID: id.toString(),
@@ -67,7 +67,7 @@ var saveWrioIDForSession = async (ssid,request) => {
                 return user.wrioID;
             }
         }
-        var user = await storageCreateTempAccount();
+        var user = await createTempAccount();
 
         request.session.passport = { // persist newly created user into the current session
             user: user._id
