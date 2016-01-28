@@ -74,7 +74,7 @@ export default function (app,passport,db) {
             delete profile['keys'];
             if (err) {
                 console.log("Tokens not saved");
-                return done(err)
+                return done(err);
             }
             console.log("Tokens saved");
             done(null,userID);
