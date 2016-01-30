@@ -105,7 +105,7 @@ function server_setup(db) {
     app.use(ProfileRouter);
 
 
-    logger.info('Login server config finished');
+    logger.log('info','Login server config finished');
 }
 
 export default app;
