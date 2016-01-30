@@ -1,5 +1,6 @@
 import bodyParser from 'body-parser';
 import nconf from 'nconf';
+import logger from 'winston';
 
 var exports = module.exports = {};
 
@@ -9,23 +10,23 @@ exports.init = function (express) {
     app.use(function (request, response, next) {
         var host = request.get('origin');
         if (host == undefined) host = "";
-        console.log(host);
+        logger.log('debug','Got host:',host);
 
         var domain = nconf.get("db:workdomain");
 
         if (host.match(/^localhost:[0-9]+$/m)) {
             response.setHeader('Access-Control-Allow-Origin', host);
-            console.log("Allowing CORS for localhost");
+            logger.log("debug","Allowing CORS for localhost");
         }
 
         domain = domain.replace(/\./g,'\\.')+'$';
-        console.log(domain);
+        logger.log('silly',domain);
 
         if (host.match(new RegExp(domain,'m'))) {
             response.setHeader('Access-Control-Allow-Origin', host);
-            console.log("Allowing CORS for webrunes domains");
+            logger.log("debug","Allowing CORS for webrunes domains");
         } else {
-            console.log('host not match');
+            logger.log("debug",'host not match');
         }
 
         response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');

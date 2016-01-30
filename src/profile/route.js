@@ -4,6 +4,7 @@ import WrioUsers from '../dbmodels/wriouser.js';
 import db from '../db';
 import {Router} from 'express';
 import {dumpError} from '../utils.js';
+import logger from 'winston';
 
 export const router = Router();
 
@@ -32,11 +33,11 @@ function returnPersistentProfile(j, id, name) {
 router.get('/api/get_profile', async (request, response) => {
     response.set('Content-Type', 'application/json');
     try {
-        console.log("GET_PROFILE CALLED");
+        logger.log("debug","GET_PROFILE CALLED");
         var json_resp = await CheckProfile(request);
         response.send(json_resp);
     }  catch (e) {
-        console.log("ERR");
+        logger.log("error","ERR");
         dumpError(e);
         response.status(403).send({});
     }
@@ -46,7 +47,7 @@ router.get('/api/get_profile', async (request, response) => {
 
 export var CheckProfile = async (request) => {
     var wrioUsers = new WrioUsers();
-    console.log(request.sessionID);
+    logger.log("debug",request.sessionID);
     var json_resp = {
         "result": "success"
     };
@@ -60,11 +61,11 @@ export var CheckProfile = async (request) => {
                     .getTime() - user.created;
             var deltadays = Math.round(delta / (24 * 60 * 60 * 1000));
             if (deltadays > 30) {
-                console.log("Profile expired");
+                logger.log("info","Profile expired");
                 // TODO: fix delete temp profile
                 profiles.deleteTempProfile(id);
             }
-            console.log("Session exists", delta, deltadays);
+            logger.log("debug","Session exists", delta, deltadays);
             json_resp['temporary'] = true;
             json_resp['id'] = user.wrioID;
             returndays(json_resp, deltadays, user.wrioID);

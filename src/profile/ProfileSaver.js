@@ -4,12 +4,13 @@
 
 import request from 'superagent';
 import nconf from '../wrio_nconf.js';
+import logger from 'winston';
 
 
 export class ProfileSaverFactory {
     constructor () {
         this.isInTest = typeof global.it === 'function';
-        console.log("Mock:", this.isInTest);
+        logger.log("debug","Mock:", this.isInTest);
     }
 
     getRequestSave() {
@@ -24,28 +25,28 @@ export class ProfileSaverFactory {
         var proto = 'https:';
         var workdomain = nconf.get('server:workdomain');
 
-        console.log(sid); // TODO: change to safer auth method
+        logger.log("debug",sid); // TODO: change to safer auth method
 
         if (workdomain == '.wrioos.local') {
            proto = 'http:';
         }
 
         let api_request = proto + "//storage" + workdomain + '/api/save_templates?sid='+sid;
-        console.log("Sending save profile request",api_request);
+        logger.log("debug","Sending save profile request",api_request);
         return api_request;
     }
 
     requestSaveMock (sid) {
-        console.log("Mocking profile save",sid);
+        logger.log("debug","Mocking profile save",sid);
     }
 
     requestSave  (sid) {
         request.get(this.getStorageUrl(sid)).end((err,result) => {
             if (err) {
-                console.log(err);
+                logger.log("error",err);
                 return;
             }
-            //console.log("Request save result",result.body);
+            logger.log("silly","Request save result",result.body);
         });
     };
 
