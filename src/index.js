@@ -14,7 +14,7 @@ import HttpServer from 'http';
 import ConnectMongo from 'connect-mongo';
 import p3p from 'p3p';
 import minimist from 'minimist';
-
+import logger from 'winston';
 
 
 var app = WrioApp.init(express);
@@ -25,14 +25,14 @@ app.custom = {};
 var server = HttpServer
     .createServer(app)
     .listen(nconf.get("server:port"), function(req, res) {
-        console.log('app listening on port ' + nconf.get('server:port') + '...');
+        logger.log('info','app listening on port ' + nconf.get('server:port') + '...');
         init().then((db) => {
             app.custom.db = db;
-            console.log("Connected correctly to mongodb server");
+            logger.log('info',"Connected correctly to mongodb server");
             server_setup(db);
             app.ready();
         }).catch((err)=>{
-            console.log("Error connecting to mongo database: " + err);
+            logger.log('error',"Error connecting to mongo database: " + err);
             dumpError(err);
         });
     });
@@ -73,8 +73,8 @@ function server_setup(db) {
 
 
     app.get('/', function(request, response) {
-        console.log("SSID " + request.sessionID);
-        console.log("Logged user", request.user);
+        logger.log('verbose',"SSID " + request.sessionID);
+        logger.log('verbose',"Logged user", request.user);
         var command = '';
         for (var i in request.query) {
             if (command === '') {
@@ -105,7 +105,7 @@ function server_setup(db) {
     app.use(ProfileRouter);
 
 
-    console.log('Login server config finished');
+    logger.log('info','Login server config finished');
 }
 
 export default app;

@@ -4,7 +4,7 @@
   "description": "WRIOOS Login backend",
   "scripts": {
     "start": "gulp",
-    "test":"gulp test"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,8 @@
     "babel": "^5.6.14",
     "babelify": "^6.1.2",
     "es6-promise": "3.0.2",
-    "node-uuid": "^1.4.3"
+    "node-uuid": "^1.4.3",
+    "winston": "^2.1.1"
   },
   "devDependencies": {
     "aws-sdk-apis": "^3.1.10",
@@ -42,7 +43,6 @@
     "mocha": "^2.3.4",
     "mongodb": "~2.0",
     "nconf": "0.8.2",
-    "node-twitter": "^0.5.3",
     "p3p": "0.0.2",
     "passport": "0.2.1",
     "passport-facebook": "latest",

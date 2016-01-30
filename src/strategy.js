@@ -1,6 +1,7 @@
 import {ObjectID} from 'mongodb';
 import nconf from "./wrio_nconf.js";
 import TwitterStrategy from 'passport-twitter';
+import logger from 'winston';
 
 export default function (app,passport,db) {
 
@@ -67,16 +68,15 @@ export default function (app,passport,db) {
 
     passport.serializeUser(function (req, profile, done) {
         // thats where we get user from twtiter
-        console.log(profile.keys);
         var userID = req.session.passport.user;
-        console.log("Serializing user Twitter id= " + profile.id, "to ojbect ",userID);
+        logger.log('debug',"Serializing user Twitter id= " + profile.id, "to ojbect ",userID);
         saveTwitterTokens(userID, profile, profile.keys.token, profile.keys.secretToken, function (err) {
             delete profile['keys'];
             if (err) {
-                console.log("Tokens not saved");
+                logger.log('error',"Tokens not saved");
                 return done(err);
             }
-            console.log("Tokens saved");
+            logger.log('debug',"Tokens saved");
             done(null,userID);
         });
 
@@ -88,19 +88,19 @@ export default function (app,passport,db) {
      */
     passport.deserializeUser(function (id, done) {
 
-        console.log("Deserializing user by id=" + id);
+        logger.log('debug',"Deserializing user by id=" + id);
         webrunesUsers.findOne(ObjectID(id), function(err,user) {
             if (err) {
-                console.log("Error while searching user");
+                logger.log('error',"Error while searching user");
                 done(err);
                 return;
             }
             if (!user) {
-                console.log("User not found",err);
+                logger.log('error',"User not found",err);
                 done(err);
                 return;
             }
-            console.log("User deserialized " + id, user);
+            logger.log('info',"User deserialized " + id, user);
             done(err, user);
         });
     });

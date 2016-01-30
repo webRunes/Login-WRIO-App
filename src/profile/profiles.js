@@ -7,6 +7,7 @@ import {dumpError} from '../utils.js';
 import request from 'superagent';
 import nconf from '../wrio_nconf.js';
 import {ProfileSaverFactory} from './ProfileSaver.js';
+import logger from 'winston';
 
 var requestSave = (new ProfileSaverFactory()).getRequestSave();
 
@@ -43,7 +44,7 @@ var createTempAccount = async (session) => {
             temporary: true,
             created: new Date().getTime()
         };
-        console.log("Creating new user profile",profile);
+        logger.log("info","Creating new user profile",profile);
         var user = await wrioUsers.create(profile);
         return user;
     }
@@ -62,7 +63,7 @@ var saveWrioIDForSession = async (ssid,request) => {
 
         if (sessionData.passport) {
             if (sessionData.passport.user) {
-                console.log("Session already have valid user, exit....");
+                logger.log("debug","Session already have valid user, exit....");
                 var user = await wrioUser.get({_id:ObjectID(sessionData.passport.user)});
                 return user.wrioID;
             }
@@ -81,7 +82,7 @@ var saveWrioIDForSession = async (ssid,request) => {
         return user.wrioID;
 
     } catch (e) {
-        console.log("Error durion saveWrioIDForSession",e);
+        logger.log("error","Error durion saveWrioIDForSession",e);
         dumpError(e);
     }
 
