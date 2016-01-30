@@ -6,6 +6,7 @@ import nconf from "./wrio_nconf";
 import {Router} from 'express';
 import passport from 'passport';
 import {CheckProfile} from './profile/route.js';
+import logger from 'winston';
 var DOMAIN = nconf.get("db:workdomain");
 
 var router = Router();
@@ -17,9 +18,9 @@ var router = Router();
 * */
 router.get('/buttons/twitter', async (request, response) => {
 
-    console.log("\n=========== Checking and creating temporary profile if needed =========");
+    logger.log("debug","\n=========== Checking and creating temporary profile if needed =========");
     var profile = await CheckProfile(request);
-    console.log("PROFILE",profile);
+    logger.log("debug","PROFILE",profile);
 
     response.render('twitterbutton', {
         user: request.user,
@@ -49,7 +50,7 @@ router.get('/buttons/callback', function(request, response) {
 
 router.get('/authapi', function(request, response) {
 
-    console.log("authapi called");
+    logger.log("debug","authapi called");
 
     if (request.query.callback) {
 
@@ -58,9 +59,9 @@ router.get('/authapi', function(request, response) {
             httpOnly: true
         }); // save callback in cookie, for one minute
 
-        console.log("callback", request.query.callback);
-        console.log("SSSID " + request.sessionID);
-        console.log("Get user", request.user);
+        logger.log("debug","callback", request.query.callback);
+        logger.log("debug","SSSID " + request.sessionID);
+        logger.log("debug","Get user", request.user);
         if (request.user) {
             response.redirect(request.query.callback);
         } else {
@@ -104,7 +105,7 @@ router.get('/account', ensureAuthenticated, function(request, response) {
 *
 */
 router.get('/auth/twitter/', function(request, response, next) {
-    console.log("Auth twitter");
+    logger.log("debug","Auth twitter");
     if (request.query.callback) {
         response.cookie('callback', request.query.callback, { // create cookie for later use with redirect URL
             maxAge: 60 * 1000,
@@ -121,12 +122,12 @@ router.get('/auth/twitter/', function(request, response, next) {
 router.get('/auth/twitter/callback',
     (request, response, next) => {
         var redirecturl = '/?auth';
-        console.log("\n ============= Twitter callback was called by API ======================\n");
+        logger.log("info","\n ============= Twitter callback was called by API ======================\n");
         if (request.cookies.callback) {
-            console.log("Setting up callback...");
+            logger.log("debug","Setting up callback...");
             redirecturl = request.cookies.callback;
         } else {
-            console.log("Cookie callback not found");
+            logger.log("error","Cookie callback not found");
         }
         passport.authenticate('twitter', {
             successRedirect: redirecturl, // redirect to specified URL, saved before in cookie

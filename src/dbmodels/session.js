@@ -3,6 +3,7 @@
  */
 import database from '../db';
 import {Promise} from 'es6-promise';
+import logger from 'winston';
 
 let db;
 
@@ -28,7 +29,7 @@ class PassportSessions {
     /* updates session by ssid, saves sessionpayload json into session */
 
     updateSession(ssid,sessionPayload) {
-        console.log("Saving session",ssid,sessionPayload);
+        logger.log("debug","Saving session",ssid,sessionPayload);
         return new Promise((resolve,reject) => {
             var item = {
                 session: JSON.stringify(sessionPayload)
@@ -37,7 +38,7 @@ class PassportSessions {
                 if (err) {
                     return reject(err);
                 }
-                console.log('success');
+                logger.log("debug",'success');
                 resolve();
             });
         });
