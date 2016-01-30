@@ -4,6 +4,7 @@
 
 import request from 'superagent';
 import nconf from '../wrio_nconf.js';
+import logger from 'winston';
 
 
 export class ProfileSaverFactory {
