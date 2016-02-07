@@ -17,6 +17,8 @@ import minimist from 'minimist';
 import logger from 'winston';
 
 
+logger.level = 'debug';
+
 var app = WrioApp.init(express);
 app.ready = () => {};
 var DOMAIN = nconf.get("db:workdomain");
