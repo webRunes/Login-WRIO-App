@@ -48,6 +48,7 @@ router.get('/buttons/callback', function(request, response) {
 * */
 
 
+
 router.get('/authapi', function(request, response) {
 
     logger.log("debug","authapi called");
@@ -62,7 +63,14 @@ router.get('/authapi', function(request, response) {
         logger.log("debug","callback", request.query.callback);
         logger.log("debug","SSSID " + request.sessionID);
         logger.log("debug","Get user", request.user);
-        if (request.user) {
+        logger.debug(request.user);
+
+        if (!request.user) {
+            logger.error("No temporoary user created yet, try later");
+            return response.status(403).send("No temporary user, sorry");
+        }
+
+        if (request.user.temporary == false) {
             response.redirect(request.query.callback);
         } else {
             response.redirect('/auth/twitter'); // cause we have only Twitter AUTH now
