@@ -69,6 +69,11 @@ export default function (app,passport,db) {
     passport.serializeUser(function (req, profile, done) {
         // thats where we get user from twtiter
         var userID = req.session.passport.user;
+        logger.debug(req.session);
+        if (!userID) {
+            logger.error("No valid temporary user account found to serialize, try again");
+            done("No valid temporary account found, try again");
+        }
         logger.log('debug',"Serializing user Twitter id= " + profile.id, "to ojbect ",userID);
         saveTwitterTokens(userID, profile, profile.keys.token, profile.keys.secretToken, function (err) {
             delete profile['keys'];
