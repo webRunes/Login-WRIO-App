@@ -87,11 +87,15 @@ class WebRunesUsers {
         });
     }
 
-    updateByWrioID(wrioID, data) {
+    async updateByWrioID(wrioID, data) {
+        return await this.update({wrioID:wrioID},data);
+    }
+
+    update(query, data) {
         return new Promise((resolve,reject) =>{
-            this.users.updateOne({wrioID:wrioID},{$set:data},function (err,data) {
+            this.users.updateOne(query, {$set:data}, function (err,data) {
                 if (err) {
-                    logger.log('error',"Db user search error");
+                    logger.error("Db user update error",err);
                     reject(err);
                     return;
                 }
