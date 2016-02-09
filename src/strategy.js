@@ -2,11 +2,14 @@ import {ObjectID} from 'mongodb';
 import nconf from "./wrio_nconf.js";
 import TwitterStrategy from 'passport-twitter';
 import logger from 'winston';
+import WrioUser from './dbmodels/wriouser.js';
 
 export default function (app,passport,db) {
 
     var webrunesUsers = db.collection('webRunes_Users');
     var sessions = db.collection('sessions');
+
+    var Users = new WrioUser();
 
 /*
     TODO: uncomment this strategies when start actually using github and facebook
@@ -43,48 +46,48 @@ export default function (app,passport,db) {
         consumerSecret = nconf.get("api:twitterLogin:consumerSecret"),
         callbackURL = nconf.get("api:twitterLogin:callbackUrl");
 
-    if (consumerKey) {
-        passport.use(new TwitterStrategy.Strategy({
-                consumerKey: consumerKey,
-                consumerSecret: consumerSecret,
-                callbackURL: callbackURL
-            },
-            function (token, secretToken, profile, done) {
-                process.nextTick(function () {
-                    profile.keys = {
-                        token: token,
-                        secretToken: secretToken
-                    };
-                    return done(null, profile);
-               });
-            }
-        ));
+    if (!consumerKey) {
+        throw new Error("consumerKey not set in config");
     }
+
+    passport.use(new TwitterStrategy.Strategy({
+            consumerKey: consumerKey,
+            consumerSecret: consumerSecret,
+            callbackURL: callbackURL
+        },
+        function (token, secretToken, profile, done) {
+            process.nextTick(function () {
+                profile.keys = {
+                    token: token,
+                    secretToken: secretToken
+                };
+                return done(null, profile);
+           });
+        }
+    ));
 
     /*
     Serialize user to database
     serialize object from twitterID to wriouser db id
     */
 
-    passport.serializeUser(function (req, profile, done) {
+    passport.serializeUser(async (req, profile, done) => {
         // thats where we get user from twtiter
         var userID = req.session.passport.user;
-        logger.debug(req.session);
         if (!userID) {
             logger.error("No valid temporary user account found to serialize, try again");
             done("No valid temporary account found, try again");
         }
         logger.log('debug',"Serializing user Twitter id= " + profile.id, "to ojbect ",userID);
-        saveTwitterTokens(userID, profile, profile.keys.token, profile.keys.secretToken, function (err) {
+        try {
+            var userID = await saveTwitterTokens(userID, profile, profile.keys.token, profile.keys.secretToken);
             delete profile['keys'];
-            if (err) {
-                logger.log('error',"Tokens not saved");
-                return done(err);
-            }
             logger.log('debug',"Tokens saved");
             done(null,userID);
-        });
-
+        } catch (e) {
+            logger.error("Tokens not saved",e);
+            return done(err);
+        }
     });
 
     /*
@@ -114,19 +117,32 @@ export default function (app,passport,db) {
     // save Twitter tokens for existing user when
     // temporary account is connected with persistent account
 
-    function saveTwitterTokens(userID, profile, token, tokenSecret, done) {
+    var saveTwitterTokens = async (userID, profile, token, tokenSecret) => {
         // create additional entries for persistent user
-        webrunesUsers.updateOne({_id: ObjectID(userID)},
-            {
-                $set:{
-                    token: token,
-                    tokenSecret: tokenSecret,
-                    temporary:false,
-                    titterID: profile.id,
-                    lastName: profile.displayName
-                }
-            },done);
-    }
+        try {
+            var user = await Users.get({
+                temporary: false,
+                token: token,
+                tokenSecret: tokenSecret
+            });
+            logger.debug(user);
+            logger.info("Found registered user with credentials", user.wrioID);
+            return user._id;
+        } catch (e) {
+            logger.info("Registered user with credentials not found, making user persistent");
+            await Users.update({_id: ObjectID(userID)},
+                {
+                        token: token,
+                        tokenSecret: tokenSecret,
+                        temporary:false,
+                        titterID: profile.id,
+                        lastName: profile.displayName
+                });
+            return userID;
+        }
+
+
+    };
 
 
 
