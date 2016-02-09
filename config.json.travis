@@ -3,8 +3,8 @@
      "twitter": {
        "consumerKey": "",
        "consumerSecret": "",
-       "token": "",
-       "tokenSecret": ""
+       "token": "fakeKey",
+       "tokenSecret": "fakeSecret"
      },
      "facebook": {
        "clientId": "",
@@ -17,8 +17,8 @@
        "callbackUrl": "http://localhost:1234/auth/google/callback"
      },
      "twitterLogin": {
-       "consumerKey": "",
-       "consumerSecret": "",
+       "consumerKey": "fakeKey",
+       "consumerSecret": "fakeSecret",
        "token": "",
        "tokenSecret": "",
        "callbackUrl": "http://login.wrioos.local/auth/twitter/callback"
