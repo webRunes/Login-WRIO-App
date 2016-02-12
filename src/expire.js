@@ -5,8 +5,6 @@ import request from 'superagent';
 import {Promise} from 'es6-promise';
 import {dumpError} from './utils.js';
 
-var DOMAIN= nconf.get("db:workdomain");
-
 /*
 import AWS from 'aws-sdk';
 var keyid = nconf.get("aws:aws_access_key_id");
@@ -19,7 +17,7 @@ var s3 = new AWS.S3({
 */
 var delete_folders = (items) => {
     return new Promise((resolve,reject) => {
-        var host = 'https://storage' + DOMAIN;
+        var host = 'https://storage.wrioos.com';
       //  var host = 'http://localhost:5002';
         request.post(host+'/api/delete_folder')
             .set('Content-Type', "application/json")
