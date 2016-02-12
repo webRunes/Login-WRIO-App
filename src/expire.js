@@ -31,7 +31,7 @@ var delete_folders = (items) => {
                 }
                 console.log(res.body);
                 resolve();
-            })
+            });
     });
 };
 
@@ -39,7 +39,7 @@ function getExpireThreshold() {
     return new Date().getTime() - 30 * 24 * 60 * 60 * 1000;  // 30 days
 }
 function getAge(item) {
-    return Math.round(( new Date().getTime() - item.created) / (1000 * 60 * 60*24))
+    return Math.round(( new Date().getTime() - item.created) / (1000 * 60 * 60*24));
 }
 
 export var expire = async (db) => {
