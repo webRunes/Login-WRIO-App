@@ -20,7 +20,7 @@ var s3 = new AWS.S3({
 var delete_folders = (items) => {
     return new Promise((resolve,reject) => {
         var host = 'https://storage' + DOMAIN;
-        var host = 'http://localhost:5002';
+      //  var host = 'http://localhost:5002';
         request.post(host+'/api/delete_folder')
             .set('Content-Type', "application/json")
             .auth(nconf.get("service2service:login"), nconf.get("service2service:password"))
