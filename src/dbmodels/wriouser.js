@@ -87,6 +87,21 @@ class WebRunesUsers {
         });
     }
 
+
+    deleteUsers(query) {
+        query = query || {};
+        return new Promise((resolve,reject) =>{
+            this.users.remove(query,function (err) {
+                if (err) {
+                    logger.log('error',"Db user delete error");
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        });
+    }
+
     async updateByWrioID(wrioID, data) {
         return await this.update({wrioID:wrioID},data);
     }
