@@ -1,12 +1,5 @@
-FROM ubuntu:15.04
+FROM michbil/wrio:latest
 MAINTAINER denso.ffff@gmail.com
-
-RUN apt-get update && apt-get install -y nodejs npm mc build-essential g++ git
-
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-RUN npm install -g browserify gulp nodemon babel gulp
-RUN mkdir -p /srv/www
-
 
 # Login
 
