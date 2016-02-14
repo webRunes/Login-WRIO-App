@@ -50,42 +50,35 @@ var createTempAccount = async (session) => {
     }
 };
 
+function hasPassportUser(request) {
+    var sessionData = request.session;
+    if (sessionData.passport) {
+        if (sessionData.passport.user) {
+            return sessionData.passport.user;
+        }
+    }
+}
+
 /*
  If session have no user information, then create temporary wrioID
  returns old or new wrioID
 */
 
-var saveWrioIDForSession = async (ssid,request) => {
+var getUserOrCreateTemporary = async (ssid,request) => {
 
     var wrioUser = new WrioUsers();
-    try {
-        var sessionData = request.session;
-
-        if (sessionData.passport) {
-            if (sessionData.passport.user) {
-                logger.log("debug","Session already have valid user, exit....");
-                var user = await wrioUser.get({_id:ObjectID(sessionData.passport.user)});
-                return user.wrioID;
-            }
-        }
+    var sessionUser = hasPassportUser(request);
+    if (sessionUser) {
+        logger.log("debug","Session already have valid user, exit....");
+        return await wrioUser.get({_id:ObjectID(sessionUser)});
+    } else {
         var user = await createTempAccount();
-
         request.session.passport = { // persist newly created user into the current session
             user: user._id
         };
-        setTimeout(function () {
-            // TODO this is just a hack, do more reliable solution
-            requestSave(ssid) ;// give storage command to create S3 profile
-            clearInterval(this);
-        },3000);
-
-        return user.wrioID;
-
-    } catch (e) {
-        logger.log("error","Error durion saveWrioIDForSession",e);
-        dumpError(e);
+        await requestSave(user.wrioID);
+        return user;
     }
-
 };
 
-export default saveWrioIDForSession;
+export default getUserOrCreateTemporary;

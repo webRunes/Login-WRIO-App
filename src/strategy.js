@@ -94,7 +94,7 @@ export default function (app,passport,db) {
      Deserialize user from database
      from db id to complete wriouser profile
      */
-    passport.deserializeUser(function (id, done) {
+    passport.deserializeUser(function (req, id, done) {
 
         logger.log('debug',"Deserializing user by id=" + id);
         webrunesUsers.findOne(ObjectID(id), function(err,user) {
@@ -105,6 +105,7 @@ export default function (app,passport,db) {
             }
             if (!user) {
                 logger.log('error',"User not found",err);
+                req.session.destroy();
                 done(err);
                 return;
             }
@@ -121,9 +122,7 @@ export default function (app,passport,db) {
         // create additional entries for persistent user
         try {
             var user = await Users.get({
-                temporary: false,
-                token: token,
-                tokenSecret: tokenSecret
+                titterID: profile.id
             });
             logger.debug(user);
             logger.info("Found registered user with credentials", user.wrioID);
