@@ -5,7 +5,7 @@
 import request from 'superagent';
 import nconf from '../wrio_nconf.js';
 import logger from 'winston';
-
+import {Promise} from 'es6-promise';
 
 export class ProfileSaverFactory {
     constructor () {
@@ -21,17 +21,15 @@ export class ProfileSaverFactory {
         }
     }
 
-    getStorageUrl(sid) {
+    getStorageUrl(wrioID) {
         var proto = 'https:';
         var workdomain = nconf.get('server:workdomain');
-
-        logger.log("debug",sid); // TODO: change to safer auth method
 
         if (workdomain == '.wrioos.local') {
            proto = 'http:';
         }
 
-        let api_request = proto + "//storage" + workdomain + '/api/save_templates?sid='+sid;
+        let api_request = proto + "//storage" + workdomain + '/api/save_templates?wrioID='+wrioID;
         logger.log("debug","Sending save profile request",api_request);
         return api_request;
     }
@@ -40,14 +38,21 @@ export class ProfileSaverFactory {
         logger.log("debug","Mocking profile save",sid);
     }
 
-    requestSave  (sid) {
-        request.get(this.getStorageUrl(sid)).end((err,result) => {
-            if (err) {
-                logger.log("error",err);
-                return;
-            }
-            logger.log("silly","Request save result",result.body);
+    requestSave  (wrioID) {
+        return new Promise((resolve,reject) => {
+            request.
+                get(this.getStorageUrl(wrioID))
+                .auth(nconf.get("service2service:login"), nconf.get("service2service:password"))
+                .end((err,result) => {
+                if (err) {
+                    logger.log("error",err);
+                    return reject(err);
+                }
+                logger.log("silly","Request save result",result.body);
+                resolve();
+            });
         });
+
     };
 
 }
