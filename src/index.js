@@ -70,6 +70,21 @@ function server_setup(db) {
     app.use(passport.session());
     app.use(express.static(__dirname + '/public'));
 
+    var static_headers = (request,response,next) => {
+        response.setHeader("Cache-Control", "public,max-age=12000");
+        response.setHeader("Expires", new Date(Date.now() + 2592000000).toUTCString());
+        response.removeHeader('Access-Control-Allow-Headers');
+        response.removeHeader('Access-Control-Allow-Credentials');
+        response.removeHeader('Access-Control-Allow-Methods');
+        next();
+    };
+
+    app.use('/host',static_headers, express.static(__dirname + '/host',
+        {etag:false,
+        maxAge:144000,
+        lastModified:false
+        }));
+
 
     app.use(p3p(p3p.recommended));
 
