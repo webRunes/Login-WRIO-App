@@ -59,8 +59,17 @@
 
 
     var profile = <%- profile %>;
-    console.log("Got profile:", profile);
+   // console.log("Got profile:", profile);
     parent.postMessage(JSON.stringify({"profile":profile}), "*");
+
+    var n = 0;
+    var int = setInterval(function () {
+        parent.postMessage(JSON.stringify({"profile":profile}), "*");
+        n++;
+        if (n > 5) {
+            clearInterval(int);
+        }
+    },1000);
 
 
 </script>
