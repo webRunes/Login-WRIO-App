@@ -24,6 +24,7 @@
                 console.log("Error during logout");
             } else {
                 parent.postMessage(JSON.stringify({"login":"success"}), "*");
+                window.location.reload();
             }
         };
 
