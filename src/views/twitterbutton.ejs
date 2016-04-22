@@ -10,6 +10,8 @@
 
 <script type="text/javascript">
 
+    var ack = false;
+
     function logout() {
 
         var xhr = new XMLHttpRequest();
@@ -24,7 +26,7 @@
                 console.log("Error during logout");
             } else {
                 parent.postMessage(JSON.stringify({"login":"success"}), "*");
-                window.location.reload();
+               // window.location.reload();
             }
         };
 
@@ -48,6 +50,10 @@
             case 'reload': {
                 window.location.reload();break;
             }
+            case 'ack': {
+                console.log("Ack received");
+                ack = true;
+            }
         }
     });
 
@@ -70,7 +76,7 @@
     var int = setInterval(function () {
         parent.postMessage(JSON.stringify({"profile":profile}), "*");
         n++;
-        if (n > 5) {
+        if (ack) {
             clearInterval(int);
         }
     },1000);
