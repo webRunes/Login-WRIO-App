@@ -139,7 +139,7 @@ router.get('/auth/twitter/callback',
         }
         passport.authenticate('twitter', {
             successRedirect: redirecturl, // redirect to specified URL, saved before in cookie
-            failureRedirect: '/?auth'
+            failureRedirect: '/closepopup'
         })(request, response, next);
     }
 );
@@ -154,6 +154,10 @@ router.get('/logout', function(request, response) {
 router.get('/iframeLogout', function(request, response) {
     request.session.destroy();
     response.status(200).send('OK');
+});
+
+router.get('/closepopup', function(request, response) {
+    response.render('close',{});
 });
 
 function ensureAuthenticated(request, response, next) {
