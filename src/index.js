@@ -94,7 +94,7 @@ function server_setup(db) {
             default:
                 {
 
-                    response.sendFile("index.htm",{
+                    response.sendFile("index.html",{
                         root: path.join(__dirname, '..', '/hub/')
                     });
                 }
