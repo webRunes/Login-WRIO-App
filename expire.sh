@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bashg
 
 cd /srv/www/login/current/
-node runexpire.js >> /tmp/expire.log
+/usr/local/bin/node runexpire.js &> /tmp/expire.log
