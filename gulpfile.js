@@ -8,6 +8,8 @@ var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
 var eslint = require('gulp-eslint');
 var mocha = require('gulp-mocha');
+var babel = require('gulp-babel');
+
 
 function restart_nodemon () {
     if (nodemon_instance) {
@@ -37,8 +39,24 @@ gulp.task('lint', function () {
 });
 
 gulp.task('babel-server', function() {
-    restart_nodemon();
+
+    gulp.src('src/views/**/*.*')
+        .pipe(gulp.dest('app/views'));
+
+    gulp.src('src/public/**/*.*')
+        .pipe(gulp.dest('app/public'));
+
+    return gulp.src(['src/**/*.*',"!src/views/*.*","!src/public/*.*",'!src/expire.js'])
+        .pipe(babel())
+        .on('error', function(err) {
+            console.log('Babel server:', err.toString());
+        })
+        .pipe(gulp.dest('app/'))
+        .on('end',function() {
+            restart_nodemon();
+        });
 });
+
 
 gulp.task('test', function() {
     return gulp.src('test/**/*.js', {read: false})
