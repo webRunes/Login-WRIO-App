@@ -34,7 +34,7 @@ var delete_folders = (items) => {
 };
 
 function getExpireThreshold() {
-    return new Date().getTime() - 7 * 24 * 60 * 60 * 1000;  // 30 days
+    return new Date().getTime() - 7 * 24 * 60 * 60 * 1000;  // 7 days
 }
 function getAge(item) {
     return Math.round(( new Date().getTime() - item.created) / (1000 * 60 * 60*24));
