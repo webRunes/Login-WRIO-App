@@ -11,7 +11,10 @@ RUN cd $(npm root -g)/npm \
 
 COPY package.json /srv/package.json
 RUN cd /srv/ && npm install # packages are installed globally to not modify titter directory
+
+WORKDIR /srv/www
 COPY . /srv/www/
+RUN gulp
 
 
 EXPOSE 5000
