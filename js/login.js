@@ -16,10 +16,10 @@ define(['react', 'moment'], function(React, moment) {
                   React.createElement("img", {itemprop: "thumbnail", src: this.state.img, className: "pull-left"})
               ), 
               React.createElement("ul", {className: "details"}, 
-                  React.createElement("li", null, "Registered: ", this.state.registered), 
-                  React.createElement("li", null, "Rating: ", this.state.rating), 
-                  React.createElement("li", null, "Followers: ", this.state.followers), 
-                  React.createElement("li", null, "Posts: ", this.state.posts)
+                  React.createElement("li", null, "Registered: ", this.state.registered) 
+                  //React.createElement("li", null, "Rating: ", this.state.rating), 
+                  //React.createElement("li", null, "Followers: ", this.state.followers), 
+                  //React.createElement("li", null, "Posts: ", this.state.posts)
               )
           )
         );
