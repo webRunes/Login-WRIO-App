@@ -1,0 +1,87 @@
+<html>
+<body style="margin: 0 !important; padding: 0 !important;">
+<%if ( temporary == false ) { %>
+<div><a href="#" onclick="logout();">Logout</a></div>
+<% } else { %>
+<div><a href="#" onclick="openAuthPopup()">Login</a></div>
+<% } %>
+
+
+
+<script type="text/javascript">
+
+    var ack = false;
+
+    function logout() {
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.open('GET', '/iframeLogout', true);
+        xhr.send();
+
+        xhr.onreadystatechange = function() { // (3)
+            if (xhr.readyState != 4) return;
+
+            if (xhr.status != 200) {
+                console.log("Error during logout");
+            } else {
+                parent.postMessage(JSON.stringify({"login":"success"}), "*");
+               // window.location.reload();
+            }
+        };
+
+
+    }
+
+    window.addEventListener('message', function (e) {
+        var message = e.data;
+        //var jsmsg = JSON.parse(message);
+       // console.log('iframe', message);
+        switch (message) {
+            case 'login': {
+                openAuthPopup(); break;
+            }
+            case 'logout': {
+                logout(); break;
+            }
+            case 'setData': {
+                setWRIOAuthData(); break;
+            }
+            case 'reload': {
+                window.location.reload();break;
+            }
+            case 'ack': {
+                console.log("Ack received");
+                ack = true;
+            }
+        }
+    });
+
+    function openAuthPopup() {
+        window.open('/auth/twitter?callback='+encodeURIComponent('/buttons/callback'), "Login", "height=500,width=700");
+    }
+
+    function setWRIOAuthData() {
+        console.log("Login succeeded");
+        parent.postMessage(JSON.stringify({"login":"success"}), "*");
+        // send parent reload message
+    }
+
+
+    var profile = <%- profile %>;
+   // console.log("Got profile:", profile);
+    parent.postMessage(JSON.stringify({"profile":profile}), "*");
+
+    var n = 0;
+    var int = setInterval(function () {
+        parent.postMessage(JSON.stringify({"profile":profile}), "*");
+        n++;
+        if (ack) {
+            clearInterval(int);
+        }
+    },1000);
+
+
+</script>
+</body>
+</html>
