@@ -1,15 +1,34 @@
 language: node_js
+sudo: false
 
 node_js:
-  - 0.10
+  - 0.12
 
-install : npm install
-script  : npm start
+services: mongodb
+
+install: 
+  - npm install
+  - npm install -g gulp
+
+
+script  :
+  - cp config.json.travis config.json
+  - gulp
+  - gulp test
+
 
 branches:
   only:
     - master
     - stable
+    - production
+
+
+before_deploy:
+  - gem install mime-types -v 2.6.2
+  - sh ./misc/version.sh
+
+
 
 deploy:
   - provider: opsworks
@@ -20,13 +39,15 @@ deploy:
     app-id: 573363bc-37cc-4c8a-993f-bf82d5edbea9
     on:
       repo: webRunes/Login-WRIO-App
+      branch: production
   - provider: s3
     access_key_id:
       secure: E8UFms7+Xv7PxCT3kybFHGI44O2g9KehUdEkddQaYyxNYrQD9RQyHi7kMXO42kWUHzYeM3k5OAvJKpXj463amMMES4rxP1h557F1DBb5Z3DrA+4ubSsq/LlCNI8Dc80xZhgf1ZDs+b0Ld2AyxMcfB1Ca7fBcVVIGkq5zzqTQ9fg=
     secret_access_key:
       secure: iYeo/OGPNjMRkx+FIMtCRRHenR5cU+5p/JSFRIEtpyYo1PD68Hnlaornaj379RazR1IlV1Vmr6vlnvzjOOJIZeB36jQ5nvYgP2oicWiDlvm2VWSIQVR3ehLkk3wZnZ9yd1phM/QyCiSIQ5/PgUJm49owWjmquaeZbzwoxy39JsE=
-    bucket: wrio
+    bucket: wrioos.com
     upload-dir: Login-WRIO-App
     acl: public_read
     on:
       repo: webRunes/Login-WRIO-App
+      branch: production
