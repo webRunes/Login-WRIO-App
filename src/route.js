@@ -129,7 +129,7 @@ router.get('/auth/twitter/', function(request, response, next) {
 
 router.get('/auth/twitter/callback',
     (request, response, next) => {
-        var redirecturl = '/?auth';
+        var redirecturl = '/auth';
         logger.log("info","\n ============= Twitter callback was called by API ======================\n");
         if (request.cookies.callback) {
             logger.log("debug","Setting up callback...");
@@ -148,7 +148,7 @@ router.get('/auth/twitter/callback',
 router.get('/logout', function(request, response) {
     request.logout();
     request.session.destroy();
-    response.redirect('/?auth');
+    response.redirect('/auth');
 });
 
 router.get('/iframeLogout', function(request, response) {
