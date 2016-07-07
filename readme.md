@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/webRunes/Login-WRIO-App.svg?branch=master)](https://travis-ci.org/webRunes/Login-WRIO-App)
 
 #Login <sup>[WRIO](https://wrioos.com) App</sup>
-WrioOS auth gateway
+WrioOS auth gateway.
 (coming soon)
 
 ##Official Hub
