@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "babelify": "^6.1.2",
-    "babel-cli": "^6.4.0",g
+    "babel-cli": "^6.4.0",
     "es6-promise": "3.0.2",
     "node-uuid": "^1.4.3",
     "winston": "^2.1.1",
