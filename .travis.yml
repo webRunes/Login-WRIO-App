@@ -7,7 +7,7 @@ services:
 
 before_install:
   - docker build --tag login .
-  - docker run login -c "gulp test"
+  - docker run login /bin/sh -c "gulp test"
 
 script:
   - docker ps -a
