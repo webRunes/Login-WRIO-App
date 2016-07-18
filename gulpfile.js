@@ -3,7 +3,7 @@
  */
 
 require ('babel-core/register');
-
+require('regenerator-runtime/runtime');
 
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
