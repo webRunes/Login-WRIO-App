@@ -2,8 +2,8 @@ sudo: required
 language: ruby
 
 services:
-  mongodb
-  docker
+  - mongodb
+  - docker
 
 before_install:
   - docker build --tag login .
