@@ -3,7 +3,6 @@
  */
 
 require ('babel-core/register');
-require('babel-polyfill');
 
 
 var gulp = require('gulp');

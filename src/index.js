@@ -1,6 +1,3 @@
-require('babel-core/register');
-require('babel-polyfill');
-
 import nconf from "./wrio_nconf.js";
 import express from 'express';
 import passport from 'passport';
