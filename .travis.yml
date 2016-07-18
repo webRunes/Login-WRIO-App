@@ -7,7 +7,7 @@ services:
 
 before_install:
   - docker build --tag login .
-  - docker run login /bin/sh -c "gulp test"
+  - docker run -v `pwd`:/srv/host login /bin/sh -c "cp /host/config.json.travis /srv/www/config.json && gulp test"
 
 script:
   - docker ps -a
