@@ -1,4 +1,5 @@
-sudo: true
+sudo: required
+language: ruby
 
 services:
   mongodb
