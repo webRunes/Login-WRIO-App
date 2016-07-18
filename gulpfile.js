@@ -2,7 +2,7 @@
  * Created by michbil on 23.11.15.
  */
 
-require ('babel/register');
+require ('babel-core/register');
 
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
