@@ -1,45 +1,28 @@
-language: node_js
-sudo: false
+sudo: required
+language: ruby
 
-node_js:
-  - 0.12
+services:
+  - docker
 
-services: mongodb
+before_install:
+  - docker pull mongo:latest
+  - docker run --name mongo -p 27017:27017 -d mongo mongod --smallfiles
+  - docker build --tag login .
+  - docker ps -a
+  - docker run --link mongo:mongo -v `pwd`:/srv/host login /bin/sh -c "cp /srv/host/config.json.travis /srv/www/config.json && gulp test"
 
-install: 
-  - npm install
-  - npm install -g gulp
-
-
-script  :
-  - cp config.json.travis config.json
-  - gulp
-  - gulp test
-
+script:
+  - docker ps -a
 
 branches:
   only:
     - master
-    - stable
     - production
 
-
-before_deploy:
-  - gem install mime-types -v 2.6.2
-  - sh ./misc/version.sh
-
-
+notifications:
+  slack: wrioos:XDZWFBrf9TDtoEOcw5YGBM4a
 
 deploy:
-  - provider: opsworks
-    access_key_id:
-      secure: TWlVI5XplLro661LbgXjyJNiMHsH9zN5nN4aEWycSYfXTzK0apxrs/x+nzV2YGN6jYtKJ41TJvU3V5UEkV0e0Vfn5ax46FMIOmuLgrbklKQroQb4B3GSMwjx9R0BLJisHa7cjOKf/Eu2+m0Gu2IvyxurdcYXbr6sXyhuaqysj4M=
-    secret_access_key:
-      secure: UfjUG++j4Hv3qa5hkVj54VURLV3NPCmVwv9+O0p2GaGNesE2eqNR1//pVrteuVrfgSOeHQDxOqi8xRdn1iIlhToBOXjcUjJ97vRfgcAiD16aL1j1wat21BMls7S5crhDakkf/jGhL/xNkYV0se8B3G0daRxydXPbHHsj2d70V+k=
-    app-id: 573363bc-37cc-4c8a-993f-bf82d5edbea9
-    on:
-      repo: webRunes/Login-WRIO-App
-      branch: production
   - provider: s3
     access_key_id:
       secure: E8UFms7+Xv7PxCT3kybFHGI44O2g9KehUdEkddQaYyxNYrQD9RQyHi7kMXO42kWUHzYeM3k5OAvJKpXj463amMMES4rxP1h557F1DBb5Z3DrA+4ubSsq/LlCNI8Dc80xZhgf1ZDs+b0Ld2AyxMcfB1Ca7fBcVVIGkq5zzqTQ9fg=

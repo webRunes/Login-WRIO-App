@@ -25,14 +25,14 @@
      }
    },
    "db": {
-      "host": "localhost",
+      "host": "mongo",
       "dbname": "test",
       "user": "",
       "password": "",
       "workdomain": ".wrioos.com"
     },
     "mongo": {
-      "host": "localhost",
+      "host": "mongo",
       "dbname": "test",
       "user": "",
       "password": ""

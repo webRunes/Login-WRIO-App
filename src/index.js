@@ -1,5 +1,3 @@
-require('babel/register');
-
 import nconf from "./wrio_nconf.js";
 import express from 'express';
 import passport from 'passport';
