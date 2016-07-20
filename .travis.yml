@@ -6,7 +6,7 @@ services:
 
 before_install:
   - docker pull mongo:latest
-  - docker run --name mongo -d mongo mongod --smallfiles
+  - docker run --name mongo -p 27017:27017 -d mongo mongod --smallfiles
   - docker build --tag login .
   - docker ps -a
   - docker run -v `pwd`:/srv/host login /bin/sh -c "cp /srv/host/config.json.travis /srv/www/config.json && gulp test"
