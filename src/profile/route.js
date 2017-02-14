@@ -25,16 +25,19 @@ function formatResponse(user) {
     var json_resp = {
         "result": "success"
     };
+    if (user.ethereumWallet) {
+        json_resp['ethereumWallet'] = user.ethereumWallet;
+    }
     if (user.temporary) {
         var deltadays = getDeltaDays(user);
         json_resp['id'] = user.wrioID;
-        return returndays(json_resp, deltadays, user.wrioID);
+        return returnTemporaryProfile(json_resp, deltadays, user.wrioID);
     } else {
         return returnPersistentProfile(json_resp, user.wrioID, user.lastName);
     }
 }
 
-function returndays(j, days, id) {
+function returnTemporaryProfile(j, days, id) {
     j['url'] = storagePrefix + id + '/';
     j['cover'] = j['url'] + 'cover.htm';
     j['temporary'] = true;
