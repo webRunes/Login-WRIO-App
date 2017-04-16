@@ -1,0 +1,70 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<template id="profile-template">
+    <ul class="info nav nav-pills nav-stacked" id="profile-accordion">
+        <li class="panel">
+            <a href="#profile-element" data-parent="#profile-accordion" data-toggle="collapse"><span class="glyphicon glyphicon-chevron-down pull-right"></span>Logged as I m Anonymous <sup>WRIO</sup></a>
+            <div class="in" id="profile-element">
+                <div class="media thumbnail">
+                    <div class="col-xs-12 col-md-6 pull-right">
+                        <span itemscope itemtype="http://schema.org/ImageObject">
+                            <img itemprop="thumbnail" src="http://wrio.s3-website-us-east-1.amazonaws.com/Default-WRIO-Theme/img/no-photo-200x200.png" class="pull-left">
+                        </span>
+                        <ul class="details" id="profile-detail-id">
+                            <li>Registered: undefined</li>
+                            <li>Rating: undefined</li>
+                            <li>Followers: undefined</li>
+                            <li>Posts: undefined</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <p>
+                            Информация публичного профайла доступна любому, даже незарегистрированным пользователям. Если вы хотите оставаться анонимным, просто не заполняйте его.
+                        </p>
+                        <ul class="actions">
+                            <li><a href="#"><span class="glyphicon glyphicon-arrow-up"></span>Upgrade guest account for free</a> <span class="label label-warning">30 days left</span></li>
+                        </ul>
+                        <ul class="actions">
+                            <li><a href="#"><span class="glyphicon glyphicon-user"></span>Already have an account?</a></li>
+                        </ul>
+                        <ul class="actions">
+                            <li>
+                                  <a href="http://54.235.73.25:5000/auth/twitter">
+                                       <img src="http://www.foodini.co/assets/sign-in-with-twitter-icon-4ab300ee57991db4bd4b4517c5b8e9ed.jpg" width="150" height="30" class="twitter"/>
+                                  </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</template>
+<script>
+    (function ($) {
+        var importDoc = document.currentScript.ownerDocument;
+        var template = importDoc.querySelector('#profile-template');
+        var $template = $(template.innerHTML);
+        var proto = Object.create(HTMLElement.prototype);
+        proto.createdCallback = function () {
+            var details = ['Registered', 'Rating', 'Followers', 'Posts'];
+            var model = window.webrunes.jsonlds['Profile'];
+            if(model){
+                var $img = $($template).find('IMG').get(0);
+                $($img).attr('src', model.src);
+
+                var $p = $($template).find('p').get(0);
+                $($p).html(model.description);
+
+                var $ul = $($template).find('ul#profile-detail-id').get(0);
+                $($ul).empty();
+                for(var i = 0; i < details.length; i++){
+                    var $li = $('<li></li>').html(detail[i] + ': ' + model[detail[i]]);
+                    $($ul).append($li);
+                }
+
+            }
+            this.outerHTML = $template.get(0).outerHTML;
+        };
+        document.registerElement('profile-widget', {prototype: proto});
+    })(jQuery);
+</script>
