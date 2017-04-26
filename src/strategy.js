@@ -1,10 +1,10 @@
-import {ObjectID} from 'mongodb';
-import nconf from "./wrio_nconf.js";
-import TwitterStrategy from 'passport-twitter';
-import logger from 'winston';
-import WrioUser from './dbmodels/wriouser.js';
+const {ObjectID} = require( 'mongodb');
+const nconf = require( "./wrio_nconf.js");
+const TwitterStrategy = require( 'passport-twitter');
+const logger = require( 'winston');
+const WrioUser = require( './dbmodels/wriouser.js');
 
-export default function (app,passport,db) {
+module.exports = function (app,passport,db) {
 
     var webrunesUsers = db.collection('webRunes_Users');
     var sessions = db.collection('sessions');
@@ -68,15 +68,15 @@ export default function (app,passport,db) {
 
     /*
     Serialize user to database
-    serialize object from twitterID to wriouser db id
+    serialize object = require( twitterID to wriouser db id
     */
 
     passport.serializeUser(async (req, profile, done) => {
-        // thats where we get user from twtiter
+        // thats where we get user = require( twtiter
         var userID = req.session.passport.user;
         if (!userID) {
             logger.error("No valid temporary user account found to serialize, try again");
-            done("No valid temporary account found, try again");
+            return done("No valid temporary account found, try again");
         }
         logger.log('debug',"Serializing user Twitter id= " + profile.id, "to ojbect ",userID);
         try {
@@ -91,8 +91,8 @@ export default function (app,passport,db) {
     });
 
     /*
-     Deserialize user from database
-     from db id to complete wriouser profile
+     Deserialize user = require( database
+     = require( db id to complete wriouser profile
      */
     passport.deserializeUser(function (req, id, done) {
 

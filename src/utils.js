@@ -1,9 +1,9 @@
 /**
  * Created by michbil on 13.09.15.
  */
-import logger from 'winston';
+const logger = require( 'winston');
 
-export function dumpError(err) {
+module.exports = function dumpError(err) {
     if (!err) return;
     if (typeof err === 'object') {
         if (err.message) {

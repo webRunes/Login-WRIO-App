@@ -1,6 +1,6 @@
-import bodyParser from 'body-parser';
-import nconf from 'nconf';
-import logger from 'winston';
+const bodyParser = require('body-parser');
+const nconf = require('nconf');
+const logger = require('winston');
 
 var exports = module.exports = {};
 

@@ -2,12 +2,12 @@
  * Created by michbil on 15.01.16.
  */
 
-import request from 'superagent';
-import nconf from '../wrio_nconf.js';
-import logger from 'winston';
-import {Promise} from 'es6-promise';
+const request = require( 'superagent');
+const nconf = require( '../wrio_nconf.js');
+const logger = require( 'winston');
+const {Promise} = require( 'es6-promise');
 
-export class ProfileSaverFactory {
+class ProfileSaverFactory {
     constructor () {
         this.isInTest = typeof global.it === 'function';
         logger.log("debug","Mock:", this.isInTest);
@@ -56,3 +56,4 @@ export class ProfileSaverFactory {
     };
 
 }
+module.exports = ProfileSaverFactory;

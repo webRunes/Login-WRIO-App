@@ -1,6 +1,3 @@
-require('babel-core/register');
-require('regenerator-runtime/runtime');
-
-var app = require('./app');
+const app = require('./src');
 
 module.exports = app;

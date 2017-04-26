@@ -1,9 +1,8 @@
 /**
  * Created by michbil on 15.12.15.
  */
-import database from '../db';
-import {Promise} from 'es6-promise';
-import logger from 'winston';
+const database = require('../db');
+const logger  = require('winston');
 
 let db;
 
@@ -45,4 +44,4 @@ class PassportSessions {
     }
 }
 
-export default PassportSessions;
+module.exports = PassportSessions;

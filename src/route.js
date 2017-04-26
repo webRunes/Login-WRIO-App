@@ -2,11 +2,11 @@
  * Created by michbil on 23.08.15.
  */
 
-import nconf from "./wrio_nconf";
-import {Router} from 'express';
-import passport from 'passport';
-import {CheckProfile} from './profile/route.js';
-import logger from 'winston';
+const nconf = require( "./wrio_nconf");
+const {Router} = require( 'express');
+const passport = require( 'passport');
+const {CheckProfile} = require( './profile/route.js');
+const logger = require( 'winston');
 var DOMAIN = nconf.get("db:workdomain");
 
 var router = Router();
@@ -31,7 +31,7 @@ router.get('/buttons/twitter', async (request, response) => {
 
 /*
 
-twitter button callback, called from inside of login popup, sends
+twitter button callback, called = require( inside of login popup, sends
 message to parent iframe and and closes popup
 
  */
@@ -198,4 +198,4 @@ TODO: uncomment this when start actually using github and facebook
  */
 
 
-export default router;
+module.exports = router;

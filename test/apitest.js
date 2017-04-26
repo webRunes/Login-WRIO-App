@@ -1,8 +1,8 @@
-import request from 'supertest';
-import assert from 'assert';
-import should from 'should';
-import app from '../src/index.js';
-import nconf from 'nconf'
+const request = require('supertest');
+const assert = require('assert');
+const should = require('should');
+const app = require('../src/index.js');
+const nconf = require('nconf');
 
 var ready = false;
 app.ready = () => {

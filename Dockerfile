@@ -1,16 +1,12 @@
-FROM webrunes/wriobase:latest
+FROM mhart/alpine-node:7
 MAINTAINER denso.ffff@gmail.com
 
-# quick fix for docker and npm3 compatibility
+#RUN apk add --no-cache make gcc g++ python
+RUN npm install -g gulp yarn@0.18
 
-RUN cd $(npm root -g)/npm \
- && npm install fs-extra \
- && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
-
-# Login
 
 COPY package.json /srv/package.json
-RUN cd /srv/ && npm install # packages are installed globally to not modify titter directory
+RUN cd /srv/ && yarn && rm -fr ~/.cache
 
 WORKDIR /srv/www
 COPY . /srv/www/
