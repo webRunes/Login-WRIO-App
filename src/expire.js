@@ -1,12 +1,12 @@
-import nconf from "./wrio_nconf.js";
-import {init} from './db.js';
-import Users from './dbmodels/wriouser.js';
-import request from 'superagent';
-import {Promise} from 'es6-promise';
-import {dumpError} from './utils.js';
+const nconf = require( "./wrio_nconf.js");
+const {init} = require( './db.js');
+const Users = require( './dbmodels/wriouser.js');
+const request = require( 'superagent');
+const {Promise} = require( 'es6-promise');
+const {dumpError} = require( './utils.js');
 
 /*
-import AWS from 'aws-sdk';
+import AWS = require( 'aws-sdk';
 var keyid = nconf.get("aws:aws_access_key_id");
 var secret = nconf.get("aws:aws_secret_access_key");
 
@@ -40,7 +40,7 @@ function getAge(item) {
     return Math.round(( new Date().getTime() - item.created) / (1000 * 60 * 60*24));
 }
 
-export var expire = async (db) => {
+module.exports = async (db) => {
 
     try {
         await doExpire(db);

@@ -1,13 +1,13 @@
-import {ObjectID} from 'mongodb';
-import {Promise} from 'es6-promise';
-import db from '../db';
-import PassportSessions from '../dbmodels/session.js';
-import WrioUsers from '../dbmodels/wriouser.js';
-import {dumpError} from '../utils.js';
-import request from 'superagent';
-import nconf from '../wrio_nconf.js';
-import {ProfileSaverFactory} from './ProfileSaver.js';
-import logger from 'winston';
+const {ObjectID} = require( 'mongodb');
+const {Promise} = require( 'es6-promise');
+const db = require( '../db');
+const PassportSessions = require( '../dbmodels/session.js');
+const WrioUsers = require( '../dbmodels/wriouser.js');
+const {dumpError} = require( '../utils.js');
+const request = require( 'superagent');
+const nconf = require( '../wrio_nconf.js');
+const ProfileSaverFactory = require( './ProfileSaver.js');
+const logger = require( 'winston');
 
 var requestSave = (new ProfileSaverFactory()).getRequestSave();
 
@@ -81,4 +81,4 @@ var getUserOrCreateTemporary = async (ssid,request) => {
     }
 };
 
-export default getUserOrCreateTemporary;
+module.exports = getUserOrCreateTemporary;

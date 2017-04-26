@@ -2,15 +2,11 @@
  * Created by michbil on 23.11.15.
  */
 
-require ('babel-core/register');
-require('regenerator-runtime/runtime');
 
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
 var eslint = require('gulp-eslint');
 var mocha = require('gulp-mocha');
-var babel = require('gulp-babel');
-
 
 function restart_nodemon () {
     if (nodemon_instance) {
@@ -37,25 +33,6 @@ gulp.task('lint', function () {
         // To have the process exit with an error code (1) on
         // lint error, return the stream and pipe to failAfterError last.
         .pipe(eslint.failAfterError());
-});
-
-gulp.task('babel-server', function() {
-
-    gulp.src('src/views/**/*.*')
-        .pipe(gulp.dest('app/views'));
-
-    gulp.src('src/public/**/*.*')
-        .pipe(gulp.dest('app/public'));
-
-    return gulp.src(['src/**/*.*',"!src/views/*.*","!src/public/*.*",'!src/expire.js'])
-        .pipe(babel())
-        .on('error', function(err) {
-            console.log('Babel server:', err.toString());
-        })
-        .pipe(gulp.dest('app/'))
-        .on('end',function() {
-            restart_nodemon();
-        });
 });
 
 
@@ -96,8 +73,10 @@ gulp.task('nodemon', function() {
 
 });
 
-gulp.task('default', ['lint','babel-server']);
+//gulp.task('default', ['lint']);
+gulp.task('default', []);
+
 
 gulp.task('watch', ['default', 'nodemon'], function() {
-    gulp.watch(['./src/**/*.js'], ['babel-server']);
+    gulp.watch(['./src/**/*.js'], restart_nodemon);
 });

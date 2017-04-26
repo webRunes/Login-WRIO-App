@@ -1,23 +1,19 @@
-import {MongoClient,ObjectID} from 'mongodb';
-import nconf from './wrio_nconf'; 
-import {Promise} from 'es6-promise';
-import logger from 'winston';
+const {MongoClient,ObjectID} = require('mongodb');
+const nconf = require('./wrio_nconf');
+const {Promise} = require('es6-promise');
+const logger = require('winston');
 
-
-let db = {
+var db = {
     db: {},
-    ObjectID: ObjectID
-} ;
-export default db;
+    ObjectID: ObjectID,
+};
 
-export function init() {
-
+var init = async () => {
     let url;
-
     logger.log('debug',"ENV:",process.env.NODE_ENV);
 
     if (process.env.NODE_ENV == 'testing') {
-       logger.log('info',"Mongodb testing mode entered");
+        logger.log('info',"Mongodb testing mode entered");
         url = 'mongodb://mongo:27017/webrunes_test';
     } else {
         logger.log('info',"Normal mongodb mode entered");
@@ -31,16 +27,11 @@ export function init() {
             url = `mongodb://${host}/${mongodbname}`;
         }
     }
+    let database = await MongoClient.connect(url);
+    db.db = database;
+    return database;
+};
 
-    return new Promise((resolve, reject) => {
-        MongoClient.connect(url, function(err, database) {
-            if (err) {
-                return reject(err);  
-            }
+db.init = init;
 
-            db.db = database;
-            resolve(db.db);
-        });
-    });
-}
-
+module.exports = db;

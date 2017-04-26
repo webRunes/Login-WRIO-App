@@ -3,9 +3,9 @@
  * Created by michbil on 26.09.15.
  */
 
-import database from '../db';
-import uuid from 'node-uuid';
-import logger from 'winston';
+const database = require('../db');
+const uuid = require('node-uuid');
+const logger = require('winston');
 let db;
 
 class WebRunesUsers {
@@ -249,4 +249,4 @@ class WebRunesUsers {
 
 }
 
-export default WebRunesUsers;
+module.exports =  WebRunesUsers;

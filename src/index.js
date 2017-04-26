@@ -1,20 +1,21 @@
-import nconf from "./wrio_nconf.js";
-import express from 'express';
-import passport from 'passport';
-import path from 'path';
-import {init} from './db';
-import session from 'express-session';
-import cookieParser from 'cookie-parser';
-import {dumpError} from './utils.js';
-import {router as ProfileRouter} from './profile/route.js';
-import LoginRouter from './route.js';
-import LoginStrategy from './strategy.js';
-import WrioApp from "./wrio_app.js";
-import HttpServer from 'http';
-import ConnectMongo from 'connect-mongo';
-import p3p from 'p3p';
-import minimist from 'minimist';
-import logger from 'winston';
+const nconf = require( "./wrio_nconf.js");
+const express = require( 'express');
+const passport = require( 'passport');
+const path = require( 'path');
+const {init} = require( './db');
+const session = require( 'express-session');
+const cookieParser = require( 'cookie-parser');
+const {dumpError} = require( './utils.js');
+const {router} = require('./profile/route.js');
+const ProfileRouter = router;
+const LoginRouter = require( './route.js');
+const LoginStrategy = require( './strategy.js');
+const WrioApp = require( "./wrio_app.js");
+const HttpServer = require( 'http');
+const ConnectMongo = require( 'connect-mongo');
+const p3p = require( 'p3p');
+const minimist = require( 'minimist');
+const logger = require( 'winston');
 
 
 logger.level = 'debug';
@@ -26,7 +27,7 @@ var DOMAIN = nconf.get("db:workdomain");
 app.custom = {};
 var server = HttpServer
     .createServer(app)
-    .listen(nconf.get("server:port"), function(req, res) {
+    .listen(nconf.get("server:port"), (req, res) => {
         logger.log('info','app listening on port ' + nconf.get('server:port') + '...');
         init().then((db) => {
             app.custom.db = db;
@@ -95,4 +96,4 @@ function server_setup(db) {
     logger.log('info','Login server config finished');
 }
 
-export default app;
+module.exports = app;

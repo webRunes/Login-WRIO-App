@@ -1,12 +1,12 @@
-import nconf from "../wrio_nconf.js";
-import getUserOrCreateTemporary from './profiles.js';
-import WrioUsers from '../dbmodels/wriouser.js';
-import db from '../db';
-import {Router} from 'express';
-import {dumpError} from '../utils.js';
-import logger from 'winston';
+const nconf = require( "../wrio_nconf.js");
+const getUserOrCreateTemporary = require('./profiles.js');
+const WrioUsers = require( '../dbmodels/wriouser.js');
+const db = require('../db');
+const {Router} = require('express');
+const {dumpError} = require( '../utils.js');
+const logger = require('winston');
 
-export const router = Router();
+const router = Router();
 var DOMAIN = nconf.get("db:workdomain");
 var storagePrefix = "https://wr.io/";
 
@@ -54,21 +54,7 @@ function returnPersistentProfile(j, id, name) {
     return j;
 }
 
-
-router.get('/api/get_profile', async (request, response) => {
-    response.set('Content-Type', 'application/json');
-    try {
-        logger.log("debug","GET_PROFILE CALLED");
-        var json_resp = await CheckProfile(request);
-        response.send(json_resp);
-    }  catch (e) {
-        logger.log("error","ERR");
-        dumpError(e);
-        response.status(403).send({});
-    }
-});
-
-export var CheckProfile = async (request) => {
+const CheckProfile = async (request) => {
     try {
         var user = await getUserOrCreateTemporary(request.sessionID,request);
         logger.debug("Logging user", user.wrioID);
@@ -80,4 +66,19 @@ export var CheckProfile = async (request) => {
 };
 
 
+router.get('/api/get_profile', async (request, response) => {
+    response.set('Content-Type', 'application/json');
+    try {
+        logger.log("debug","GET_PROFILE CALLED");
+        var json_resp = await CheckProfile(request);
+        response.send(json_resp);
+    }  catch (e) {
+        logger.log("error",e);
+        dumpError(e);
+        response.status(403).send({});
+    }
+});
 
+module.exports.CheckProfile = CheckProfile;
+
+module.exports.router = router;
