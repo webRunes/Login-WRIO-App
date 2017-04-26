@@ -76,7 +76,7 @@ module.exports = function (app,passport,db) {
         var userID = req.session.passport.user;
         if (!userID) {
             logger.error("No valid temporary user account found to serialize, try again");
-            done("No valid temporary account found, try again");
+            return done("No valid temporary account found, try again");
         }
         logger.log('debug',"Serializing user Twitter id= " + profile.id, "to ojbect ",userID);
         try {
