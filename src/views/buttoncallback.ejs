@@ -7,8 +7,7 @@
 <body>
 
 <script type="text/javascript">
-	window.opener.setWRIOAuthData();
-
+    window.opener.postMessage(JSON.stringify({"login":"success"}), "*");
     window.close();
 </script>
 
