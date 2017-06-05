@@ -1,9 +1,8 @@
 const nconf = require( "./wrio_nconf.js");
-const {init} = require( './db.js');
+const {init} = require( 'wriocommon').db;
 const Users = require( './dbmodels/wriouser.js');
 const request = require( 'superagent');
-const {Promise} = require( 'es6-promise');
-const {dumpError} = require( './utils.js');
+const {dumpError} = require('wriocommon').utils;
 
 /*
 import AWS = require( 'aws-sdk';

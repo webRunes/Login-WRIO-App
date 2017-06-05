@@ -1,14 +1,12 @@
 /**
  * Created by michbil on 15.12.15.
  */
-const database = require('../db');
+const db = require('wriocommon').db.getInstance();
 const logger  = require('winston');
 
-let db;
 
 class PassportSessions {
     constructor() {
-        db = database.db;
         this.sessions = db.collection('sessions');
     }
 
