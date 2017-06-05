@@ -3,14 +3,13 @@
  * Created by michbil on 26.09.15.
  */
 
-const database = require('../db');
+const db = require('wriocommon').db.getInstance();
 const uuid = require('node-uuid');
 const logger = require('winston');
-let db;
+
 
 class WebRunesUsers {
     constructor() {
-        db = database.db;
         this.users = db.collection('webRunes_Users');
     }
 

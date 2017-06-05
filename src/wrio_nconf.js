@@ -4,6 +4,8 @@ const nconf = require('nconf');
 nconf.env().argv();
 
 var basedirPath = path.dirname(require.main.filename); // won't work with unit tests
-nconf.file(path.resolve(__dirname, '../config.json'));
+var filename = path.resolve(__dirname, '../config.json');
+nconf.file(filename);
+console.log(`Config loaded ${filename}`);
 
 module.exports = nconf;
