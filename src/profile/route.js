@@ -1,9 +1,9 @@
 const nconf = require( "../wrio_nconf.js");
 const getUserOrCreateTemporary = require('./profiles.js');
 const WrioUsers = require( '../dbmodels/wriouser.js');
-const db = require('../db');
+const {db} = require('wriocommon').db.db;
 const {Router} = require('express');
-const {dumpError} = require( '../utils.js');
+const {dumpError} = require('wriocommon').utils;
 const logger = require('winston');
 
 const router = Router();

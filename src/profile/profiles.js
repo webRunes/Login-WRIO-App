@@ -1,13 +1,11 @@
-const {ObjectID} = require( 'mongodb');
-const {Promise} = require( 'es6-promise');
-const db = require( '../db');
 const PassportSessions = require( '../dbmodels/session.js');
 const WrioUsers = require( '../dbmodels/wriouser.js');
-const {dumpError} = require( '../utils.js');
+const {dumpError} = require('wriocommon').utils;
 const request = require( 'superagent');
 const nconf = require( '../wrio_nconf.js');
 const ProfileSaverFactory = require( './ProfileSaver.js');
 const logger = require( 'winston');
+const {ObjectID} = require('mongodb');
 
 var requestSave = (new ProfileSaverFactory()).getRequestSave();
 

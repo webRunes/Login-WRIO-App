@@ -1,77 +1,68 @@
 const nconf = require( "./wrio_nconf.js");
+const Commons = require("wriocommon");
+const {initserv} = Commons.server;
+const {init} =  Commons.db;
+const {dumpError} = Commons.utils;
 const express = require( 'express');
 const passport = require( 'passport');
-const path = require( 'path');
-const {init} = require( './db');
-const session = require( 'express-session');
-const cookieParser = require( 'cookie-parser');
-const {dumpError} = require( './utils.js');
-const {router} = require('./profile/route.js');
-const ProfileRouter = router;
-const LoginRouter = require( './route.js');
-const LoginStrategy = require( './strategy.js');
-const WrioApp = require( "./wrio_app.js");
+const path = require('path');
 const HttpServer = require( 'http');
-const ConnectMongo = require( 'connect-mongo');
 const p3p = require( 'p3p');
-const minimist = require( 'minimist');
 const logger = require( 'winston');
 
 
 logger.level = 'debug';
 
-var app = WrioApp.init(express);
+var app = express();
 app.ready = () => {};
 var DOMAIN = nconf.get("db:workdomain");
 
 app.custom = {};
 var server = HttpServer
     .createServer(app)
-    .listen(nconf.get("server:port"), (req, res) => {
+    .listen(nconf.get("server:port"), async (req, res) =>  {
         logger.log('info','app listening on port ' + nconf.get('server:port') + '...');
-        init().then((db) => {
+        let db;
+        try {
+            db = await init();
             app.custom.db = db;
             logger.log('info',"Connected correctly to mongodb server");
+        } catch (err) {
+            logger.log('error',"Error connecting to mongo database");
+            dumpError(err);
+            process.exit(-1);
+            return;
+        }
+
+        try {
             server_setup(db);
             app.ready();
-        }).catch((err)=>{
-            logger.log('error',"Error connecting to mongo database: " + err);
+        } catch (err) {
+            logger.log('error',"Error during server init");
             dumpError(err);
-        });
+            process.exit(-1);
+        }
     });
 
 function server_setup(db) {
 
-    var SessionStore = ConnectMongo(session);
+    // NOTE: require these files only after db is ready
+
+
+    const LoginStrategy = require( './strategy.js');
+    const {router} = require('./profile/route.js');
+    const ProfileRouter = router;
+    const LoginRouter = require( './route.js');
+
 
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
 
-    var cookie_secret = nconf.get("server:cookiesecret");
-
-    var sessionStore = new SessionStore({
-        db: app.custom.db
-    });
-    app.use(cookieParser(cookie_secret));
-    app.use(session({
-
-        secret: cookie_secret,
-        saveUninitialized: true,
-        store: sessionStore,
-        resave: true,
-        cookie: {
-            secure: false,
-            domain: DOMAIN,
-            maxAge: 1000 * 60 * 60 * 24 * 30
-        },
-        key: 'sid'
-    }));
+    initserv(app,db);
 
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(express.static(__dirname + '/public'));
-
-
     app.use(p3p(p3p.recommended));
 
 
