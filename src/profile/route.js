@@ -5,6 +5,7 @@ const {db} = require('wriocommon').db.db;
 const {Router} = require('express');
 const {dumpError} = require('wriocommon').utils;
 const logger = require('winston');
+const get_token = require('./get_token');
 
 const router = Router();
 var DOMAIN = nconf.get("db:workdomain");
@@ -76,6 +77,19 @@ router.get('/api/get_profile', async (request, response) => {
         logger.log("error",e);
         dumpError(e);
         response.status(403).send({});
+    }
+});
+
+router.get('/supported_round/token', async (request, response) => {
+    response.set('Content-Type', 'text/html');
+    try {
+        get_token(token =>
+            response.send(token)
+        )
+    }  catch (e) {
+        logger.log("error",e);
+        dumpError(e);
+        response.status(403).send(JSON.stringify(e));
     }
 });
 
