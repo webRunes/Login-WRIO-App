@@ -5,7 +5,6 @@ const {db} = require('wriocommon').db.db;
 const {Router} = require('express');
 const {dumpError} = require('wriocommon').utils;
 const logger = require('winston');
-const get_token = require('./get_token');
 
 const router = Router();
 var DOMAIN = nconf.get("db:workdomain");
