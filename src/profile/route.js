@@ -5,7 +5,6 @@ const {db} = require('wriocommon').db.db;
 const {Router} = require('express');
 const {dumpError} = require('wriocommon').utils;
 const logger = require('winston');
-const get_token = require('./get_token');
 
 const router = Router();
 var DOMAIN = nconf.get("db:workdomain");
@@ -91,29 +90,6 @@ router.get('/supported_round/token', async (request, response) => {
         dumpError(e);
         response.status(403).send(JSON.stringify(e));
     }
-});
-
-router.get('/supported_round/kyc_status', function(request, response) {
-    if (request.query.account) {
-        const
-            db = account => 'done',
-            status = db(request.query.account);
-
-        response.send(status);
-    }
-});
-
-router.put('/supported_round/jwtresponse', function(request, response) {
-    response.set('Content-Type', 'text/html');
-    var db = jwtresponse => 'saved';
-
-    db(request.body.jwtresponse);
-    response.end();
-});
-
-router.get('/supported_round/jwtresponse', function(request, response) {
-    response.set('Content-Type', 'text/html');
-    response.send('sdfjklsdfjklsdfjklsdfa');
 });
 
 module.exports.CheckProfile = CheckProfile;
