@@ -93,6 +93,29 @@ router.get('/supported_round/token', async (request, response) => {
     }
 });
 
+router.get('/supported_round/kyc_status', function(request, response) {
+    if (request.query.account) {
+        const
+            db = account => 'done',
+            status = db(request.query.account);
+
+        response.send(status);
+    }
+});
+
+router.put('/supported_round/jwtresponse', function(request, response) {
+    response.set('Content-Type', 'text/html');
+    var db = jwtresponse => 'saved';
+
+    db(request.body.jwtresponse);
+    response.end();
+});
+
+router.get('/supported_round/jwtresponse', function(request, response) {
+    response.set('Content-Type', 'text/html');
+    response.send('sdfjklsdfjklsdfjklsdfa');
+});
+
 module.exports.CheckProfile = CheckProfile;
 
 module.exports.router = router;
