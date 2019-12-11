@@ -29,7 +29,7 @@
     "passport-twitter": "latest",
     "request": "2.83.0",
     "should": "^8.1.1",
-    "superagent": "1.6.1",
+    "superagent": "5.1.2",
     "wriocommon": "webRunes/WRIOOS-Common"
   },
   "devDependencies": {
